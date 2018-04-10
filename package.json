@@ -5,12 +5,15 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "watch": "nodemon index.js"
+    "babel-node": "babel-node",
+    "start": "nodemon --exec npm run babel-node -- ./index.js",
+    "build": "babel src -d dist"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "babel-runtime": "^6.11.6"
+    "babel-runtime": "^6.11.6",
+    "xmlbuilder": "^9.0.7"
   },
   "devDependencies": {
     "babel-cli": "^6.16.0",
