@@ -90,7 +90,7 @@
     </wsdl:binding>
     <wsdl:service name="opintoOikeudetService">
         <wsdl:port binding="tns:opintoOikeudetServiceBinding" name="opintoOikeudetServicePort">
-            <soap:address location="http://localhost:8080/${project.build.finalName}/Endpoint"/>
+            <soap:address location="http://localhost:3000/Endpoint"/>
         </wsdl:port>
     </wsdl:service>
 </wsdl:definitions>
