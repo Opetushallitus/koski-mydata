@@ -62,3 +62,5 @@ const xml = builder.create('SOAP-ENV:Envelope', {
     .end({ pretty: true});
 
 console.log(xml);
+
+export default xml;
