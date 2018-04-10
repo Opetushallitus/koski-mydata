@@ -3,6 +3,8 @@ import soapResponse from './index';
 
 const app = express();
 
+app.use(express.static('./docs'));
+
 app.get('/', (req, res) => {
     res.set('Content-Type', 'application/xml');
     res.send(soapResponse);
