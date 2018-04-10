@@ -1,0 +1,30 @@
+{
+  "name": "xml-sovitinpalvelu",
+  "version": "1.0.0",
+  "description": "Sovitinpalvelu (SOAP) Kosken MyDataan",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "babel-runtime": "^6.11.6"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.16.0",
+    "babel-core": "^6.17.0",
+    "babel-plugin-transform-async-to-generator": "^6.16.0",
+    "babel-plugin-transform-class-properties": "^6.16.0",
+    "babel-plugin-transform-runtime": "^6.15.0",
+    "babel-preset-es2015": "^6.16.0",
+    "babel-preset-es2016": "^6.16.0",
+    "babel-preset-stage-0": "^6.16.0",
+    "babel-eslint": "^8.2.2",
+    "eslint": "^4.19.0",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-import": "^2.9.0",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-react": "^7.7.0"
+  }
+}
