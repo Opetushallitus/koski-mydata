@@ -1,7 +1,9 @@
 import express from 'express';
+import morgan from 'morgan';
 import soapResponse from './index';
 
 const app = express();
+app.use(morgan('combined'));
 
 app.use(express.static('./docs'));
 
