@@ -1,4 +1,4 @@
-<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://localhost:3000/opintoOikeudet.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://docs.dev.koski-xroad.fi/producer" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="opintoOikeudetServiceResponse">
         <xs:complexType>
             <xs:sequence>
