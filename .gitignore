@@ -4,3 +4,6 @@ xml-sovitinpalvelu.iml
 
 ## NPM
 node_modules
+
+## Swap files
+.swp
