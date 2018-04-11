@@ -56,7 +56,7 @@ const xml = builder.create('SOAP-ENV:Envelope', {
 
     .up()
     .ele('SOAP-ENV:Body')
-    .ele(`kns1:${serverServiceCode}Response`).att('xmlns:kns1', 'http://localhost:3000/opintoOikeudet.xsd')
+    .ele(`kns1:${serverServiceCode}Response`).att('xmlns:kns1', 'http://docs.dev.koski-xroad.fi/producer')
     .ele('kns1:opintoOikeudet').dat(JSON.stringify(antunOpintoOikeudet))
 
     .end({ pretty: true});
