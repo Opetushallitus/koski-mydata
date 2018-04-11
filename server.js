@@ -12,4 +12,9 @@ app.get('/', (req, res) => {
     res.send(soapResponse);
 });
 
+app.post('/Endpoint', (req, res) => {
+    res.set('Content-Type', 'application/xml');
+    res.send(soapResponse);
+});
+
 app.listen(3000, () => console.log('Example app listening on port 3000!'));
