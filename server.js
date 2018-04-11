@@ -13,7 +13,7 @@ app.get('/', (req, res) => {
 });
 
 app.post('/Endpoint', (req, res) => {
-    res.set('Content-Type', 'application/xml');
+    res.set('Content-Type', 'text/xml');
     res.send(soapResponse);
 });
 
