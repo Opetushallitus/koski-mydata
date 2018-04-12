@@ -17,10 +17,10 @@ class KoskiClient {
 
         return new Promise((resolve, reject) => {
             this.instance.get(`henkilo/search?query=${hetu}`)
-                .then(function (response) {
+                .then((response) => {
                     resolve(response.data['henkilöt'][0].oid);
                 })
-                .catch(function (error) {
+                .catch((error) => {
                     reject(error);
                 });
         });
