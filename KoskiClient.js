@@ -8,7 +8,7 @@ class KoskiClient {
             timeout: 5000,
             auth: {
                 username,
-                password
+                password,
             },
         });
     }
@@ -29,10 +29,10 @@ class KoskiClient {
     async getOpintoOikeudet(oid) {
         return new Promise((resolve, reject) => {
             this.instance.get(`oppija/${oid}`)
-                .then(function (response) {
+                .then((response) => {
                     resolve(response.data.opiskeluoikeudet);
                 })
-                .catch(function (error) {
+                .catch((error) => {
                     reject(error);
                 });
         });
