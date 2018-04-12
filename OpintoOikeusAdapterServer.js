@@ -19,7 +19,7 @@ class OpintoOikeusAdapterServer {
     }
 
     getOpintoOikeudetSoapResponse(clientXRoadInstance, clientMemberClass, clientMemberCode, clientSubsystemCode,
-        clientUserId, clientRequestId,
+        clientUserId, clientRequestId, clientType,
     ) {
         return builder.create('SOAP-ENV:Envelope', {
             version: '1.0',
@@ -31,7 +31,7 @@ class OpintoOikeusAdapterServer {
             .ele('SOAP-ENV:Header')
 
             // TODO: Vastaussanoman on sisällettävä täsmälleen samat otsikkotiedot kuin kyselysanomassakin on.
-            .ele('xrd:client').att('id:objectType', 'SUBSYSTEM')
+            .ele('xrd:client').att('id:objectType', clientType)
             .ele('id:xRoadInstance', clientXRoadInstance).up()
             .ele('id:memberClass', clientMemberClass).up()
             .ele('id:memberCode', clientMemberCode).up()

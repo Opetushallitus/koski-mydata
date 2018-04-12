@@ -35,11 +35,12 @@ app.post('/Endpoint', (req, res) => {
 
     const clientUserId = select('//soap:Header/xroad:userId/text()', doc)[0].nodeValue;
     const clientRequestId = select('//soap:Header/xroad:id/text()', doc)[0].nodeValue;
+    const clientType = select('//soap:Header/xroad:client/@id:objectType', doc)[0].value;
 
     res.set('Content-Type', 'text/xml');
 
     res.send(adapterServer.getOpintoOikeudetSoapResponse(clientXRoadInstance, clientMemberClass, clientMemberCode,
-        clientSubsystemCode, clientUserId, clientRequestId,
+        clientSubsystemCode, clientUserId, clientRequestId, clientType,
     ));
 });
 
