@@ -28,11 +28,8 @@ class OpintoOikeusAdapterServer {
         this.opintoOikeudet['henkilö'].hetu = hetu;
 
         try {
-            const oid = await this.client.getUserOid('210947-613P');
+            const oid = await this.client.getUserOid(hetu); // '210947-613P'
             const opintoOikeudet = await this.client.getOpintoOikeudet(oid);
-            console.log(oid);
-            console.log(opintoOikeudet);
-
 
             return builder.create('SOAP-ENV:Envelope', {
                 version: '1.0',
@@ -67,7 +64,7 @@ class OpintoOikeusAdapterServer {
                 .up()
                 .ele('SOAP-ENV:Body')
                 .ele(`kns1:${this.serverServiceCode}Response`).att('xmlns:kns1', 'http://docs.dev.koski-xroad.fi/producer')
-                .ele('kns1:opintoOikeudet').dat(JSON.stringify(this.opintoOikeudet)) // TODO: Read this from Koski API
+                .ele('kns1:opintoOikeudet').dat(JSON.stringify(opintoOikeudet))
 
                 .end({ pretty: true});
 
