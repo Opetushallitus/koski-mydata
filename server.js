@@ -1,18 +1,14 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import { parseString, processors } from 'xml2js';
 import morgan from 'morgan';
 
 import soapResponse from './index';
 import OpintoOikeusAdapterServer from './OpintoOikeusAdapterServer';
 
-require('body-parser-xml')(bodyParser);
-
 import xpath from 'xpath';
 import { DOMParser } from 'xmldom';
 
 const app = express();
-const { stripPrefix } = processors;
 const adapterServer = new OpintoOikeusAdapterServer();
 
 app.use(morgan('combined')); // logging
