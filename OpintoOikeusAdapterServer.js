@@ -20,8 +20,10 @@ class OpintoOikeusAdapterServer {
     }
 
     getOpintoOikeudetSoapResponse(clientXRoadInstance, clientMemberClass, clientMemberCode, clientSubsystemCode,
-        clientUserId, clientRequestId, clientType,
+        clientUserId, clientRequestId, clientType, hetu,
     ) {
+        this.opintoOikeudet['henkilö'].hetu = hetu;
+
         return builder.create('SOAP-ENV:Envelope', {
             version: '1.0',
             encoding: 'UTF-8',

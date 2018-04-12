@@ -8,6 +8,10 @@ import OpintoOikeusAdapterServer from './OpintoOikeusAdapterServer';
 import xpath from 'xpath';
 import { DOMParser } from 'xmldom';
 
+require('dotenv').config();
+
+console.log(process.env.KOSKI_USER);
+
 const app = express();
 const adapterServer = new OpintoOikeusAdapterServer();
 
@@ -27,6 +31,7 @@ app.post('/Endpoint', (req, res) => {
         soap: 'http://schemas.xmlsoap.org/soap/envelope/',
         xroad: 'http://x-road.eu/xsd/xroad.xsd',
         id: 'http://x-road.eu/xsd/identifiers',
+        koski: 'http://docs.dev.koski-xroad.fi/producer', // TODO: We have environment here!
     });
     const clientXRoadInstance = select('//soap:Header/xroad:client/id:xRoadInstance/text()', doc)[0].nodeValue;
     const clientMemberClass = select('//soap:Header/xroad:client/id:memberClass/text()', doc)[0].nodeValue;
@@ -37,10 +42,12 @@ app.post('/Endpoint', (req, res) => {
     const clientRequestId = select('//soap:Header/xroad:id/text()', doc)[0].nodeValue;
     const clientType = select('//soap:Header/xroad:client/@id:objectType', doc)[0].value;
 
+    const hetu = select('//soap:Body/koski:opintoOikeudetService/koski:hetu/text()', doc)[0].nodeValue;
+
     res.set('Content-Type', 'text/xml');
 
     res.send(adapterServer.getOpintoOikeudetSoapResponse(clientXRoadInstance, clientMemberClass, clientMemberCode,
-        clientSubsystemCode, clientUserId, clientRequestId, clientType,
+        clientSubsystemCode, clientUserId, clientRequestId, clientType, hetu,
     ));
 });
 
