@@ -18,7 +18,10 @@ class KoskiClient {
         return new Promise((resolve, reject) => {
             this.instance.get(`henkilo/search?query=${hetu}`)
                 .then((response) => {
-                    resolve(response.data['henkilöt'][0].oid);
+                    const students = response.data['henkilöt'];
+                    if (students.length < 1 ) reject('no users found');
+
+                    resolve(students[0].oid);
                 })
                 .catch((error) => {
                     reject(error);
