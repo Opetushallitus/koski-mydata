@@ -10,10 +10,8 @@ import { DOMParser } from 'xmldom';
 
 require('dotenv').config();
 
-console.log(process.env.KOSKI_USER);
-
 const app = express();
-const adapterServer = new OpintoOikeusAdapterServer();
+const adapterServer = new OpintoOikeusAdapterServer(process.env.KOSKI_USER, process.env.KOSKI_PASSWORD);
 
 app.use(morgan('combined')); // logging
 app.use(express.static('./docs')); // static content
@@ -24,7 +22,7 @@ app.get('/', (req, res) => {
     res.send(soapResponse);
 });
 
-app.post('/Endpoint', (req, res) => {
+app.post('/Endpoint', async (req, res) => {
 
     const doc = new DOMParser().parseFromString(req.body);
     const select = xpath.useNamespaces({
@@ -46,9 +44,11 @@ app.post('/Endpoint', (req, res) => {
 
     res.set('Content-Type', 'text/xml');
 
-    res.send(adapterServer.getOpintoOikeudetSoapResponse(clientXRoadInstance, clientMemberClass, clientMemberCode,
+    const soapEnvelope = await adapterServer.getOpintoOikeudetSoapResponse(clientXRoadInstance, clientMemberClass, clientMemberCode,
         clientSubsystemCode, clientUserId, clientRequestId, clientType, hetu,
-    ));
+    );
+
+    res.send(soapEnvelope);
 });
 
 app.listen(3000, () => console.log('Example app listening on port 3000!'));
