@@ -1,4 +1,5 @@
 import builder from 'xmlbuilder';
+import fs from 'fs';
 
 class OpintoOikeusAdapterServer {
     constructor() {
@@ -12,10 +13,10 @@ class OpintoOikeusAdapterServer {
 
         this.serverProtocolVersion = '4.0';
 
-        this.antunOpintoOikeudet = {
-            mallikoulu: 2020,
-            astronauttikoulu: 2024,
-        };
+        fs.readFile('./examples/opintooikeudet.json', 'utf8', (err, data) => {
+            if (err) throw err; // we'll not consider error handling for now
+            this.opintoOikeudet = JSON.parse(data);
+        });
     }
 
     getOpintoOikeudetSoapResponse(clientXRoadInstance, clientMemberClass, clientMemberCode, clientSubsystemCode,
@@ -54,7 +55,7 @@ class OpintoOikeusAdapterServer {
             .up()
             .ele('SOAP-ENV:Body')
             .ele(`kns1:${this.serverServiceCode}Response`).att('xmlns:kns1', 'http://docs.dev.koski-xroad.fi/producer')
-            .ele('kns1:opintoOikeudet').dat(JSON.stringify(this.antunOpintoOikeudet))
+            .ele('kns1:opintoOikeudet').dat(JSON.stringify(this.opintoOikeudet)) // TODO: Read this from Koski API
 
             .end({ pretty: true});
     }
