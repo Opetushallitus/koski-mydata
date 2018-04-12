@@ -1,11 +1,19 @@
-import express from 'express';
-import morgan from 'morgan';
 import soapResponse from './index';
 
-const app = express();
-app.use(morgan('combined'));
+import express from 'express';
+import bodyParser from 'body-parser';
 
-app.use(express.static('./docs'));
+require('body-parser-xml')(bodyParser);
+
+import morgan from 'morgan';
+
+const app = express();
+app.use(morgan('combined')); // logging
+app.use(express.static('./docs')); // static content
+app.use(bodyParser.text({type: '*/*' }));
+
+var parseString = require('xml2js').parseString;
+var stripPrefix = require('xml2js').processors.stripPrefix;
 
 app.get('/', (req, res) => {
     res.set('Content-Type', 'application/xml');
@@ -13,6 +21,10 @@ app.get('/', (req, res) => {
 });
 
 app.post('/Endpoint', (req, res) => {
+    parseString(req.body, { tagNameProcessors: [stripPrefix] }, function(err, js) {
+        if (err) throw err;
+        console.dir(js, { depth: null });
+    });
     res.set('Content-Type', 'text/xml');
     res.send(soapResponse);
 });
