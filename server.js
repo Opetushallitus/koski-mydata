@@ -8,6 +8,9 @@ import OpintoOikeusAdapterServer from './OpintoOikeusAdapterServer';
 
 require('body-parser-xml')(bodyParser);
 
+import xpath from 'xpath';
+import { DOMParser } from 'xmldom';
+
 const app = express();
 const { stripPrefix } = processors;
 const adapterServer = new OpintoOikeusAdapterServer();
@@ -22,19 +25,22 @@ app.get('/', (req, res) => {
 });
 
 app.post('/Endpoint', (req, res) => {
-    parseString(req.body, { tagNameProcessors: [stripPrefix] }, (err, js) => {
-        if (err) throw err;
-        console.dir(js, { depth: null });
+
+    const doc = new DOMParser().parseFromString(req.body);
+    const select = xpath.useNamespaces({
+        soap: 'http://schemas.xmlsoap.org/soap/envelope/',
+        xroad: 'http://x-road.eu/xsd/xroad.xsd',
+        id: 'http://x-road.eu/xsd/identifiers',
     });
+    const clientXRoadInstance = select('//soap:Header/xroad:client/id:xRoadInstance/text()', doc)[0].nodeValue;
+    const clientMemberClass = select('//soap:Header/xroad:client/id:memberClass/text()', doc)[0].nodeValue;
+    const clientMemberCode = select('//soap:Header/xroad:client/id:memberCode/text()', doc)[0].nodeValue;
+    const clientSubsystemCode = select('//soap:Header/xroad:client/id:subsystemCode/text()', doc)[0].nodeValue;
+
+    const clientUserId = select('//soap:Header/xroad:userId/text()', doc)[0].nodeValue;
+    const clientRequestId = select('//soap:Header/xroad:id/text()', doc)[0].nodeValue;
+
     res.set('Content-Type', 'text/xml');
-
-    const clientXRoadInstance = 'FI-DEV';
-    const clientMemberClass = 'GOV';
-    const clientMemberCode = '2769790-1';
-    const clientSubsystemCode = 'koski';
-
-    const clientUserId = '123456789';
-    const clientRequestId = 'ID123456';
 
     res.send(adapterServer.getOpintoOikeudetSoapResponse(clientXRoadInstance, clientMemberClass, clientMemberCode,
         clientSubsystemCode, clientUserId, clientRequestId,
