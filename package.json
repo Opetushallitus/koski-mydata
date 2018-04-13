@@ -9,7 +9,7 @@
     "server": "nodemon --exec npm run babel-node -- ./src/server.js",
     "build": "gulp",
     "clean": "gulp clean",
-    "start": "nodemon --watch src --exec gulp js & sam local start-api"
+    "start": "nodemon --watch src --exec gulp js env & sam local start-api"
   },
   "author": "",
   "license": "ISC",
@@ -20,7 +20,8 @@
     "xml2js": "^0.4.19",
     "xmlbuilder": "^9.0.7",
     "xmldom": "^0.1.27",
-    "xpath": "0.0.27"
+    "xpath": "0.0.27",
+    "dotenv": "^5.0.1"
   },
   "devDependencies": {
     "babel-cli": "^6.16.0",
@@ -34,7 +35,6 @@
     "babel-preset-stage-0": "^6.16.0",
     "body-parser": "^1.18.2",
     "del": "^3.0.0",
-    "dotenv": "^5.0.1",
     "eslint": "^4.19.0",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-plugin-import": "^2.9.0",
