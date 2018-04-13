@@ -1,14 +1,38 @@
-'use strict';
+import { DOMParser } from 'xmldom';
+import xpath from 'xpath';
 
-exports.hellohandler = (event, context, callback) => {
+import OpintoOikeusAdapterServer from './OpintoOikeusAdapterServer';
 
-    console.log(JSON.stringify(event));
-    console.log(JSON.stringify(context));
+require('dotenv').config();
+const adapterServer = new OpintoOikeusAdapterServer(process.env.KOSKI_USER, process.env.KOSKI_PASSWORD);
+
+exports.hellohandler = async(event, context, callback) => {
+
+    const doc = new DOMParser().parseFromString(event.body);
+    const select = xpath.useNamespaces({
+        soap: 'http://schemas.xmlsoap.org/soap/envelope/',
+        xroad: 'http://x-road.eu/xsd/xroad.xsd',
+        id: 'http://x-road.eu/xsd/identifiers',
+        koski: 'http://docs.dev.koski-xroad.fi/producer', // TODO: We have environment here!
+    });
+    const clientXRoadInstance = select('//soap:Header/xroad:client/id:xRoadInstance/text()', doc)[0].nodeValue;
+    const clientMemberClass = select('//soap:Header/xroad:client/id:memberClass/text()', doc)[0].nodeValue;
+    const clientMemberCode = select('//soap:Header/xroad:client/id:memberCode/text()', doc)[0].nodeValue;
+    const clientSubsystemCode = select('//soap:Header/xroad:client/id:subsystemCode/text()', doc)[0].nodeValue;
+
+    const clientUserId = select('//soap:Header/xroad:userId/text()', doc)[0].nodeValue;
+    const clientRequestId = select('//soap:Header/xroad:id/text()', doc)[0].nodeValue;
+    const clientType = select('//soap:Header/xroad:client/@id:objectType', doc)[0].value;
+
+    const hetu = select('//soap:Body/koski:opintoOikeudetService/koski:hetu/text()', doc)[0].nodeValue;
+
+    const soapEnvelope = await adapterServer.getOpintoOikeudetSoapResponse(clientXRoadInstance, clientMemberClass, clientMemberCode,
+        clientSubsystemCode, clientUserId, clientRequestId, clientType, hetu,
+    );
 
     callback(null, {
         statusCode: 200,
-        headers: { "x-custom-header" : "my custom header value" },
-        body: `Hello world, ${event.username}`,
-        //body: users,
+        body: soapEnvelope,
+        headers: { 'content-type': 'text/xml' },
     });
 };
