@@ -19,7 +19,6 @@ class OpintoOikeusAdapterServer {
     async getOpintoOikeudetSoapResponse(clientXRoadInstance, clientMemberClass, clientMemberCode, clientSubsystemCode,
         clientUserId, clientRequestId, clientType, hetu,
     ) {
-        this.opintoOikeudet['henkilö'].hetu = hetu;
 
         try {
             const oid = await this.client.getUserOid(hetu); // '210947-613P'
@@ -60,7 +59,7 @@ class OpintoOikeusAdapterServer {
                 .ele(`kns1:${this.serverServiceCode}Response`).att('xmlns:kns1', 'http://docs.dev.koski-xroad.fi/producer')
                 .ele('kns1:opintoOikeudet').dat(JSON.stringify(opintoOikeudet))
 
-                .end({ pretty: true});
+                .end({ pretty: true });
 
         } catch (err) {
             console.log(err);
