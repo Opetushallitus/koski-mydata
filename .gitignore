@@ -9,7 +9,7 @@ node_modules
 .swp
 
 ## sensitive data
-.env
+config.env.development
 
 ## Gulp
 tmp
