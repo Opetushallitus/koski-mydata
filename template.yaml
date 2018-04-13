@@ -8,7 +8,7 @@ Resources:
   OpintoOikeudet:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: src/
+      CodeUri: dist/
       Runtime: nodejs6.10
       Handler: lambda.hellohandler
       Events:
