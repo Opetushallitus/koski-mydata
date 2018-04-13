@@ -1,7 +1,7 @@
 import axios from 'axios';
+import deepOmit from 'omit-deep-lodash';
 
 class KoskiClient {
-
     constructor(username, password) {
         this.instance = axios.create({
             baseURL: 'https://dev.koski.opintopolku.fi/koski/api/',
@@ -14,12 +14,11 @@ class KoskiClient {
     }
 
     async getUserOid(hetu) {
-
         return new Promise((resolve, reject) => {
             this.instance.get(`henkilo/search?query=${hetu}`)
                 .then((response) => {
                     const students = response.data['henkilöt'];
-                    if (students.length < 1 ) reject('no users found');
+                    if (students.length < 1) reject(new Error('no users found'));
 
                     resolve(students[0].oid);
                 })
@@ -33,7 +32,8 @@ class KoskiClient {
         return new Promise((resolve, reject) => {
             this.instance.get(`oppija/${oid}`)
                 .then((response) => {
-                    resolve(response.data.opiskeluoikeudet);
+                    const { opiskeluoikeudet } = response.data;
+                    resolve(deepOmit(opiskeluoikeudet, 'suoritukset')); // remove 'suoritukset' from response
                 })
                 .catch((error) => {
                     reject(error);
