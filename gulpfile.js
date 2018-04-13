@@ -39,15 +39,15 @@ gulp.task('env', function() {
 
 
 // Here we want to install npm packages to dist, ignoring devDependencies.
-gulp.task('npm', function() {
+gulp.task('npm', function(callback) {
     gulp.src('./package.json')
         .pipe(gulp.dest('./dist/'))
-        .pipe(install({production: true}));
+        .pipe(install({ production: true }, callback));
 });
 
 // Now the dist directory is ready to go. Zip it.
 gulp.task('zip', function() {
-    gulp.src(['dist/**/*', '!dist/package.json', 'dist/.*'])
+    gulp.src(['dist/**/*', '!dist/package.json', 'dist/.*', 'dist/node_modules'])
         .pipe(zip('dist.zip'))
         .pipe(gulp.dest('./'));
 });
@@ -108,6 +108,6 @@ gulp.task('default', function(callback) {
         ['clean'],
         ['js', 'npm', 'env'],
         ['zip'],
-        callback
+        callback,
     );
 });
