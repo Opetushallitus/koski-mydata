@@ -1,5 +1,4 @@
 import builder from 'xmlbuilder';
-import fs from 'fs';
 import KoskiClient from './KoskiClient';
 
 class OpintoOikeusAdapterServer {
