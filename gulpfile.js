@@ -30,18 +30,19 @@ gulp.task('js', () =>
         .pipe(gulp.dest('dist')),
 );
 
+// Next copy over environment variables managed outside of source control.
+gulp.task('env', function() {
+    gulp.src('./config.env.development')
+        .pipe(rename('.env'))
+        .pipe(gulp.dest('./dist'));
+});
+
+
 // Here we want to install npm packages to dist, ignoring devDependencies.
 gulp.task('npm', function() {
     gulp.src('./package.json')
         .pipe(gulp.dest('./dist/'))
         .pipe(install({production: true}));
-});
-
-// Next copy over environment variables managed outside of source control.
-gulp.task('env', function() {
-    gulp.src('./config.env.production')
-        .pipe(rename('.env'))
-        .pipe(gulp.dest('./dist'))
 });
 
 // Now the dist directory is ready to go. Zip it.
