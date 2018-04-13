@@ -6,9 +6,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "babel-node": "babel-node",
-    "start": "nodemon --exec npm run babel-node -- ./src/index.js",
     "server": "nodemon --exec npm run babel-node -- ./src/server.js",
-    "build": "babel src -d dist"
+    "build": "gulp",
+    "clean": "gulp clean",
+    "start": "nodemon --watch src --exec gulp js & sam local start-api"
   },
   "author": "",
   "license": "ISC",

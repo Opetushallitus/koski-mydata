@@ -7,6 +7,7 @@ sen kautta voi hakea opiskelijoiden opinto-oikeuksia henkilötunnuksella.
 
 ```
 npm install -g aws-sam-local
+npm install -g gulp
 npm install
 ```
 
@@ -18,6 +19,19 @@ KOSKI_USER=username
 KOSKI_PASSWORD=password
 ```
 
-Ja käynnistä palvelin:
+käynnistä palvelin:
 
-```sam local start-api``` 
+```
+npm run start
+``` 
+
+ja testaa että applikaatio toimii:
+```
+curl -v -X POST  "http://localhost:3000/"
+```
+
+## Applikaation buildaus
+
+```
+npm run build
+```
