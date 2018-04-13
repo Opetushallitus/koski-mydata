@@ -15,11 +15,6 @@ class OpintoOikeusAdapterServer {
         this.serverProtocolVersion = '4.0';
 
         this.client = new KoskiClient(username, password);
-
-        fs.readFile('./examples/opintooikeudet.json', 'utf8', (err, data) => {
-            if (err) throw err; // we'll not consider error handling for now
-            this.opintoOikeudet = JSON.parse(data);
-        });
     }
 
     async getOpintoOikeudetSoapResponse(clientXRoadInstance, clientMemberClass, clientMemberCode, clientSubsystemCode,
