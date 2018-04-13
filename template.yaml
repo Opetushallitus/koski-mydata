@@ -15,5 +15,5 @@ Resources:
         ListCustomers:
           Type: Api
           Properties:
-            Path: /
+            Path: /Endpoint
             Method: POST
