@@ -6,6 +6,7 @@ const rename = require('gulp-rename');
 const install = require('gulp-install');
 const zip = require('gulp-zip');
 const fs = require('fs');
+const AWS = require('aws-sdk');
 const runSequence = require('run-sequence');
 
 const paths = {
@@ -61,20 +62,17 @@ gulp.task('zip', () => {
 gulp.task('upload', () => {
 
     // TODO: This should probably pull from package.json
-    AWS.config.region = 'us-east-1';
+    AWS.config.region = 'eu-west-1';
+    AWS.config.credentials = new AWS.SharedIniFileCredentials({profile: 'oph-dev'});
     const lambda = new AWS.Lambda();
-    const functionName = 'video-events';
+    const functionName = 'getOpintoOikeudet';
 
     lambda.getFunction({FunctionName: functionName}, (err, data) => {
         if (err) {
             if (err.statusCode === 404) {
-                const warning = 'Unable to find lambda function ' + functionName + '. ';
-                warning += 'Verify the lambda function name and AWS region are correct.';
-                gutil.log(warning);
+                gutil.log(`Unable to find lambda function ${functionName}, Verify the lambda function name and AWS region are correct.`);
             } else {
-                const warning = 'AWS API request failed. ';
-                warning += 'Check your AWS credentials and permissions.';
-                gutil.log(warning);
+                gutil.log('AWS API request failed. Check your AWS credentials and permissions.', err);
             }
         }
 
@@ -107,6 +105,7 @@ gulp.task('default', (callback) => {
         ['clean'],
         ['js', 'npm', 'env'],
         ['zip'],
+        ['upload'],
         callback,
     );
 });
