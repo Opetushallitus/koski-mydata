@@ -68,7 +68,7 @@ gulp.task('upload', () => {
     lambda.getFunction({FunctionName: functionName}, (err, data) => {
         if (err) {
             if (err.statusCode === 404) {
-                const warning = 'Unable to find lambda function ' + deploy_function + '. ';
+                const warning = 'Unable to find lambda function ' + functionName + '. ';
                 warning += 'Verify the lambda function name and AWS region are correct.';
                 gutil.log(warning);
             } else {
