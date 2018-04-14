@@ -39,3 +39,11 @@ curl -v -k -d @opintooikeudet-payload.xml --header "Content-Type: text/xml" -X P
 ```
 npm run build
 ```
+
+## TODO
+
+   * aws profile name from command line
+   * use CF to set up infra
+   * use latest NodeJS
+   * proper error handling
+   * logging
