@@ -24,6 +24,7 @@
     "dotenv": "^5.0.1"
   },
   "devDependencies": {
+    "aws-sdk": "^2.224.1",
     "babel-cli": "^6.16.0",
     "babel-core": "^6.17.0",
     "babel-eslint": "^8.2.2",
