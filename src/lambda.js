@@ -6,7 +6,7 @@ import OpintoOikeusAdapterServer from './OpintoOikeusAdapterServer';
 require('dotenv').config();
 const adapterServer = new OpintoOikeusAdapterServer(process.env.KOSKI_USER, process.env.KOSKI_PASSWORD);
 
-exports.hellohandler = async(event, context, callback) => {
+exports.opintoOikeusHandler = async(event, context, callback) => {
 
     const doc = new DOMParser().parseFromString(event.body);
     const select = xpath.useNamespaces({
