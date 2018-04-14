@@ -6,6 +6,7 @@ sen kautta voi hakea opiskelijoiden opinto-oikeuksia henkilötunnuksella.
 ## Asentaminen
 
 ```
+pip install awscli --upgrade --user
 npm install -g aws-sam-local
 npm install -g gulp
 npm install
