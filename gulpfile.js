@@ -46,10 +46,11 @@ gulp.task('npm', (callback) => {
 });
 
 // Now the dist directory is ready to go. Zip it.
-gulp.task('zip', () => {
+gulp.task('zip', (callback) => {
     gulp.src(['dist/**/*', '!dist/package.json', 'dist/.*', 'dist/node_modules'])
         .pipe(zip('dist.zip'))
-        .pipe(gulp.dest('./'));
+        .pipe(gulp.dest('./'))
+        .on('end', callback);
 });
 
 // Per the gulp guidelines, we do not need a plugin for something that can be
@@ -70,32 +71,67 @@ gulp.task('upload', () => {
     lambda.getFunction({FunctionName: functionName}, (err, data) => {
         if (err) {
             if (err.statusCode === 404) {
-                gutil.log(`Unable to find lambda function ${functionName}, Verify the lambda function name and AWS region are correct.`);
+                gutil.log(`Function ${functionName} does not exist, creating it`);
+
+                fs.readFile('./dist.zip', (zipError, zipData) => {
+
+                    const params = {
+                        Code: {
+                            ZipFile: zipData,
+                            //S3Bucket: 'com.oph.koski.lambda.dev.code', // TODO: Create this!
+                            //S3Key: 'dist.zip',
+                        },
+                        FunctionName: 'getOpintoOikeudet',
+                        Runtime: 'nodejs6.10',
+                        Role: 'arn:aws:iam::500150530292:role/service-role/koskiLambdaRole', // TODO: Create me automatically!
+                        Handler: 'lambda.opintoOikeusHandler',
+                        Description: 'Lambda function for getting opinto-oikeudet from Koski',
+                        Timeout: 3,
+                        MemorySize: 128,
+                        TracingConfig: {
+                            Mode: 'PassThrough',
+                        },
+                    };
+
+                    lambda.createFunction(params, (err, data) => {
+                        if (err) console.log(err, err.stack); // an error occurred
+                        else console.log(data); // successful response
+                    });
+
+                });
             } else {
                 gutil.log('AWS API request failed. Check your AWS credentials and permissions.', err);
             }
-        }
+        } else {
+            gutil.log(JSON.stringify(data, null, 2));
 
-        // This is a bit silly, simply because these five parameters are required.
-        const current = data.Configuration;
-        const params = {
-            FunctionName: functionName,
-            Handler: current.Handler,
-            Mode: current.Mode,
-            Role: current.Role,
-            Runtime: current.Runtime,
-        };
+            // This is a bit silly, simply because these five parameters are required.
+            const current = data.Configuration;
+            const params = {
+                FunctionName: functionName,
+                Handler: current.Handler,
+                Mode: current.Mode,
+                Role: current.Role,
+                Runtime: current.Runtime,
+            };
 
-        fs.readFile('./dist.zip', (err, data) => {
-            params['FunctionZip'] = data;
-            lambda.uploadFunction(params, (err, data) => {
+            const workingParams = {
+                FunctionName: functionName,
+                Publish: true,
+                ZipFile: fs.readFile('./dist.zip'),
+                S3Bucket: 'com.oph.koski.lambda.dev.code',
+                S3Key: 'getOpintoOikeudet.zip',
+            };
+
+            lambda.updateFunctionCode(workingParams, (err, data) => {
                 if (err) {
-                    const warning = 'Package upload failed. ';
-                    warning += 'Check your iam:PassRole permissions.';
-                    gutil.log(warning);
+                    gutil.log('Package upload failed. Check your iam:PassRole permissions.', err);
+                } else { // successful response
+                    console.log(data);
                 }
             });
-        });
+
+        }
     });
 });
 
@@ -103,7 +139,7 @@ gulp.task('upload', () => {
 gulp.task('default', (callback) => {
     return runSequence(
         ['clean'],
-        ['js', 'npm', 'env'],
+        ['js', 'npm'],
         ['zip'],
         ['upload'],
         callback,
