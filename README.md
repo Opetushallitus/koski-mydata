@@ -47,3 +47,9 @@ npm run build
    * use latest NodeJS
    * proper error handling
    * logging
+   * wait for a fix to sam-local (wrong content-type header) or roll back to older version
+   * create API Gateway
+   * hosting and deployment for wsdl
+   * monitoring
+   * API Gateway to VPC
+   * Create role for Lambda function
