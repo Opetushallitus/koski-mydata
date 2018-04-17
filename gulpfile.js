@@ -115,22 +115,22 @@ gulp.task('upload', () => {
                 Runtime: current.Runtime,
             };
 
-            const workingParams = {
-                FunctionName: functionName,
-                Publish: true,
-                ZipFile: fs.readFile('./dist.zip'),
-                S3Bucket: 'com.oph.koski.lambda.dev.code',
-                S3Key: 'getOpintoOikeudet.zip',
-            };
+            fs.readFile('./dist.zip', (zipError, zipData) => {
 
-            lambda.updateFunctionCode(workingParams, (err, data) => {
-                if (err) {
-                    gutil.log('Package upload failed. Check your iam:PassRole permissions.', err);
-                } else { // successful response
-                    console.log(data);
-                }
+                const workingParams = {
+                    FunctionName: functionName,
+                    Publish: true,
+                    ZipFile: zipData,
+                };
+
+                lambda.updateFunctionCode(workingParams, (err, data) => {
+                    if (err) {
+                        gutil.log('Package upload failed. Check your iam:PassRole permissions.', err);
+                    } else { // successful response
+                        console.log(data);
+                    }
+                });
             });
-
         }
     });
 });
