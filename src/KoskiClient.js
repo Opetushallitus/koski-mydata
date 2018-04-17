@@ -23,7 +23,8 @@ class KoskiClient {
                     resolve(students[0].oid);
                 })
                 .catch((error) => {
-                    reject(error);
+                    // error contains hetu and credentials, lets not log them
+                    reject(new Error(`Henkilo search failed with status: ${error.response.status}`));
                 });
         });
     }
