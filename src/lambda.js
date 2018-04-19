@@ -2,27 +2,15 @@ import { DOMParser } from 'xmldom';
 import xpath from 'xpath';
 
 import OpintoOikeusAdapterServer from './OpintoOikeusAdapterServer';
-import SecretsManager from './SecretsManager';
+import AWSSecretsManager from './AWSSecretsManager';
+import LocalSecretsManager from './LocalSecretsManager';
 
-require('dotenv').config();
-
-async function getCredentials() {
-    if (process.env.AWS_SAM_LOCAL === 'true') {
-        return new Promise( (resolve) => {
-            console.log('Running locally');
-            resolve({ username: process.env.KOSKI_USER, password: process.env.KOSKI_PASSWORD });
-        });
-    } else if (!this.secretsManager) {
-        this.secretsManager = new SecretsManager();
-    }
-
-    return this.secretsManager.getKoskiCredentials();
-}
+const secretsManager = (process.env.AWS_SAM_LOCAL === 'true') ? new LocalSecretsManager() : new AWSSecretsManager();
 
 exports.opintoOikeusHandler = async(event, context, callback) => {
 
     try {
-        const { username, password } = await getCredentials(); // TODO: Fail if no username & password provided
+        const { username, password } = await secretsManager.getKoskiCredentials(); // TODO: Fail if no username & password provided
         const adapterServer = new OpintoOikeusAdapterServer(username, password);
 
         const doc = new DOMParser().parseFromString(event.body);
