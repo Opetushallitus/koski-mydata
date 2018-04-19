@@ -1,8 +1,7 @@
 import builder from 'xmlbuilder';
-import KoskiClient from './KoskiClient';
 
 class OpintoOikeusAdapterServer {
-    constructor(username, password) {
+    constructor() {
         /* TODO: These are specific to our instance and environment */
         this.serverXRoadInstance = 'FI-DEV';
         this.serverMemberClass = 'GOV';
@@ -12,18 +11,13 @@ class OpintoOikeusAdapterServer {
         this.serverServiceVersion = 'v1';
 
         this.serverProtocolVersion = '4.0';
-
-        this.client = new KoskiClient(username, password);
     }
 
-    async getOpintoOikeudetSoapResponse(clientXRoadInstance, clientMemberClass, clientMemberCode, clientSubsystemCode,
-        clientUserId, clientRequestId, clientType, hetu,
+    getOpintoOikeudetSoapResponse(clientXRoadInstance, clientMemberClass, clientMemberCode, clientSubsystemCode,
+        clientUserId, clientRequestId, clientType, opintoOikeudet,
     ) {
 
         try {
-            const oid = await this.client.getUserOid(hetu); // '210947-613P'
-            const opintoOikeudet = await this.client.getOpintoOikeudet(oid);
-
             return builder.create('SOAP-ENV:Envelope', {
                 version: '1.0',
                 encoding: 'UTF-8',

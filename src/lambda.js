@@ -2,15 +2,21 @@ import OpintoOikeusAdapterServer from './OpintoOikeusAdapterServer';
 import AWSSecretsManager from './AWSSecretsManager';
 import LocalSecretsManager from './LocalSecretsManager';
 import SoapPayloadParser from './SoapPayloadParser';
+import KoskiClient from './KoskiClient';
 
 const secretsManager = (process.env.AWS_SAM_LOCAL === 'true') ? new LocalSecretsManager() : new AWSSecretsManager();
 const parser = new SoapPayloadParser();
 
+let client;
+
 exports.opintoOikeusHandler = async(event, context, callback) => {
 
     try {
-        const { username, password } = await secretsManager.getKoskiCredentials(); // TODO: Fail if no username & password provided
-        const adapterServer = new OpintoOikeusAdapterServer(username, password);
+
+        if (typeof client === 'undefined' || client === null) {
+            const { username, password } = await secretsManager.getKoskiCredentials(); // TODO: Fail if no username & password provided
+            client = new KoskiClient(username, password);
+        }
 
         const {
             clientXRoadInstance,
@@ -23,9 +29,12 @@ exports.opintoOikeusHandler = async(event, context, callback) => {
             hetu,
         } = parser.parsePayload(event.body);
 
+        const oid = await client.getUserOid(hetu);
+        const opintoOikeudet = await client.getOpintoOikeudet(oid);
 
-        const soapEnvelope = await adapterServer.getOpintoOikeudetSoapResponse(clientXRoadInstance, clientMemberClass, clientMemberCode,
-            clientSubsystemCode, clientUserId, clientRequestId, clientType, hetu,
+        const adapterServer = new OpintoOikeusAdapterServer();
+        const soapEnvelope = adapterServer.getOpintoOikeudetSoapResponse(clientXRoadInstance, clientMemberClass,
+            clientMemberCode, clientSubsystemCode, clientUserId, clientRequestId, clientType, opintoOikeudet,
         );
 
         callback(null, {
