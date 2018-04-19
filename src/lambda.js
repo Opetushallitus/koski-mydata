@@ -6,18 +6,23 @@ import SecretsManager from './SecretsManager';
 
 require('dotenv').config();
 
-const secrets = new SecretsManager();
-/*
-const secrets = {
-    getKoskiCredentials: function getKoskiCredentials() {
-        return { username: 'foo', password: 'foo' };
-    },
-};*/
+async function getCredentials() {
+    if (process.env.AWS_SAM_LOCAL === 'true') {
+        return new Promise( (resolve) => {
+            console.log('Running locally');
+            resolve({ username: process.env.KOSKI_USER, password: process.env.KOSKI_PASSWORD });
+        });
+    } else if (!this.secretsManager) {
+        this.secretsManager = new SecretsManager();
+    }
+
+    return this.secretsManager.getKoskiCredentials();
+}
 
 exports.opintoOikeusHandler = async(event, context, callback) => {
 
     try {
-        const { username, password } = await secrets.getKoskiCredentials(); // TODO: Fail if no username & password provided
+        const { username, password } = await getCredentials(); // TODO: Fail if no username & password provided
         const adapterServer = new OpintoOikeusAdapterServer(username, password);
 
         const doc = new DOMParser().parseFromString(event.body);
