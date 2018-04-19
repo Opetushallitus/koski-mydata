@@ -24,8 +24,7 @@ class AWSSecretsManager {
                 if (err) {
                     reject(new Error(err.message));
                 } else {
-                    const response = JSON.parse(data.SecretString);
-                    const { koski_backend_username, koski_backend_password } = response;
+                    const { koski_backend_username, koski_backend_password } = JSON.parse(data.SecretString);
 
                     resolve({
                         username: koski_backend_username,
