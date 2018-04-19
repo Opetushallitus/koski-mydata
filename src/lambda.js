@@ -33,7 +33,7 @@ exports.opintoOikeusHandler = async(event, context, callback) => {
         const opintoOikeudet = await client.getOpintoOikeudet(oid);
 
         const adapterServer = new OpintoOikeusAdapterServer();
-        const soapEnvelope = adapterServer.getOpintoOikeudetSoapResponse(clientXRoadInstance, clientMemberClass,
+        const soapEnvelope = adapterServer.createOpintoOikeusSoapResponse(clientXRoadInstance, clientMemberClass,
             clientMemberCode, clientSubsystemCode, clientUserId, clientRequestId, clientType, opintoOikeudet,
         );
 

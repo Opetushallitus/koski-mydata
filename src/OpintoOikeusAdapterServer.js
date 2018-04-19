@@ -13,10 +13,9 @@ class OpintoOikeusAdapterServer {
         this.serverProtocolVersion = '4.0';
     }
 
-    getOpintoOikeudetSoapResponse(clientXRoadInstance, clientMemberClass, clientMemberCode, clientSubsystemCode,
+    createOpintoOikeusSoapResponse(clientXRoadInstance, clientMemberClass, clientMemberCode, clientSubsystemCode,
         clientUserId, clientRequestId, clientType, opintoOikeudet,
     ) {
-
         try {
             return builder.create('SOAP-ENV:Envelope', {
                 version: '1.0',
