@@ -13,7 +13,12 @@ class SecretsManager {
         });
     }
 
-    getKoskiCredentials() { // TODO: Cache the result?
+    /**
+     * Get Koski credentials from Amazon Secrets Manager.
+     * At the moment this function does not cache the result.
+     * @returns {Promise<any>}
+     */
+    getKoskiCredentials() {
         return new Promise((resolve, reject) => {
             this.client.getSecretValue({ SecretId: this.secretName }, (err, data) => {
                 if (err) {
