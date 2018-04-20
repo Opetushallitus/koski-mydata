@@ -90,7 +90,7 @@
     </wsdl:binding>
     <wsdl:service name="opintoOikeudetService">
         <wsdl:port binding="tns:opintoOikeudetServiceBinding" name="opintoOikeudetServicePort">
-            <soap:address location="http://localhost:3000/Endpoint"/>
+            <soap:address location="https://e5tcdum0og.execute-api.eu-west-1.amazonaws.com/dev"/>
         </wsdl:port>
     </wsdl:service>
 </wsdl:definitions>
