@@ -82,7 +82,7 @@ gulp.task('upload', () => {
                             //S3Key: 'dist.zip',
                         },
                         FunctionName: 'getOpintoOikeudet',
-                        Runtime: 'nodejs6.10',
+                        Runtime: 'nodejs8.10',
                         Role: 'arn:aws:iam::500150530292:role/service-role/koskiLambdaRole', // TODO: Create me automatically!
                         Handler: 'lambda.opintoOikeusHandler',
                         Description: 'Lambda function for getting opinto-oikeudet from Koski',
