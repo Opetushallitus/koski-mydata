@@ -54,3 +54,5 @@ npm run build
    * API Gateway to VPC
    * Create role for Lambda function
    * (Strip only hetu from log entries, not date of birth?)
+   * Set up domain for Lambda function (IAM or Cloudfront or WAF?)
+   * Error handling (check SOAP specs)
