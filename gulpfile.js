@@ -15,6 +15,7 @@ const paths = {
     tmpJS: 'tmp/**/*.js',
     dist: 'dist',
     distJS: 'dist/**/*.js',
+    docs: 'docs/*.wsdl',
 };
 
 // First we need to clean out the dist folder and remove the compiled zip file.
@@ -35,6 +36,11 @@ gulp.task('js', () =>
 gulp.task('env', () => {
     gulp.src('./config.env.development')
         .pipe(rename('.env'))
+        .pipe(gulp.dest('./dist'));
+});
+
+gulp.task('docs', () => {
+    gulp.src(paths.docs)
         .pipe(gulp.dest('./dist'));
 });
 
