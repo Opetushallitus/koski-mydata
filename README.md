@@ -53,3 +53,4 @@ npm run build
    * monitoring
    * API Gateway to VPC
    * Create role for Lambda function
+   * (Strip only hetu from log entries, not date of birth?)

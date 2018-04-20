@@ -15,6 +15,7 @@ class KoskiClient {
         });
     }
 
+    // TODO: Log request time
     getUserOid(hetu) {
         if (!hetu.match(hetuRegexp)) throw new Error('Invalid hetu format');
 
@@ -32,6 +33,7 @@ class KoskiClient {
         });
     }
 
+    // TODO: Log request time
     getOpintoOikeudet(oid) {
         return new Promise( async(resolve, reject) => {
             try {
