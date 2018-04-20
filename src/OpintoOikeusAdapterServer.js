@@ -55,8 +55,8 @@ class OpintoOikeusAdapterServer {
                 .end({ pretty: true });
 
         } catch (err) {
-            console.log(err);
-            // TODO: Error handling
+            console.log('Failed to create SOAP Envelope', err);
+            throw new Error('Failed to create SOAP Envelope');
         }
     }
 }
