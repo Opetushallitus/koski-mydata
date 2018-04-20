@@ -14,7 +14,14 @@ exports.opintoOikeusHandler = async(event, context, callback) => {
     try {
 
         if (typeof client === 'undefined' || client === null) {
-            const { username, password } = await secretsManager.getKoskiCredentials(); // TODO: Fail if no username & password provided
+            const { username, password } = await secretsManager.getKoskiCredentials();
+
+            if (typeof username === 'undefined' || username === null) {
+                throw new Error('Koski username must be provided');
+            } if (typeof password === 'undefined' || password === null) {
+                throw new Error('Koski password must be provided');
+            }
+
             client = new KoskiClient(username, password);
         }
 
