@@ -1,3 +1,4 @@
+import fs from 'fs';
 import OpintoOikeusAdapterServer from './OpintoOikeusAdapterServer';
 import AWSSecretsManager from './AWSSecretsManager';
 import LocalSecretsManager from './LocalSecretsManager';
@@ -9,46 +10,65 @@ const parser = new SoapPayloadParser();
 
 let client;
 
+function handleWSDLRequest(queryParameters, callback) {
+    if (queryParameters.hasOwnProperty('wsdl')) {
+        const data = fs.readFileSync('./koski.wsdl', 'utf-8');
+        callback(null, {
+            statusCode: 200,
+            body: data,
+            headers: { 'content-type': 'application/wsdl+xml' },
+        });
+    } else {
+        callback(null, {
+            statusCode: 501,
+            body: 'Invalid GET request, only WSDL-file requests supported',
+        });
+    }
+}
+
 exports.opintoOikeusHandler = async(event, context, callback) => {
 
     try {
+        if (event.httpMethod === 'GET') {
+            handleWSDLRequest(event.queryStringParameters, callback);
+        } else {
+            if (typeof client === 'undefined' || client === null) {
+                const { username, password } = await secretsManager.getKoskiCredentials();
 
-        if (typeof client === 'undefined' || client === null) {
-            const { username, password } = await secretsManager.getKoskiCredentials();
+                if (typeof username === 'undefined' || username === null) {
+                    throw new Error('Koski username must be provided');
+                } if (typeof password === 'undefined' || password === null) {
+                    throw new Error('Koski password must be provided');
+                }
 
-            if (typeof username === 'undefined' || username === null) {
-                throw new Error('Koski username must be provided');
-            } if (typeof password === 'undefined' || password === null) {
-                throw new Error('Koski password must be provided');
+                client = new KoskiClient(username, password);
             }
 
-            client = new KoskiClient(username, password);
+            const {
+                clientXRoadInstance,
+                clientMemberClass,
+                clientMemberCode,
+                clientSubsystemCode,
+                clientUserId,
+                clientRequestId,
+                clientType,
+                hetu,
+            } = parser.parsePayload(event.body);
+
+            const oid = await client.getUserOid(hetu);
+            const opintoOikeudet = await client.getOpintoOikeudet(oid);
+
+            const adapterServer = new OpintoOikeusAdapterServer();
+            const soapEnvelope = adapterServer.createOpintoOikeusSoapResponse(clientXRoadInstance, clientMemberClass,
+                clientMemberCode, clientSubsystemCode, clientUserId, clientRequestId, clientType, opintoOikeudet,
+            );
+
+            callback(null, {
+                statusCode: 200,
+                body: soapEnvelope,
+                headers: {'content-type': 'text/xml'},
+            });
         }
-
-        const {
-            clientXRoadInstance,
-            clientMemberClass,
-            clientMemberCode,
-            clientSubsystemCode,
-            clientUserId,
-            clientRequestId,
-            clientType,
-            hetu,
-        } = parser.parsePayload(event.body);
-
-        const oid = await client.getUserOid(hetu);
-        const opintoOikeudet = await client.getOpintoOikeudet(oid);
-
-        const adapterServer = new OpintoOikeusAdapterServer();
-        const soapEnvelope = adapterServer.createOpintoOikeusSoapResponse(clientXRoadInstance, clientMemberClass,
-            clientMemberCode, clientSubsystemCode, clientUserId, clientRequestId, clientType, opintoOikeudet,
-        );
-
-        callback(null, {
-            statusCode: 200,
-            body: soapEnvelope,
-            headers: {'content-type': 'text/xml'},
-        });
     } catch (err) {
         console.log(err);
         context.done('error', 'Failed to get opinto-oikeudet');
