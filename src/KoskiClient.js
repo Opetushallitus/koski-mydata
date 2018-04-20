@@ -1,6 +1,8 @@
 import axios from 'axios';
 import deepOmit from 'omit-deep-lodash';
 
+const hetuRegexp = /\d{6}[+-A]\d{3}[a-zA-Z0-9]$/;
+
 class KoskiClient {
     constructor(username, password) {
         this.instance = axios.create({
@@ -14,6 +16,8 @@ class KoskiClient {
     }
 
     getUserOid(hetu) {
+        if (!hetu.match(hetuRegexp)) throw new Error('Invalid hetu format');
+
         return new Promise( async(resolve, reject) => {
             try {
                 const response = await this.instance.get(`henkilo/search?query=${hetu}`);
