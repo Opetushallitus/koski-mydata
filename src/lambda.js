@@ -13,6 +13,7 @@ let client;
 function handleWSDLRequest(queryParameters, callback) {
     if (queryParameters.hasOwnProperty('wsdl')) {
         const data = fs.readFileSync('./koski.wsdl', 'utf-8');
+        // TODO: We should probably create this dynamically so we could include the environment URL
         callback(null, {
             statusCode: 200,
             body: data,
@@ -26,48 +27,51 @@ function handleWSDLRequest(queryParameters, callback) {
     }
 }
 
-exports.opintoOikeusHandler = async(event, context, callback) => {
+async function handleSOAPRequest(xml, callback) {
+    if (typeof client === 'undefined' || client === null) {
+        const { username, password } = await secretsManager.getKoskiCredentials();
 
-    try {
+        if (typeof username === 'undefined' || username === null) {
+            throw new Error('Koski username must be provided');
+        } if (typeof password === 'undefined' || password === null) {
+            throw new Error('Koski password must be provided');
+        }
+
+        client = new KoskiClient(username, password);
+    }
+
+    const {
+        clientXRoadInstance,
+        clientMemberClass,
+        clientMemberCode,
+        clientSubsystemCode,
+        clientUserId,
+        clientRequestId,
+        clientType,
+        hetu,
+    } = parser.parsePayload(xml);
+
+    const oid = await client.getUserOid(hetu);
+    const opintoOikeudet = await client.getOpintoOikeudet(oid);
+
+    const adapterServer = new OpintoOikeusAdapterServer();
+    const soapEnvelope = adapterServer.createOpintoOikeusSoapResponse(clientXRoadInstance, clientMemberClass,
+        clientMemberCode, clientSubsystemCode, clientUserId, clientRequestId, clientType, opintoOikeudet,
+    );
+
+    callback(null, {
+        statusCode: 200,
+        body: soapEnvelope,
+        headers: {'content-type': 'text/xml'},
+    });
+}
+
+exports.opintoOikeusHandler = async(event, context, callback) => {
+    try { // TODO: Get rid of callback passing
         if (event.httpMethod === 'GET') {
             handleWSDLRequest(event.queryStringParameters, callback);
         } else {
-            if (typeof client === 'undefined' || client === null) {
-                const { username, password } = await secretsManager.getKoskiCredentials();
-
-                if (typeof username === 'undefined' || username === null) {
-                    throw new Error('Koski username must be provided');
-                } if (typeof password === 'undefined' || password === null) {
-                    throw new Error('Koski password must be provided');
-                }
-
-                client = new KoskiClient(username, password);
-            }
-
-            const {
-                clientXRoadInstance,
-                clientMemberClass,
-                clientMemberCode,
-                clientSubsystemCode,
-                clientUserId,
-                clientRequestId,
-                clientType,
-                hetu,
-            } = parser.parsePayload(event.body);
-
-            const oid = await client.getUserOid(hetu);
-            const opintoOikeudet = await client.getOpintoOikeudet(oid);
-
-            const adapterServer = new OpintoOikeusAdapterServer();
-            const soapEnvelope = adapterServer.createOpintoOikeusSoapResponse(clientXRoadInstance, clientMemberClass,
-                clientMemberCode, clientSubsystemCode, clientUserId, clientRequestId, clientType, opintoOikeudet,
-            );
-
-            callback(null, {
-                statusCode: 200,
-                body: soapEnvelope,
-                headers: {'content-type': 'text/xml'},
-            });
+            await handleSOAPRequest(event.body, callback);
         }
     } catch (err) {
         console.log(err);
