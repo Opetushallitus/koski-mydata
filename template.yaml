@@ -9,7 +9,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: dist/
-      Runtime: nodejs6.10
+      Runtime: nodejs8.10
       Handler: lambda.opintoOikeusHandler
       Events:
         ListCustomers:
@@ -17,3 +17,15 @@ Resources:
           Properties:
             Path: /
             Method: POST
+  WSDL:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: dist/
+      Runtime: nodejs8.10
+      Handler: lambda.opintoOikeusHandler
+      Events:
+        ListCustomers:
+          Type: Api
+          Properties:
+            Path: /
+            Method: GET
