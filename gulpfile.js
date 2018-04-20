@@ -145,7 +145,7 @@ gulp.task('upload', () => {
 gulp.task('default', (callback) => {
     return runSequence(
         ['clean'],
-        ['js', 'npm'],
+        ['js', 'npm', 'docs'],
         ['zip'],
         ['upload'],
         callback,
