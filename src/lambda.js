@@ -10,71 +10,75 @@ const parser = new SoapPayloadParser();
 
 let client;
 
-function handleWSDLRequest(queryParameters, callback) {
-    if (queryParameters.hasOwnProperty('wsdl')) {
-        const data = fs.readFileSync('./koski.wsdl', 'utf-8');
-        // TODO: We should probably create this dynamically so we could include the environment URL
-        callback(null, {
-            statusCode: 200,
-            body: data,
-            headers: { 'content-type': 'application/wsdl+xml' },
-        });
-    } else {
-        callback(null, {
-            statusCode: 501,
-            body: 'Invalid GET request, only WSDL-file requests supported',
-        });
-    }
+function handleWSDLRequest(queryParameters) {
+    return new Promise((resolve, reject)=> {
+        if (queryParameters.hasOwnProperty('wsdl')) {
+            // TODO: We should probably create this dynamically so we could include the environment URL
+            resolve(fs.readFileSync('./koski.wsdl', 'utf-8'));
+        } else {
+            reject(new Error('Invalid GET request, only WSDL-file requests supported'));
+        }
+    });
 }
 
-async function handleSOAPRequest(xml, callback) {
-    if (typeof client === 'undefined' || client === null) {
-        const { username, password } = await secretsManager.getKoskiCredentials();
+function handleSOAPRequest(xml) {
 
-        if (typeof username === 'undefined' || username === null) {
-            throw new Error('Koski username must be provided');
-        } if (typeof password === 'undefined' || password === null) {
-            throw new Error('Koski password must be provided');
+    return new Promise(async(resolve, reject) => {
+        if (typeof client === 'undefined' || client === null) {
+            const { username, password } = await secretsManager.getKoskiCredentials();
+
+            if (typeof username === 'undefined' || username === null) {
+                reject(new Error('Koski username must be provided'));
+            } if (typeof password === 'undefined' || password === null) {
+                reject(new Error('Koski password must be provided'));
+            }
+
+            client = new KoskiClient(username, password);
         }
 
-        client = new KoskiClient(username, password);
-    }
+        const {
+            clientXRoadInstance,
+            clientMemberClass,
+            clientMemberCode,
+            clientSubsystemCode,
+            clientUserId,
+            clientRequestId,
+            clientType,
+            hetu,
+        } = parser.parsePayload(xml);
 
-    const {
-        clientXRoadInstance,
-        clientMemberClass,
-        clientMemberCode,
-        clientSubsystemCode,
-        clientUserId,
-        clientRequestId,
-        clientType,
-        hetu,
-    } = parser.parsePayload(xml);
+        const oid = await client.getUserOid(hetu);
+        const opintoOikeudet = await client.getOpintoOikeudet(oid);
 
-    const oid = await client.getUserOid(hetu);
-    const opintoOikeudet = await client.getOpintoOikeudet(oid);
+        const adapterServer = new OpintoOikeusAdapterServer();
+        const soapEnvelope = adapterServer.createOpintoOikeusSoapResponse(clientXRoadInstance, clientMemberClass,
+            clientMemberCode, clientSubsystemCode, clientUserId, clientRequestId, clientType, opintoOikeudet,
+        );
 
-    const adapterServer = new OpintoOikeusAdapterServer();
-    const soapEnvelope = adapterServer.createOpintoOikeusSoapResponse(clientXRoadInstance, clientMemberClass,
-        clientMemberCode, clientSubsystemCode, clientUserId, clientRequestId, clientType, opintoOikeudet,
-    );
-
-    callback(null, {
-        statusCode: 200,
-        body: soapEnvelope,
-        headers: {'content-type': 'text/xml'},
+        resolve(soapEnvelope);
     });
 }
 
 exports.opintoOikeusHandler = async(event, context, callback) => {
-    try { // TODO: Get rid of callback passing
+    try {
         if (event.httpMethod === 'GET') {
-            handleWSDLRequest(event.queryStringParameters, callback);
+            callback(null, {
+                statusCode: 200,
+                body: await handleWSDLRequest(event.queryStringParameters),
+                headers: { 'content-type': 'application/wsdl+xml' },
+            });
         } else {
-            await handleSOAPRequest(event.body, callback);
+            callback(null, {
+                statusCode: 200,
+                body: await handleSOAPRequest(event.body),
+                headers: {'content-type': 'text/xml'},
+            });
         }
     } catch (err) {
-        console.log(err);
-        context.done('error', 'Failed to get opinto-oikeudet');
+        console.log('Request processing failed', err);
+        callback(null, {
+            statusCode: 500,
+            body: err.message,
+        });
     }
 };
