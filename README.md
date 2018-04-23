@@ -56,3 +56,4 @@ npm run build
    * (Strip only hetu from log entries, not date of birth?)
    * Set up domain for Lambda function (IAM or Cloudfront or WAF?)
    * Error handling (check SOAP specs)
+   * Lambda IP whitelist as part of automatic function create
