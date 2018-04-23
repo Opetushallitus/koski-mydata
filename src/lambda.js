@@ -4,7 +4,9 @@ import AWSSecretsManager from './AWSSecretsManager';
 import LocalSecretsManager from './LocalSecretsManager';
 import SoapPayloadParser from './SoapPayloadParser';
 import KoskiClient from './KoskiClient';
+import WSDLGenerator from './WSDLGenerator';
 
+const generator = new WSDLGenerator();
 const secretsManager = (process.env.AWS_SAM_LOCAL === 'true') ? new LocalSecretsManager() : new AWSSecretsManager();
 const parser = new SoapPayloadParser();
 
@@ -15,7 +17,10 @@ function handleWSDLRequest(queryParameters) {
         if (queryParameters.hasOwnProperty('wsdl')) {
             // TODO: We should probably create this dynamically so we could include the environment URL
             resolve(fs.readFileSync('./koski.wsdl', 'utf-8'));
-        } else {
+        } else if (queryParameters.hasOwnProperty('wsdll')) {
+            resolve(generator.createOpintoOikeusWSDL());
+        }
+        else {
             reject(new Error('Invalid GET request, only WSDL-file requests supported'));
         }
     });
