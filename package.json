@@ -4,10 +4,11 @@
   "description": "Sovitinpalvelu (SOAP) Kosken MyDataan",
   "main": "index.js",
   "jest": {
-    "modulePathIgnorePatterns": [ "dist/*" ]
+    "modulePathIgnorePatterns": [ "dist/*" ],
+    "collectCoverageFrom": [ "src/*" ]
   },
   "scripts": {
-    "test": "jest",
+    "test": "jest --coverage",
     "build": "gulp",
     "clean": "gulp clean",
     "start": "nodemon --watch src --watch docs --exec gulp js env docs & sam local start-api"

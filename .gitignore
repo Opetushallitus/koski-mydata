@@ -11,6 +11,9 @@ node_modules
 ## sensitive data
 config.env.development
 
+## Test data
+coverage
+
 ## Gulp
 tmp
 dist
