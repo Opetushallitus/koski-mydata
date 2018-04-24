@@ -1,4 +1,3 @@
-import fs from 'fs';
 import OpintoOikeusAdapterServer from './OpintoOikeusAdapterServer';
 import AWSSecretsManager from './AWSSecretsManager';
 import LocalSecretsManager from './LocalSecretsManager';
