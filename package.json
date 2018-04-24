@@ -4,8 +4,12 @@
   "description": "Sovitinpalvelu (SOAP) Kosken MyDataan",
   "main": "index.js",
   "jest": {
-    "modulePathIgnorePatterns": [ "dist/*" ],
-    "collectCoverageFrom": [ "src/*" ]
+    "modulePathIgnorePatterns": [
+      "dist/*"
+    ],
+    "collectCoverageFrom": [
+      "src/*"
+    ]
   },
   "scripts": {
     "test": "jest --coverage",
@@ -51,6 +55,7 @@
     "gulp-install": "^1.1.0",
     "gulp-rename": "^1.2.2",
     "gulp-zip": "^4.1.0",
+    "jasmine-node-promise-matchers": "^0.1.6",
     "jest": "^22.4.3",
     "mocha": "^5.1.1",
     "morgan": "^1.9.0",
