@@ -38,6 +38,11 @@ class WSDLGenerator {
                                         'xsd:element': {
                                             '@name': 'opintoOikeudet',
                                             '@type': 'xsd:string',
+                                            'xsd:annotation': {
+                                                'xsd:documentation': {
+                                                    '#text': 'Service response',
+                                                },
+                                            },
                                         },
                                     },
                                 },
@@ -45,6 +50,44 @@ class WSDLGenerator {
                         ],
                     },
                 },
+                'wsdl:message': [
+                    {
+                        '@name': 'requestheader',
+                        'wsdl:part': [
+                            {
+                                '@name': 'client',
+                                '@element': 'xrd:client',
+                            },
+                            {
+                                '@name': 'service',
+                                '@element': 'xrd:service',
+                            },
+                            {
+                                '@name': 'userId',
+                                '@element': 'xrd:userId',
+                            },
+                            {
+                                '@name': 'id',
+                                '@element': 'xrd:id',
+                            },
+                            {
+                                '@name': 'issue',
+                                '@element': 'xrd:issue',
+                            },
+                            {
+                                '@name': 'protocolVersion',
+                                '@element': 'xrd:protocolVersion',
+                            },
+                        ],
+                    },
+                    {
+                        '@name': 'opintoOikeudetService',
+                        'wsdl:part': {
+                            '@name': 'body',
+                            '@element': 'tns:opintoOikeudetService',
+                        },
+                    },
+                ],
             },
         })
             .att('xmlns:soap', 'http://schemas.xmlsoap.org/wsdl/soap/')
@@ -56,6 +99,16 @@ class WSDLGenerator {
             .att('name', 'opintoOikeudetService')
             .att('targetNamespace', 'http://docs.dev.koski-xroad.fi/producer') // TODO: Read env from somewhere
             .end({ pretty: true });
+
+        /*
+    <wsdl:message name="opintoOikeudetService">
+        <wsdl:part name="body" element="tns:opintoOikeudetService"/>
+    </wsdl:message>
+    <wsdl:message name="opintoOikeudetServiceResponse">
+        <wsdl:part name="body" element="tns:opintoOikeudetServiceResponse"/>
+    </wsdl:message>
+
+         */
     }
 }
 
