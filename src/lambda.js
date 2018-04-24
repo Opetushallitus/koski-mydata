@@ -5,7 +5,6 @@ import SoapPayloadParser from './SoapPayloadParser';
 import KoskiClient from './KoskiClient';
 import WSDLGenerator from './WSDLGenerator';
 
-const generator = new WSDLGenerator();
 const secretsManager = (process.env.AWS_SAM_LOCAL === 'true') ? new LocalSecretsManager() : new AWSSecretsManager();
 const parser = new SoapPayloadParser();
 
@@ -14,7 +13,7 @@ let client;
 function handleWSDLRequest(queryParameters) {
     return new Promise((resolve, reject) => {
         if (Object.prototype.hasOwnProperty.call(queryParameters, 'wsdl')) {
-            resolve(generator.createOpintoOikeusWSDL());
+            resolve(WSDLGenerator.createOpintoOikeusWSDL());
         } else {
             reject(new Error('Invalid GET request, only WSDL-file requests supported'));
         }
