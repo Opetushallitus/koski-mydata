@@ -110,7 +110,7 @@ class WSDLGenerator {
                 'wsdl:binding': {
                     '@name': 'opintoOikeudetServiceBinding',
                     '@type': 'tns:opintoOikeudetServicePortType',
-                    'wsdl:binding': {
+                    'soap:binding': {
                         '@style': 'document',
                         '@transport': 'http://schemas.xmlsoap.org/soap/http',
                     },
@@ -212,6 +212,10 @@ class WSDLGenerator {
                     },
                 },
             },
+        }, {
+            version: '1.0',
+            encoding: 'UTF-8',
+            standalone: false,
         })
             .att('xmlns:soap', 'http://schemas.xmlsoap.org/wsdl/soap/')
             .att('xmlns:tns', 'http://docs.dev.koski-xroad.fi/producer')
