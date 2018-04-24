@@ -4,7 +4,7 @@
   "description": "Sovitinpalvelu (SOAP) Kosken MyDataan",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha --compilers js:babel-core/register --recursive ./test",
     "build": "gulp",
     "clean": "gulp clean",
     "start": "nodemon --watch src --watch docs --exec gulp js env docs & sam local start-api"
@@ -33,7 +33,9 @@
     "babel-preset-es2016": "^6.16.0",
     "babel-preset-stage-0": "^6.16.0",
     "body-parser": "^1.18.2",
+    "chai": "^4.1.2",
     "del": "^3.0.0",
+    "dom-compare": "^0.3.1",
     "eslint": "^4.19.0",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-plugin-import": "^2.9.0",
