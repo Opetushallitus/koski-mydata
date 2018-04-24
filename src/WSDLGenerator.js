@@ -13,33 +13,35 @@ class WSDLGenerator {
                             '@id': 'xrd',
                             '@namespace': 'http://x-road.eu/xsd/xroad.xsd',
                             '@schemaLocation': 'http://x-road.eu/xsd/xroad.xsd',
-                            'xsd:element': {
-                                '@name': 'opintoOikeudetService',
-                                'xsd:complexType': {
-                                    'xsd:sequence': {
-                                        'xsd:element': {
-                                            '@name': 'hetu',
-                                            '@type': 'xsd:string',
-                                            'xsd:annotation': {
-                                                'xsd:documentation': {
-                                                    '#text': 'Name',
+                            'xsd:element': [
+                                {
+                                    '@name': 'opintoOikeudetService',
+                                    'xsd:complexType': {
+                                        'xsd:sequence': {
+                                            'xsd:element': {
+                                                '@name': 'hetu',
+                                                '@type': 'xsd:string',
+                                                'xsd:annotation': {
+                                                    'xsd:documentation': {
+                                                        '#text': 'Name',
+                                                    },
                                                 },
                                             },
                                         },
                                     },
                                 },
-                            },
-                            'xsd:element': { // TODO: Cannot have duplicate keys, this won't work
-                                '@name': 'opintoOikeudetServiceResponse',
-                                'xsd:complexType': {
-                                    'xsd:sequence': {
-                                        'xsd:element': {
-                                            '@name': 'opintoOikeudet',
-                                            '@type': 'xsd:string',
+                                {
+                                    '@name': 'opintoOikeudetServiceResponse',
+                                    'xsd:complexType': {
+                                        'xsd:sequence': {
+                                            'xsd:element': {
+                                                '@name': 'opintoOikeudet',
+                                                '@type': 'xsd:string',
+                                            },
                                         },
                                     },
                                 },
-                            },
+                            ],
                         },
                     },
                 },
