@@ -161,6 +161,54 @@ class WSDLGenerator {
                                 },
                             ],
                         },
+                        'wsdl:output': {
+                            'soap:body': {
+                                '@parts': 'body',
+                                '@use': 'literal',
+                            },
+                            'soap:header': [
+                                {
+                                    '@message': 'tns:requestheader',
+                                    '@part': 'client',
+                                    '@use': 'literal',
+                                },
+                                {
+                                    '@message': 'tns:requestheader',
+                                    '@part': 'service',
+                                    '@use': 'literal',
+                                },
+                                {
+                                    '@message': 'tns:requestheader',
+                                    '@part': 'userId',
+                                    '@use': 'literal',
+                                },
+                                {
+                                    '@message': 'tns:requestheader',
+                                    '@part': 'id',
+                                    '@use': 'literal',
+                                },
+                                {
+                                    '@message': 'tns:requestheader',
+                                    '@part': 'issue',
+                                    '@use': 'literal',
+                                },
+                                {
+                                    '@message': 'tns:requestheader',
+                                    '@part': 'protocolVersion',
+                                    '@use': 'literal',
+                                },
+                            ],
+                        },
+                    },
+                },
+                'wsdl:service': {
+                    '@name': 'opintoOikeudetService',
+                    'wsdl:port': {
+                        '@binding': 'tns:opintoOikeudetServiceBinding',
+                        '@name': 'opintoOikeudetServicePort',
+                        'soap:address': {
+                            '@location': 'https://e5tcdum0og.execute-api.eu-west-1.amazonaws.com/dev',
+                        },
                     },
                 },
             },
@@ -174,34 +222,6 @@ class WSDLGenerator {
             .att('name', 'opintoOikeudetService')
             .att('targetNamespace', 'http://docs.dev.koski-xroad.fi/producer') // TODO: Read env from somewhere
             .end({ pretty: true });
-
-        /*
-    <wsdl:binding name="opintoOikeudetServiceBinding" type="tns:opintoOikeudetServicePortType">
-        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
-        <wsdl:operation name="opintoOikeudetService">
-            <soap:operation soapAction="" style="document" />
-            <xrd:version>v1</xrd:version>
-            <wsdl:input>
-                <soap:body parts="body" use="literal"/>
-                <soap:header message="tns:requestheader" part="client" use="literal"/>
-                <soap:header message="tns:requestheader" part="service" use="literal"/>
-                <soap:header message="tns:requestheader" part="userId" use="literal"/>
-                <soap:header message="tns:requestheader" part="id" use="literal"/>
-                <soap:header message="tns:requestheader" part="issue" use="literal"/>
-                <soap:header message="tns:requestheader" part="protocolVersion" use="literal"/>
-            </wsdl:input>
-            <wsdl:output>
-                <soap:body parts="body" use="literal"/>
-                <soap:header message="tns:requestheader" part="client" use="literal"/>
-                <soap:header message="tns:requestheader" part="service" use="literal"/>
-                <soap:header message="tns:requestheader" part="userId" use="literal"/>
-                <soap:header message="tns:requestheader" part="id" use="literal"/>
-                <soap:header message="tns:requestheader" part="issue" use="literal"/>
-                <soap:header message="tns:requestheader" part="protocolVersion" use="literal"/>
-            </wsdl:output>
-        </wsdl:operation>
-    </wsdl:binding>
-         */
     }
 }
 
