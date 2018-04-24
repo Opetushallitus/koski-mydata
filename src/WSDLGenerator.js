@@ -1,8 +1,7 @@
-import builder from "xmlbuilder";
+import builder from 'xmlbuilder';
 
 class WSDLGenerator {
-    createOpintoOikeusWSDL() {
-
+    static createOpintoOikeusWSDL() {
         return builder.create({
             'wsdl:definitions': {
                 'wsdl:types': {
