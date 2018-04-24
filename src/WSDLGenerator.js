@@ -87,7 +87,26 @@ class WSDLGenerator {
                             '@element': 'tns:opintoOikeudetService',
                         },
                     },
+                    {
+                        '@name': 'opintoOikeudetServiceResponse',
+                        'wsdl:part': {
+                            '@name': 'body',
+                            '@element': 'tns:opintoOikeudetServiceResponse',
+                        },
+                    },
                 ],
+                'wsdl:portType': {
+                    '@name': 'opintoOikeudetServicePortType',
+                    'wsdl:operation': {
+                        '@name': 'opintoOikeudetService',
+                        'wsdl:input': {
+                            '@message': 'tns:opintoOikeudetService',
+                        },
+                        'wsdl:output': {
+                            '@message': 'tns:opintoOikeudetServiceResponse',
+                        },
+                    },
+                },
             },
         })
             .att('xmlns:soap', 'http://schemas.xmlsoap.org/wsdl/soap/')
@@ -100,15 +119,6 @@ class WSDLGenerator {
             .att('targetNamespace', 'http://docs.dev.koski-xroad.fi/producer') // TODO: Read env from somewhere
             .end({ pretty: true });
 
-        /*
-    <wsdl:message name="opintoOikeudetService">
-        <wsdl:part name="body" element="tns:opintoOikeudetService"/>
-    </wsdl:message>
-    <wsdl:message name="opintoOikeudetServiceResponse">
-        <wsdl:part name="body" element="tns:opintoOikeudetServiceResponse"/>
-    </wsdl:message>
-
-         */
     }
 }
 
