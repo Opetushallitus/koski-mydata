@@ -3,7 +3,6 @@ import AWSSecretsManager from '../src/AWSSecretsManager';
 const secretsManager = new AWSSecretsManager();
 
 describe('AWSSecretsManager', () => {
-
     const awsSecretCredentials = { // This is how AWS will return them
         koski_backend_username: 'username',
         koski_backend_password: 'password',
