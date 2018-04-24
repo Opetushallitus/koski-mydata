@@ -13,14 +13,10 @@ const parser = new SoapPayloadParser();
 let client;
 
 function handleWSDLRequest(queryParameters) {
-    return new Promise((resolve, reject)=> {
-        if (queryParameters.hasOwnProperty('wsdl')) {
-            // TODO: We should probably create this dynamically so we could include the environment URL
-            resolve(fs.readFileSync('./koski.wsdl', 'utf-8'));
-        } else if (queryParameters.hasOwnProperty('wsdll')) {
+    return new Promise((resolve, reject) => {
+        if (Object.prototype.hasOwnProperty.call(queryParameters, 'wsdl')) {
             resolve(generator.createOpintoOikeusWSDL());
-        }
-        else {
+        } else {
             reject(new Error('Invalid GET request, only WSDL-file requests supported'));
         }
     });
