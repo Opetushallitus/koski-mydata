@@ -5,80 +5,89 @@ import SoapPayloadParser from './SoapPayloadParser';
 import KoskiClient from './KoskiClient';
 import WSDLGenerator from './WSDLGenerator';
 
-const secretsManager = (process.env.AWS_SAM_LOCAL === 'true') ? new LocalSecretsManager() : new AWSSecretsManager();
-const parser = new SoapPayloadParser();
+class Lambda {
 
-let client;
+    constructor() {
+        this.secretsManager = (process.env.AWS_SAM_LOCAL === 'true') ? new LocalSecretsManager() : new AWSSecretsManager();
+        this.parser = new SoapPayloadParser();
+        this.client = null;
+    }
 
-function handleWSDLRequest(queryParameters) {
-    return new Promise((resolve, reject) => {
-        if (Object.prototype.hasOwnProperty.call(queryParameters, 'wsdl')) {
-            resolve(WSDLGenerator.createOpintoOikeusWSDL());
-        } else {
-            reject(new Error('Invalid GET request, only WSDL-file requests supported'));
-        }
-    });
-}
-
-function handleSOAPRequest(xml) {
-    return new Promise(async(resolve, reject) => {
-        if (typeof client === 'undefined' || client === null) {
-            const { username, password } = await secretsManager.getKoskiCredentials();
-
-            if (typeof username === 'undefined' || username === null) {
-                reject(new Error('Koski username must be provided'));
-            } if (typeof password === 'undefined' || password === null) {
-                reject(new Error('Koski password must be provided'));
+    handleWSDLRequest(queryParameters) {
+        return new Promise((resolve, reject) => {
+            if (Object.prototype.hasOwnProperty.call(queryParameters, 'wsdl')) {
+                resolve(WSDLGenerator.createOpintoOikeusWSDL());
+            } else {
+                reject(new Error('Invalid GET request, only WSDL-file requests supported'));
             }
-
-            client = new KoskiClient(username, password);
-        }
-
-        const {
-            clientXRoadInstance,
-            clientMemberClass,
-            clientMemberCode,
-            clientSubsystemCode,
-            clientUserId,
-            clientRequestId,
-            clientType,
-            hetu,
-        } = parser.parsePayload(xml);
-
-        const oid = await client.getUserOid(hetu);
-        const opintoOikeudet = await client.getOpintoOikeudet(oid);
-
-        const adapterServer = new OpintoOikeusAdapterServer();
-        const soapEnvelope = adapterServer.createOpintoOikeusSoapResponse(clientXRoadInstance, clientMemberClass,
-            clientMemberCode, clientSubsystemCode, clientUserId, clientRequestId, clientType, opintoOikeudet,
-        );
-
-        resolve(soapEnvelope);
-    });
-}
-
-exports.opintoOikeusHandler = async(event, context, callback) => {
-    try {
-        if (event.httpMethod === 'GET') {
-            callback(null, {
-                statusCode: 200,
-                body: await handleWSDLRequest(event.queryStringParameters),
-                headers: { 'content-type': 'application/wsdl+xml' },
-            });
-        } else {
-            callback(null, {
-                statusCode: 200,
-                body: await handleSOAPRequest(event.body),
-                headers: { 'content-type': 'text/xml' },
-            });
-        }
-    } catch (err) {
-        if (process.env.NODE_ENV !== 'test') {
-            console.log('Request processing failed', err);
-        }
-        callback(null, {
-            statusCode: 500,
-            body: err.message,
         });
     }
+
+    handleSOAPRequest(xml) {
+        return new Promise(async(resolve, reject) => {
+            if (typeof this.client === 'undefined' || this.client === null) {
+                const { username, password } = await this.secretsManager.getKoskiCredentials();
+
+                if (typeof username === 'undefined' || username === null) {
+                    reject(new Error('Koski username must be provided'));
+                }
+                if (typeof password === 'undefined' || password === null) {
+                    reject(new Error('Koski password must be provided'));
+                }
+
+                this.client = new KoskiClient(username, password);
+            }
+
+            const {
+                clientXRoadInstance,
+                clientMemberClass,
+                clientMemberCode,
+                clientSubsystemCode,
+                clientUserId,
+                clientRequestId,
+                clientType,
+                hetu,
+            } = this.parser.parsePayload(xml);
+
+            const oid = await this.client.getUserOid(hetu);
+            const opintoOikeudet = await this.client.getOpintoOikeudet(oid);
+
+            const adapterServer = new OpintoOikeusAdapterServer();
+            const soapEnvelope = adapterServer.createOpintoOikeusSoapResponse(clientXRoadInstance, clientMemberClass,
+                clientMemberCode, clientSubsystemCode, clientUserId, clientRequestId, clientType, opintoOikeudet,
+            );
+
+            resolve(soapEnvelope);
+        });
+    }
+
+    async opintoOikeusHandler(event, context, callback) {
+        try {
+            if (event.httpMethod === 'GET') {
+                callback(null, {
+                    statusCode: 200,
+                    body: await this.handleWSDLRequest(event.queryStringParameters),
+                    headers: { 'content-type': 'application/wsdl+xml' },
+                });
+            } else {
+                callback(null, {
+                    statusCode: 200,
+                    body: await this.handleSOAPRequest(event.body),
+                    headers: { 'content-type': 'text/xml' },
+                });
+            }
+        } catch (err) {
+            if (process.env.NODE_ENV !== 'test') {
+                console.log('Request processing failed', err);
+            }
+            callback(null, {
+                statusCode: 500,
+                body: err.message,
+            });
+        }
+    }
+}
+
+exports.opintoOikeusHandler = (event, context, callback) => {
+    new Lambda().opintoOikeusHandler(event, context, callback);
 };
