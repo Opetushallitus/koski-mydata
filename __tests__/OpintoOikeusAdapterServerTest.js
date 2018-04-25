@@ -11,7 +11,8 @@ describe('OpintoOikeusAdapterServer', () => {
         const opintoOikeudet = JSON.parse(fs.readFileSync('examples/opinto-oikeudet-ei-suoritukset.json', 'UTF-8'));
         const expectedResponse = parser.parseFromString(fs.readFileSync('examples/opintooikeudet-response.xml', 'UTF-8'));
         const createdXML = parser.parseFromString(adapter.createOpintoOikeusSoapResponse(
-            'FI-DEV', 'GOV', '2769790-1', 'koski', '123456789', 'ID123456', 'SUBSYSTEM', opintoOikeudet,
+            'FI-DEV', 'GOV', '2769790-1', 'koski', '123456789',
+            'ID123456', 'SUBSYSTEM', opintoOikeudet,
         ));
         const result = compare(expectedResponse, createdXML, { stripSpaces: true });
 
@@ -21,7 +22,7 @@ describe('OpintoOikeusAdapterServer', () => {
 
         const differences = result.getDifferences();
         expect(Array.isArray(differences)).toEqual(true);
-        expect(differences.length).toEqual(0);
+        expect(differences).toHaveLength(0);
         expect(result.getResult()).toEqual(true);
     });
 });
