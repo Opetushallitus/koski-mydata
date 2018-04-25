@@ -19,4 +19,16 @@ describe('KoskiClient', () => {
         expect(KoskiClient.validateHetu("140779_0123")).toBe(false); // invalid separator
         expect(KoskiClient.validateHetu("140779-012")).toBe(false); // separator too short
     });
+
+    it('Should throw for missing hetu IDs', () => {
+        expect(KoskiClient.validateHetu).toThrowError();
+
+        expect(() => {
+            KoskiClient.validateHetu(null);
+        }).toThrowError();
+
+        expect(() => {
+            KoskiClient.validateHetu(undefined);
+        }).toThrowError();
+    });
 });
