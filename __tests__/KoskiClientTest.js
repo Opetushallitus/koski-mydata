@@ -49,4 +49,28 @@ describe('KoskiClient', () => {
         expect(koskiClient.instance.get).toHaveBeenCalledWith('henkilo/search?query=210947-613P');
     });
 
+    it('Error messages should not contain sensitive information', () => {
+        // TODO: Implement sensitive information test
+    });
+
+    it('Should be able to get opinto-oikeudet', async() => {
+        const oid = 123;
+        const opiskeluoikeudet = {
+            oppilaitokset: ['mallikoulu'],
+        };
+        const axios = {
+            get: () => new Promise((resolve) => {
+                resolve({ data: { opiskeluoikeudet } });
+            }),
+        };
+        const koskiClient = new KoskiClient();
+
+        koskiClient.instance = axios;
+        spyOn(axios, 'get').and.callThrough();
+
+        const response = await koskiClient.getOpintoOikeudet(oid);
+        expect(response).toEqual(opiskeluoikeudet);
+        expect(koskiClient.instance.get).toHaveBeenCalledWith(`oppija/${oid}`);
+    });
+
 });
