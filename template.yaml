@@ -10,7 +10,7 @@ Resources:
     Properties:
       CodeUri: dist/
       Runtime: nodejs8.10
-      Handler: lambda.opintoOikeusHandler
+      Handler: Lambda.opintoOikeusHandler
       Events:
         ListCustomers:
           Type: Api
@@ -22,7 +22,7 @@ Resources:
     Properties:
       CodeUri: dist/
       Runtime: nodejs8.10
-      Handler: lambda.opintoOikeusHandler
+      Handler: Lambda.opintoOikeusHandler
       Events:
         ListCustomers:
           Type: Api
