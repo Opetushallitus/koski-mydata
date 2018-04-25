@@ -21,7 +21,6 @@ function handleWSDLRequest(queryParameters) {
 }
 
 function handleSOAPRequest(xml) {
-
     return new Promise(async(resolve, reject) => {
         if (typeof client === 'undefined' || client === null) {
             const { username, password } = await secretsManager.getKoskiCredentials();
@@ -70,11 +69,13 @@ exports.opintoOikeusHandler = async(event, context, callback) => {
             callback(null, {
                 statusCode: 200,
                 body: await handleSOAPRequest(event.body),
-                headers: {'content-type': 'text/xml'},
+                headers: { 'content-type': 'text/xml' },
             });
         }
     } catch (err) {
-        console.log('Request processing failed', err);
+        if (process.env.NODE_ENV !== 'test') {
+            console.log('Request processing failed', err);
+        }
         callback(null, {
             statusCode: 500,
             body: err.message,
