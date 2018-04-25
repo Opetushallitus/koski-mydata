@@ -28,12 +28,6 @@ describe('Lambda', () => {
     });
 
     it('Will only serve GET WSDL requests', async(done) => {
-        const expectedResponse = {
-            statusCode: 200,
-            headers: {
-                'content-type': 'application/wsdl+xml',
-            },
-        };
         const event = {
             httpMethod: 'GET',
             queryStringParameters: { },
