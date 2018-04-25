@@ -32,21 +32,28 @@ describe('KoskiClient', () => {
         }).toThrowError();
     });
 
+    const axios = {
+        get: () => {
+            console.log('called me123');
+            return new Promise((resolve) => {
+                resolve({ data: { 'henkilöt': [{ oid: 123 }] } });
+            });
+        },
+    };
+
+    beforeEach(() => {
+        spyOn(axios, 'get').and.callThrough();
+    });
+
     it('Should be able to get student number from koski backend', async() => {
-        const koskiClient = new KoskiClient();
         const userId = 123;
+        const koskiClient = new KoskiClient();
 
-        koskiClient.instance = {
-            get: () => new Promise((resolve) => {
-                resolve({ data: { 'henkilöt': [{ oid: userId }] } });
-            }),
-        };
-
-        spyOn(koskiClient.instance, 'get').and.callThrough();
+        koskiClient.instance = axios;
 
         const oid = await koskiClient.getUserOid('210947-613P');
         expect(oid).toBe(userId);
-        //expect(koskiClient.instance).toHaveBeenCalledWith('henkilo/search?query=210947-613P');
+        expect(koskiClient.instance.get).toHaveBeenCalledWith('henkilo/search?query=210947-613P');
 
     });
 });
