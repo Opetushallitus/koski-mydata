@@ -1,8 +1,9 @@
+import PromiseMatcher from 'jasmine-node-promise-matchers';
 import LocalSecretsManager from '../src/LocalSecretsManager';
 
 describe('LocalSecretsManager', () => {
     beforeEach(() => {
-        jasmine.addMatchers(require('jasmine-node-promise-matchers'));
+        jasmine.addMatchers(PromiseMatcher);
     });
 
     const expectedCredentials = { // This is what we expect to return after AWS response has been parsed

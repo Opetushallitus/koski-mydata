@@ -1,8 +1,9 @@
+import PromiseMatcher from 'jasmine-node-promise-matchers';
 import KoskiClient from '../src/KoskiClient';
 
 describe('KoskiClient', () => {
     beforeEach(() => {
-        jasmine.addMatchers(require('jasmine-node-promise-matchers'));
+        jasmine.addMatchers(PromiseMatcher);
     });
 
     it('Should detect valid hetu IDs', () => {
@@ -36,7 +37,7 @@ describe('KoskiClient', () => {
         const userId = 123;
         const axios = {
             get: () => new Promise((resolve) => {
-                resolve({ data: { 'henkilöt': [{ oid: userId }] } });
+                resolve({ data: { henkilöt: [{ oid: userId }] } });
             }),
         };
         const koskiClient = new KoskiClient();
@@ -72,5 +73,4 @@ describe('KoskiClient', () => {
         expect(response).toEqual(opiskeluoikeudet);
         expect(koskiClient.instance.get).toHaveBeenCalledWith(`oppija/${oid}`);
     });
-
 });

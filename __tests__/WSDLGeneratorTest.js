@@ -18,7 +18,7 @@ describe('WSDLGenerator', () => {
 
             const differences = result.getDifferences();
             expect(Array.isArray(differences)).toEqual(true);
-            expect(differences.length).toEqual(0);
+            expect(differences).toHaveLength(0);
             expect(result.getResult()).toEqual(true);
         });
     });

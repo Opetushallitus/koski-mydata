@@ -1,15 +1,16 @@
+import PromiseMatcher from 'jasmine-node-promise-matchers';
 import fs from 'fs';
 import SoapPayloadParser from '../src/SoapPayloadParser';
 
 describe('SoapPayloadParser', () => {
     beforeEach(() => {
-        jasmine.addMatchers(require('jasmine-node-promise-matchers'));
+        jasmine.addMatchers(PromiseMatcher);
     });
 
     const parser = new SoapPayloadParser();
 
     it('Should be able to parse reference payload', (done) => {
-        fs.readFile('./examples/opintooikeudet-payload.xml', { encoding: 'UTF-8'}, (err, xml) => {
+        fs.readFile('./examples/opintooikeudet-payload.xml', { encoding: 'UTF-8' }, (err, xml) => {
             if (err) throw err;
 
             const parseResult = parser.parsePayload(xml);
