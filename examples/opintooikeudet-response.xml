@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:id="http://x-road.eu/xsd/identifiers" xmlns:xrd="http://x-road.eu/xsd/xroad.xsd">
+  <SOAP-ENV:Header>
+    <xrd:client id:objectType="SUBSYSTEM">
+      <id:xRoadInstance>FI-DEV</id:xRoadInstance>
+      <id:memberClass>GOV</id:memberClass>
+      <id:memberCode>2769790-1</id:memberCode>
+      <id:subsystemCode>koski</id:subsystemCode>
+    </xrd:client>
+    <xrd:service id:objectType="SERVICE">
+      <id:xRoadInstance>FI-DEV</id:xRoadInstance>
+      <id:memberClass>GOV</id:memberClass>
+      <id:memberCode>2769790-1</id:memberCode>
+      <id:subsystemCode>koski</id:subsystemCode>
+      <id:serviceCode>opintoOikeudetService</id:serviceCode>
+      <id:serviceVersion>v1</id:serviceVersion>
+    </xrd:service>
+    <xrd:userId>123456789</xrd:userId>
+    <xrd:id>ID123456</xrd:id>
+    <!-- Request hash created automatically by liityntäpalvelin
+    <xrd:requestHash algorithmId="http://www.w3.org/2001/04/xmlenc#sha512">zOVgyoXpF59C5qXykS6DvDZzkvhAIF9ItHsuK3gU3MHWLRQ2mKp19HqJ7sZraE6b5jySrcwVL9EGIXPAck7ykg==</xrd:requestHash>
+    -->
+    <xrd:protocolVersion>4.0</xrd:protocolVersion>
+  </SOAP-ENV:Header>
+  <SOAP-ENV:Body>
+    <kns1:opintoOikeudetServiceResponse xmlns:kns1="http://docs.dev.koski-xroad.fi/producer">
+      <kns1:opintoOikeudet>
+        <![CDATA[[{"oid":"1.2.246.562.15.50257239397","versionumero":2,"aikaleima":"2018-04-10T10:20:17.900865","lähdejärjestelmänId":{"id":"ea891dcc-4dd9-437d-9f23-749a87296570","lähdejärjestelmä":{"koodiarvo":"studentaplus","nimi":{"fi":"Studentaplus"},"koodistoUri":"lahdejarjestelma","koodistoVersio":1}},"oppilaitos":{"oid":"1.2.246.562.10.34788207222","oppilaitosnumero":{"koodiarvo":"03829","nimi":{"fi":"Lappeen koulu"},"lyhytNimi":{"fi":"Lappeen koulu"},"koodistoUri":"oppilaitosnumero","koodistoVersio":1},"nimi":{"fi":"Lappeen koulu"},"kotipaikka":{"koodiarvo":"405","nimi":{"fi":"Lappeenranta","sv":"Villmanstrand"},"koodistoUri":"kunta","koodistoVersio":1}},"koulutustoimija":{"oid":"1.2.246.562.10.74476197939","nimi":{"fi":"Lappeenrannan kaupunki"},"yTunnus":"0162193-3","kotipaikka":{"koodiarvo":"405","nimi":{"fi":"Lappeenranta","sv":"Villmanstrand"},"koodistoUri":"kunta","koodistoVersio":1}},"päättymispäivä":"2016-06-04","tila":{"opiskeluoikeusjaksot":[{"alku":"2008-08-15","tila":{"koodiarvo":"lasna","nimi":{"fi":"Läsnä","sv":"Närvarande"},"koodistoUri":"koskiopiskeluoikeudentila","koodistoVersio":1}},{"alku":"2016-06-04","tila":{"koodiarvo":"valmistunut","nimi":{"fi":"Valmistunut","sv":"Utexaminerad"},"koodistoUri":"koskiopiskeluoikeudentila","koodistoVersio":1}}]},"tyyppi":{"koodiarvo":"perusopetus","nimi":{"fi":"Perusopetus","sv":"Grundläggande utbildning"},"lyhytNimi":{"fi":"Perusopetus"},"koodistoUri":"opiskeluoikeudentyyppi","koodistoVersio":1},"alkamispäivä":"2008-08-15"},{"oid":"1.2.246.562.15.10539608066","versionumero":2,"aikaleima":"2018-04-10T10:20:17.900865","lähdejärjestelmänId":{"id":"515860a8-4875-4657-9682-c79b489e258f","lähdejärjestelmä":{"koodiarvo":"helmi","nimi":{"fi":"Helmi oppilashallintojärjestelmä"},"koodistoUri":"lahdejarjestelma","koodistoVersio":1}},"oppilaitos":{"oid":"1.2.246.562.10.80202766442","oppilaitosnumero":{"koodiarvo":"00405","nimi":{"fi":"Tiirismaan lukio"},"lyhytNimi":{"fi":"Tiirismaan lukio"},"koodistoUri":"oppilaitosnumero","koodistoVersio":1},"nimi":{"fi":"Tiirismaan lukio"},"kotipaikka":{"koodiarvo":"398","nimi":{"fi":"Lahti","sv":"Lahtis"},"koodistoUri":"kunta","koodistoVersio":1}},"koulutustoimija":{"oid":"1.2.246.562.10.35653563805","nimi":{"fi":"Lahden kaupunki"},"yTunnus":"0149669-3","kotipaikka":{"koodiarvo":"398","nimi":{"fi":"Lahti","sv":"Lahtis"},"koodistoUri":"kunta","koodistoVersio":1}},"päättymispäivä":"2016-06-08","tila":{"opiskeluoikeusjaksot":[{"alku":"2012-09-01","tila":{"koodiarvo":"lasna","nimi":{"fi":"Läsnä","sv":"Närvarande"},"koodistoUri":"koskiopiskeluoikeudentila","koodistoVersio":1}},{"alku":"2016-06-08","tila":{"koodiarvo":"valmistunut","nimi":{"fi":"Valmistunut","sv":"Utexaminerad"},"koodistoUri":"koskiopiskeluoikeudentila","koodistoVersio":1}}]},"lisätiedot":{"pidennettyPäättymispäivä":false,"ulkomainenVaihtoopiskelija":false,"alle18vuotiaanAikuistenLukiokoulutuksenAloittamisenSyy":{"fi":"Pikkuvanha yksilö"},"yksityisopiskelija":false,"erityisenKoulutustehtävänJaksot":[{"alku":"2012-09-01","loppu":"2012-09-01","tehtävä":{"koodiarvo":"taide","nimi":{"fi":"Erityisenä koulutustehtävänä taide"},"koodistoUri":"erityinenkoulutustehtava","koodistoVersio":1}}],"ulkomaanjaksot":[{"alku":"2012-09-01","loppu":"2013-09-01","maa":{"koodiarvo":"752","nimi":{"fi":"Ruotsi","sv":"Sverige","en":"Sweden"},"lyhytNimi":{"fi":"SE","sv":"SE","en":"SE"},"koodistoUri":"maatjavaltiot2","koodistoVersio":1},"kuvaus":{"fi":"Harjoittelua ulkomailla"}}],"oikeusMaksuttomaanAsuntolapaikkaan":true,"sisäoppilaitosmainenMajoitus":[{"alku":"2012-09-01","loppu":"2013-09-01"}]},"tyyppi":{"koodiarvo":"lukiokoulutus","nimi":{"fi":"Lukiokoulutus","sv":"Gymnasieutbildning"},"lyhytNimi":{"fi":"Lukiokoulutus"},"koodistoUri":"opiskeluoikeudentyyppi","koodistoVersio":1},"alkamispäivä":"2012-09-01"}]]]>
+      </kns1:opintoOikeudet>
+    </kns1:opintoOikeudetServiceResponse>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>
