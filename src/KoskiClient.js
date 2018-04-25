@@ -34,7 +34,6 @@ class KoskiClient {
 
                 resolve(students[0].oid);
             } catch (err) {
-                console.log(err); // TODO: REmove me!
                 // error contains credentials, url contains hetu, lets not log them
                 reject(new Error(`Henkilo search failed with status: ${err.response.status}`));
             }
