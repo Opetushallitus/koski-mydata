@@ -1,7 +1,7 @@
 import axios from 'axios';
 import deepOmit from 'omit-deep-lodash';
 
-const hetuRegexp = /\d{6}[+-A]\d{3}[a-zA-Z0-9]$/;
+const hetuRegexp = /^\d{6}[+-A]\d{3}[a-zA-Z0-9]$/;
 
 class KoskiClient {
     constructor(username, password) {
@@ -15,9 +15,14 @@ class KoskiClient {
         });
     }
 
+    static validateHetu(hetu) {
+        if (typeof hetu === 'undefined' || hetu === null) throw new Error('Hetu must not be null');
+        return hetuRegexp.test(hetu);
+    }
+
     // TODO: Log request time
     getUserOid(hetu) {
-        if (!hetu.match(hetuRegexp)) throw new Error('Invalid hetu format');
+        if (!this.validateHetu(hetu)) throw new Error('Invalid hetu format');
 
         return new Promise(async(resolve, reject) => {
             try {
