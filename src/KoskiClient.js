@@ -22,12 +22,14 @@ class KoskiClient {
 
     // TODO: Log request time
     getUserOid(hetu) {
-        if (!this.validateHetu(hetu)) throw new Error('Invalid hetu format');
+        if (!KoskiClient.validateHetu(hetu)) throw new Error('Invalid hetu format');
 
         return new Promise(async(resolve, reject) => {
             try {
                 const response = await this.instance.get(`henkilo/search?query=${hetu}`);
                 const students = response.data['henkilöt'];
+
+                if (!Array.isArray(students)) reject(new Error('Unexpected search response from Koski backend'));
                 if (students.length < 1) reject(new Error('no users found'));
 
                 resolve(students[0].oid);
