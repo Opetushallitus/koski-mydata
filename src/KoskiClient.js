@@ -19,7 +19,7 @@ class KoskiClient {
     getUserOid(hetu) {
         if (!hetu.match(hetuRegexp)) throw new Error('Invalid hetu format');
 
-        return new Promise( async(resolve, reject) => {
+        return new Promise(async(resolve, reject) => {
             try {
                 const response = await this.instance.get(`henkilo/search?query=${hetu}`);
                 const students = response.data['henkilöt'];
@@ -35,7 +35,7 @@ class KoskiClient {
 
     // TODO: Log request time
     getOpintoOikeudet(oid) {
-        return new Promise( async(resolve, reject) => {
+        return new Promise(async(resolve, reject) => {
             try {
                 const response = await this.instance.get(`oppija/${oid}`);
                 const { opiskeluoikeudet } = response.data;
