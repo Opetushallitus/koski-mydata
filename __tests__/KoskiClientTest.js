@@ -31,4 +31,22 @@ describe('KoskiClient', () => {
             KoskiClient.validateHetu(undefined);
         }).toThrowError();
     });
+
+    it('Should be able to get student number from koski backend', async() => {
+        const koskiClient = new KoskiClient();
+        const userId = 123;
+
+        koskiClient.instance = {
+            get: () => new Promise((resolve) => {
+                resolve({ data: { 'henkilöt': [{ oid: userId }] } });
+            }),
+        };
+
+        spyOn(koskiClient.instance, 'get').and.callThrough();
+
+        const oid = await koskiClient.getUserOid('210947-613P');
+        expect(oid).toBe(userId);
+        //expect(koskiClient.instance).toHaveBeenCalledWith('henkilo/search?query=210947-613P');
+
+    });
 });
