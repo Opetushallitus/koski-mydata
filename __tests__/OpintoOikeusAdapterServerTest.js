@@ -1,6 +1,5 @@
 import fs from 'fs';
 import XMLDom from 'xmldom';
-import { assert } from 'chai';
 import { compare } from 'dom-compare';
 import OpintoOikeusAdapterServer from '../src/OpintoOikeusAdapterServer';
 
@@ -20,7 +19,9 @@ describe('OpintoOikeusAdapterServer', () => {
             console.log(result.getDifferences());
         }
 
-        assert.isEmpty(result.getDifferences(), 'No differences in XMLs');
-        assert.isTrue(result.getResult(), 'XMLs are identical');
+        const differences = result.getDifferences();
+        expect(Array.isArray(differences)).toEqual(true);
+        expect(differences.length).toEqual(0);
+        expect(result.getResult()).toEqual(true);
     });
 });
