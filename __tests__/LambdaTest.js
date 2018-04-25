@@ -1,4 +1,4 @@
-import { opintoOikeusHandler } from '../src/lambda';
+import { opintoOikeusHandler } from '../src/Lambda';
 import WSDLGenerator from '../src/WSDLGenerator';
 
 describe('Lambda', () => {
