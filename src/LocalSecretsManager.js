@@ -13,10 +13,10 @@ class LocalSecretsManager {
     getKoskiCredentials() {
         return new Promise((resolve, reject) => {
             if (typeof this.username === 'undefined' || this.username === null) {
-                reject(new Error('username not defined'));
+                reject(new Error('Koski backend username not defined'));
             }
             if (typeof this.password === 'undefined' || this.password === null) {
-                reject(new Error('password not defined'));
+                reject(new Error('Koski backend password not defined'));
             }
             resolve({
                 username: this.username,
