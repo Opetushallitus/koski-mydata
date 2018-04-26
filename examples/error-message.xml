@@ -1,0 +1,12 @@
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+    <SOAP-ENV:Header />
+    <SOAP-ENV:Body>
+        <SOAP-ENV:Fault>
+            <faultcode>SOAP-ENV:Client</faultcode> <!-- or SOAP-ENV:Server -->
+            <faultstring>oid not found</faultstring> <!-- human readable string -->
+            <detail>no user found with given hetu</detail>
+        </SOAP-ENV:Fault>
+    </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>
+
+<!-- Specs here: https://docs.oracle.com/cd/E19159-01/819-3669/bnbin/index.html -->
