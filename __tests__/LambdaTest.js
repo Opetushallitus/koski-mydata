@@ -54,12 +54,7 @@ describe('Lambda', () => {
         spyOn(lambda.secretsManager, 'getKoskiCredentials').and.returnValue(() => {
             Promise.resolve({ username: 'u', password: 'p' });
         });
-        spyOn(lambda.parser, 'parsePayload').and.returnValue((xml) => {
-            console.log(`Received XML ${xml}`);
-            return {
-                hetu,
-            };
-        });
+        spyOn(lambda.parser, 'parsePayload').and.returnValue({ hetu });
         lambda.client = { getUserOid: () => {}, getOpintoOikeudet: () => {} }; // cannot spy on null
         spyOn(lambda.client, 'getUserOid').and.returnValue(oid);
         spyOn(lambda.client, 'getOpintoOikeudet').and.returnValue({ opintooikeudet: [ 'mallikoulu'] });
@@ -69,7 +64,7 @@ describe('Lambda', () => {
             expect(lambda.handleSOAPRequest).toHaveBeenCalled();
             // expect(lambda.secretsManager.getKoskiCredentials).toHaveBeenCalled(); // Not called as we set the client on the test!
             expect(lambda.client.getUserOid).toHaveBeenCalledWith(hetu);
-            expect(lambda.client.getOpintoOikeudet).toHaveBeenCalledWith('plaah');
+            expect(lambda.client.getOpintoOikeudet).toHaveBeenCalledWith(oid);
             done();
         });
     });
