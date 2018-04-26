@@ -42,25 +42,24 @@ npm run build
 
 ## TODO
 
-   * aws profile name from command line
-   * use CF to set up infra
-   * use latest NodeJS
-   * proper error handling
-   * logging
+### Missing features
+
+   * What to do with people without hetu
+   * API should return the nationality of the student
+   * (Strip only hetu from log entries, not date of birth?)
+
+
+### Running & Deploying
+
+   * Read aws profile name from command line
    * wait for a fix to sam-local (wrong content-type header) or roll back to older version
-   * create API Gateway
-   * hosting and deployment for wsdl
+   
+### Hosting
+
+   * use CF to set up infra
    * monitoring
    * API Gateway to VPC
    * Create role for Lambda function
-   * (Strip only hetu from log entries, not date of birth?)
    * Set up domain for Lambda function (IAM or Cloudfront or WAF?)
-   * Error handling (check SOAP specs)
    * Lambda IP whitelist as part of automatic function create
-   * Install https://www.npmjs.com/package/eslint-plugin-jest
-   * Change file name from AWS Lambda (renamed lambda.js to Lambda.js)
-   * What to do with people without hetu
-   * API should return the nationality of the student
 
-## Test TODO
-   * No users found => 502
