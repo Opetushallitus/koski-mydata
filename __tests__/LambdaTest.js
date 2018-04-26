@@ -44,28 +44,27 @@ describe('Lambda', () => {
     });
 
     it('Can parse SOAP POST payload', async(done) => {
+        const oid = 123;
         const event = {
             httpMethod: 'POST',
         };
-        const mockSecretsManager = {
-            getKoskiCredentials: () => {
-                console.log('called mock');
-                return new Promise((resolve) => { resolve('jooh')});
-            },
-        };
-        lambda.secretsManager = mockSecretsManager;
 
         spyOn(lambda, 'handleSOAPRequest').and.callThrough();
         spyOn(lambda.secretsManager, 'getKoskiCredentials').and.returnValue(() => {
             Promise.resolve({ username: 'u', password: 'p' });
         });
-
-        console.log(`local secrets manager: ${typeof mockSecretsManager.getKoskiCredentials}`);
-        console.log(`secrets manager: ${typeof lambda.secretsManager.getKoskiCredentials}`);
+        spyOn(lambda.parser, 'parsePayload').and.returnValue((xml) => {
+            console.log(`Received XML ${xml}`);
+            return {
+                hetu: '010190-012A',
+            };
+        });
+        //spyOn(lambda.client, 'getUserOid').and.returnValue(oid);
 
         opintoOikeusHandler(event, null, (error, response) => {
             expect(lambda.handleSOAPRequest).toHaveBeenCalled();
             expect(lambda.secretsManager.getKoskiCredentials).not.toHaveBeenCalled();
+            expect(lambda.client.getUserOid).not.toHaveBeenCalled();
             done();
         });
     });
