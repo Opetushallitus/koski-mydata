@@ -10,6 +10,7 @@ Resources:
     Properties:
       CodeUri: dist/
       Runtime: nodejs8.10
+      Timeout: 8
       Handler: Lambda.opintoOikeusHandler
       Events:
         ListCustomers:
@@ -22,6 +23,7 @@ Resources:
     Properties:
       CodeUri: dist/
       Runtime: nodejs8.10
+      Timeout: 8
       Handler: Lambda.opintoOikeusHandler
       Events:
         ListCustomers:

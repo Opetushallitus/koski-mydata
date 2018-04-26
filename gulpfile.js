@@ -92,7 +92,7 @@ gulp.task('upload', () => {
                         Role: 'arn:aws:iam::500150530292:role/service-role/koskiLambdaRole', // TODO: Create me automatically!
                         Handler: 'Lambda.opintoOikeusHandler',
                         Description: 'Lambda function for getting opinto-oikeudet from Koski',
-                        Timeout: 3,
+                        Timeout: 8,
                         MemorySize: 128,
                         TracingConfig: {
                             Mode: 'PassThrough',
