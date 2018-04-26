@@ -30,7 +30,7 @@ class KoskiClient {
                 const response = await this.instance.get(`henkilo/search?query=${hetu}`);
                 const students = response.data['henkilöt'];
 
-                if (!Array.isArray(students)) reject(new Error('Unexpected search response from Koski backend'));
+                if (!Array.isArray(students)) reject(new Error('Unexpected student search response from Koski backend'));
                 if (students.length < 1) reject(new ClientError('No users found with given hetu'));
 
                 const studentId = students[0].oid;
@@ -50,10 +50,12 @@ class KoskiClient {
             try {
                 const response = await this.instance.get(`oppija/${oid}`);
                 const { opiskeluoikeudet } = response.data;
+
+                if (typeof opiskeluoikeudet === 'undefined' || opiskeluoikeudet == null) reject(new Error('No opiskeluoikeudet found'));
                 resolve(deepOmit(opiskeluoikeudet, 'suoritukset')); // remove 'suoritukset' from response
             } catch (err) {
                 // error contains credentials, url contains hetu, lets not log them
-                reject(new Error(`Suoritukset search failed with status: ${err.response.status}`));
+                reject(new Error(`Opinto-oikeus search failed with message: ${err.message}`));
             }
         });
     }
