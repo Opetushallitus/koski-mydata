@@ -88,6 +88,12 @@ class Lambda {
     }
 }
 
-exports.opintoOikeusHandler = (event, context, callback) => {
-    new Lambda().opintoOikeusHandler(event, context, callback);
+const lambda = new Lambda();
+
+exports.opintoOikeusHandler = (event, context, callback) => { // AWS Lambda expects to receive a function
+    lambda.opintoOikeusHandler(event, context, callback);
 };
+
+if (process.env.NODE_ENV === 'test') { // Allow mocking
+    exports.lambda = lambda;
+}
