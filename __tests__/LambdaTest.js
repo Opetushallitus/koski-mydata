@@ -1,4 +1,4 @@
-import { opintoOikeusHandler } from '../src/Lambda';
+import { opintoOikeusHandler, lambda } from '../src/Lambda';
 import WSDLGenerator from '../src/WSDLGenerator';
 
 describe('Lambda', () => {
@@ -39,6 +39,33 @@ describe('Lambda', () => {
             expect(error).toBeNull();
             expect(response.statusCode).toEqual(500);
             expect(WSDLGenerator.createOpintoOikeusWSDL).not.toHaveBeenCalled();
+            done();
+        });
+    });
+
+    it('Can parse SOAP POST payload', async(done) => {
+        const event = {
+            httpMethod: 'POST',
+        };
+        const mockSecretsManager = {
+            getKoskiCredentials: () => {
+                console.log('called mock');
+                return new Promise((resolve) => { resolve('jooh')});
+            },
+        };
+        lambda.secretsManager = mockSecretsManager;
+
+        spyOn(lambda, 'handleSOAPRequest').and.callThrough();
+        spyOn(lambda.secretsManager, 'getKoskiCredentials').and.returnValue(() => {
+            Promise.resolve({ username: 'u', password: 'p' });
+        });
+
+        console.log(`local secrets manager: ${typeof mockSecretsManager.getKoskiCredentials}`);
+        console.log(`secrets manager: ${typeof lambda.secretsManager.getKoskiCredentials}`);
+
+        opintoOikeusHandler(event, null, (error, response) => {
+            expect(lambda.handleSOAPRequest).toHaveBeenCalled();
+            expect(lambda.secretsManager.getKoskiCredentials).not.toHaveBeenCalled();
             done();
         });
     });
