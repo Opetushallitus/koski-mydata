@@ -90,7 +90,7 @@ gulp.task('upload', () => {
                         FunctionName: 'getOpintoOikeudet',
                         Runtime: 'nodejs8.10',
                         Role: 'arn:aws:iam::500150530292:role/service-role/koskiLambdaRole', // TODO: Create me automatically!
-                        Handler: 'lambda.opintoOikeusHandler',
+                        Handler: 'Lambda.opintoOikeusHandler',
                         Description: 'Lambda function for getting opinto-oikeudet from Koski',
                         Timeout: 3,
                         MemorySize: 128,
@@ -141,13 +141,11 @@ gulp.task('upload', () => {
     });
 });
 
-// The key to deploying as a single command is to manage the sequence of events.
 gulp.task('default', (callback) => {
     return runSequence(
         ['clean'],
         ['js', 'npm', 'docs'],
         ['zip'],
-        ['upload'],
         callback,
     );
 });
