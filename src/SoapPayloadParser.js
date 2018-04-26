@@ -1,5 +1,6 @@
 import { DOMParser } from 'xmldom';
 import xpath from 'xpath';
+import ClientError from './error/ClientError';
 
 class SoapPayloadParser {
     constructor() {
@@ -12,6 +13,8 @@ class SoapPayloadParser {
     }
 
     parsePayload(xmlContent) {
+        if (typeof xmlContent === 'undefined' || xmlContent === null) throw new ClientError('Cannot parse empty XML content');
+
         const doc = new DOMParser().parseFromString(xmlContent);
 
         return {
