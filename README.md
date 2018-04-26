@@ -58,3 +58,9 @@ npm run build
    * Error handling (check SOAP specs)
    * Lambda IP whitelist as part of automatic function create
    * Install https://www.npmjs.com/package/eslint-plugin-jest
+   * Change file name from AWS Lambda (renamed lambda.js to Lambda.js)
+   * What to do with people without hetu
+   * API should return the nationality of the student
+
+## Test TODO
+   * No users found => 502
