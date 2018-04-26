@@ -45,6 +45,7 @@ describe('Lambda', () => {
 
     it('Can parse SOAP POST payload', async(done) => {
         const oid = 123;
+        const hetu = '010190-012A';
         const event = {
             httpMethod: 'POST',
         };
@@ -56,15 +57,19 @@ describe('Lambda', () => {
         spyOn(lambda.parser, 'parsePayload').and.returnValue((xml) => {
             console.log(`Received XML ${xml}`);
             return {
-                hetu: '010190-012A',
+                hetu,
             };
         });
-        //spyOn(lambda.client, 'getUserOid').and.returnValue(oid);
+        lambda.client = { getUserOid: () => {}, getOpintoOikeudet: () => {} }; // cannot spy on null
+        spyOn(lambda.client, 'getUserOid').and.returnValue(oid);
+        spyOn(lambda.client, 'getOpintoOikeudet').and.returnValue({ opintooikeudet: [ 'mallikoulu'] });
+        spyOn(lambda.adapterServer, 'createOpintoOikeusSoapResponse').and.returnValue({ response: 'soap-response' });
 
         opintoOikeusHandler(event, null, (error, response) => {
             expect(lambda.handleSOAPRequest).toHaveBeenCalled();
-            expect(lambda.secretsManager.getKoskiCredentials).not.toHaveBeenCalled();
-            expect(lambda.client.getUserOid).not.toHaveBeenCalled();
+            // expect(lambda.secretsManager.getKoskiCredentials).toHaveBeenCalled(); // Not called as we set the client on the test!
+            expect(lambda.client.getUserOid).toHaveBeenCalledWith(hetu);
+            expect(lambda.client.getOpintoOikeudet).toHaveBeenCalledWith('plaah');
             done();
         });
     });
