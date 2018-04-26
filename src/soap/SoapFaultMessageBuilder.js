@@ -1,4 +1,5 @@
 import builder from 'xmlbuilder';
+import ClientError from '../error/ClientError';
 
 const codes = {
     client: 'SOAP-ENV:Client',
@@ -8,15 +9,16 @@ const codes = {
 Object.freeze(codes);
 
 class SoapFaultMessageBuilder {
-    static buildErrorMessage(code, message, detail) {
+    static buildErrorMessage(error) {
+        const code = (error instanceof ClientError) ? codes.client : codes.server;
         return builder.create({
             'SOAP-ENV:Envelope': {
                 'SOAP-ENV:Header': {},
                 'SOAP-ENV:Body': {
                     'SOAP-ENV:Fault': {
                         faultcode: code,
-                        faultstring: message,
-                        detail: detail,
+                        faultstring: error.message,
+                        detail: error.details,
                     },
                 },
             },
@@ -30,5 +32,4 @@ class SoapFaultMessageBuilder {
     }
 }
 
-exports.errorBuilder = SoapFaultMessageBuilder;
-exports.codes = codes;
+export default SoapFaultMessageBuilder;

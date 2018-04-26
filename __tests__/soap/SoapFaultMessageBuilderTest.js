@@ -2,7 +2,8 @@ import PromiseMatcher from 'jasmine-node-promise-matchers';
 import { compare } from 'dom-compare';
 import XMLDom from 'xmldom';
 import fs from 'fs';
-import { errorBuilder, codes } from '../../src/soap/SoapFaultMessageBuilder';
+import errorMessageBuilder from '../../src/soap/SoapFaultMessageBuilder';
+import ClientError from '../../src/error/ClientError';
 
 const parser = new XMLDom.DOMParser();
 
@@ -12,7 +13,7 @@ describe('SoapFaultMessageBuilder', () => {
     });
 
     it('Should generate SOAP Fault message like examples/error-message.xml', () => {
-        const errorEnvelope = errorBuilder.buildErrorMessage(codes.client, 'oid not found', 'no user found with given hetu');
+        const errorEnvelope = errorMessageBuilder.buildErrorMessage(new ClientError('oid not found', 'no user found with given hetu'));
         const expectedError = parser.parseFromString(fs.readFileSync('examples/error-message.xml', 'UTF-8'));
         const createdError = parser.parseFromString(errorEnvelope);
         const result = compare(expectedError, createdError, { stripSpaces: true });
