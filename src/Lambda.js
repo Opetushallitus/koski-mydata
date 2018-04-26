@@ -10,6 +10,7 @@ class Lambda {
     constructor() {
         this.secretsManager = (process.env.AWS_SAM_LOCAL === 'true') ? new LocalSecretsManager() : new AWSSecretsManager();
         this.parser = new SoapPayloadParser();
+        this.adapterServer = new OpintoOikeusAdapterServer();
         this.client = null;
     }
 
@@ -52,8 +53,7 @@ class Lambda {
             const oid = await this.client.getUserOid(hetu);
             const opintoOikeudet = await this.client.getOpintoOikeudet(oid);
 
-            const adapterServer = new OpintoOikeusAdapterServer();
-            const soapEnvelope = adapterServer.createOpintoOikeusSoapResponse(clientXRoadInstance, clientMemberClass,
+            const soapEnvelope = this.adapterServer.createOpintoOikeusSoapResponse(clientXRoadInstance, clientMemberClass,
                 clientMemberCode, clientSubsystemCode, clientUserId, clientRequestId, clientType, opintoOikeudet,
             );
 
