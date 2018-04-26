@@ -1,7 +1,8 @@
-import { opintoOikeusHandler, lambda } from '../src/Lambda';
-import WSDLGenerator from '../src/WSDLGenerator';
 import { DOMParser } from 'xmldom';
 import xpath from 'xpath';
+
+import { opintoOikeusHandler, lambda } from '../src/Lambda';
+import WSDLGenerator from '../src/WSDLGenerator';
 import { codes } from '../src/soap/SoapFaultMessageBuilder';
 
 describe('Lambda', () => {
