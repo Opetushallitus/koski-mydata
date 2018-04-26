@@ -1,5 +1,8 @@
 import { opintoOikeusHandler, lambda } from '../src/Lambda';
 import WSDLGenerator from '../src/WSDLGenerator';
+import { DOMParser } from 'xmldom';
+import xpath from 'xpath';
+import { codes } from '../src/soap/SoapFaultMessageBuilder';
 
 describe('Lambda', () => {
     it('Can serve WSDL requests', async(done) => {
@@ -74,6 +77,21 @@ describe('Lambda', () => {
             expect(lambda.adapterServer.createOpintoOikeusSoapResponse).toHaveBeenCalled();
             expect(error).toBe(null);
             expect(response).toEqual(expectedResponse);
+            done();
+        });
+    });
+
+    it('Will return SOAP Fault message', async(done) => {
+        opintoOikeusHandler({ httpMethod: 'POST' }, null, (error, response) => {
+            const doc = new DOMParser().parseFromString(response.body);
+
+            const select = xpath.useNamespaces({ soap: 'http://schemas.xmlsoap.org/soap/envelope/' });
+            const code = select('//soap:Envelope/soap:Body/soap:Fault/faultcode/text()', doc)[0].nodeValue;
+            const message = select('//soap:Envelope/soap:Body/soap:Fault/faultstring/text()', doc)[0].nodeValue;
+
+            expect(response.statusCode).toEqual(500); // SOAP Specs require 500
+            expect(code).toEqual(codes.client); // we gave empty xml body, surely this is a client error
+            expect(message).toEqual('Cannot parse empty XML content');
             done();
         });
     });

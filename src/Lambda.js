@@ -4,9 +4,9 @@ import LocalSecretsManager from './LocalSecretsManager';
 import SoapPayloadParser from './SoapPayloadParser';
 import KoskiClient from './KoskiClient';
 import WSDLGenerator from './WSDLGenerator';
+import SoapErrorBuilder from './soap/SoapFaultMessageBuilder';
 
 class Lambda {
-
     constructor() {
         this.secretsManager = (process.env.AWS_SAM_LOCAL === 'true') ? new LocalSecretsManager() : new AWSSecretsManager();
         this.parser = new SoapPayloadParser();
@@ -26,38 +26,42 @@ class Lambda {
 
     handleSOAPRequest(xml) {
         return new Promise(async(resolve, reject) => {
-            if (typeof this.client === 'undefined' || this.client === null) {
-                const { username, password } = await this.secretsManager.getKoskiCredentials();
+            try {
+                if (typeof this.client === 'undefined' || this.client === null) {
+                    const { username, password } = await this.secretsManager.getKoskiCredentials();
 
-                if (typeof username === 'undefined' || username === null) {
-                    reject(new Error('Koski username must be provided'));
-                }
-                if (typeof password === 'undefined' || password === null) {
-                    reject(new Error('Koski password must be provided'));
+                    if (typeof username === 'undefined' || username === null) {
+                        reject(new Error('Koski username must be provided'));
+                    }
+                    if (typeof password === 'undefined' || password === null) {
+                        reject(new Error('Koski password must be provided'));
+                    }
+
+                    this.client = new KoskiClient(username, password);
                 }
 
-                this.client = new KoskiClient(username, password);
+                const {
+                    clientXRoadInstance,
+                    clientMemberClass,
+                    clientMemberCode,
+                    clientSubsystemCode,
+                    clientUserId,
+                    clientRequestId,
+                    clientType,
+                    hetu,
+                } = this.parser.parsePayload(xml);
+
+                const oid = await this.client.getUserOid(hetu);
+                const opintoOikeudet = await this.client.getOpintoOikeudet(oid);
+
+                const soapEnvelope = this.adapterServer.createOpintoOikeusSoapResponse(clientXRoadInstance, clientMemberClass,
+                    clientMemberCode, clientSubsystemCode, clientUserId, clientRequestId, clientType, opintoOikeudet,
+                );
+
+                resolve(soapEnvelope);
+            } catch (err) {
+                reject(err);
             }
-
-            const {
-                clientXRoadInstance,
-                clientMemberClass,
-                clientMemberCode,
-                clientSubsystemCode,
-                clientUserId,
-                clientRequestId,
-                clientType,
-                hetu,
-            } = this.parser.parsePayload(xml);
-
-            const oid = await this.client.getUserOid(hetu);
-            const opintoOikeudet = await this.client.getOpintoOikeudet(oid);
-
-            const soapEnvelope = this.adapterServer.createOpintoOikeusSoapResponse(clientXRoadInstance, clientMemberClass,
-                clientMemberCode, clientSubsystemCode, clientUserId, clientRequestId, clientType, opintoOikeudet,
-            );
-
-            resolve(soapEnvelope);
         });
     }
 
@@ -82,7 +86,7 @@ class Lambda {
             }
             callback(null, {
                 statusCode: 500,
-                body: err.message,
+                body: SoapErrorBuilder.buildErrorMessage(err),
             });
         }
     }
