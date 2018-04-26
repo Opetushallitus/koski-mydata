@@ -8,7 +8,7 @@
       "dist/*"
     ],
     "collectCoverageFrom": [
-      "src/*"
+      "src/**"
     ]
   },
   "scripts": {
