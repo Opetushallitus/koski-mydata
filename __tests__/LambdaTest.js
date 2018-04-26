@@ -91,6 +91,7 @@ describe('Lambda', () => {
             const message = select('//soap:Envelope/soap:Body/soap:Fault/faultstring/text()', doc)[0].nodeValue;
 
             expect(response.statusCode).toEqual(500); // SOAP Specs require 500
+            expect(response.headers['content-type']).toEqual('text/xml'); // required by security server
             expect(code).toEqual(codes.client); // we gave empty xml body, surely this is a client error
             expect(message).toEqual('Cannot parse empty XML content');
             done();
