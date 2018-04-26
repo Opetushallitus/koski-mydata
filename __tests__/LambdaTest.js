@@ -63,7 +63,7 @@ describe('Lambda', () => {
         spyOn(lambda.parser, 'parsePayload').and.returnValue({ hetu });
         lambda.client = { getUserOid: () => {}, getOpintoOikeudet: () => {} }; // cannot spy on null client
         spyOn(lambda.client, 'getUserOid').and.returnValue(oid);
-        spyOn(lambda.client, 'getOpintoOikeudet').and.returnValue({ opintooikeudet: [ 'mallikoulu'] });
+        spyOn(lambda.client, 'getOpintoOikeudet').and.returnValue({ opintooikeudet: ['mallikoulu'] });
         spyOn(lambda.adapterServer, 'createOpintoOikeusSoapResponse').and.returnValue(mockSoapEnvelope);
 
         opintoOikeusHandler(event, null, (error, response) => {
@@ -71,6 +71,7 @@ describe('Lambda', () => {
             // expect(lambda.secretsManager.getKoskiCredentials).toHaveBeenCalled(); // not called as we just set the client on the test!
             expect(lambda.client.getUserOid).toHaveBeenCalledWith(hetu);
             expect(lambda.client.getOpintoOikeudet).toHaveBeenCalledWith(oid);
+            expect(lambda.adapterServer.createOpintoOikeusSoapResponse).toHaveBeenCalled();
             expect(error).toBe(null);
             expect(response).toEqual(expectedResponse);
             done();
