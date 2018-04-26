@@ -33,3 +33,5 @@ class SoapFaultMessageBuilder {
 }
 
 export default SoapFaultMessageBuilder;
+
+exports.codes = codes;
