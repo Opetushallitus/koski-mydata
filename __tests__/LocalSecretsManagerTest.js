@@ -28,7 +28,7 @@ describe('LocalSecretsManager', () => {
             KOSKI_USER: undefined,
             KOSKI_PASSWORD: expectedCredentials.password,
         };
-        expect(new LocalSecretsManager().getKoskiCredentials()).toRejectWith(new Error('username not defined'), done);
+        expect(new LocalSecretsManager().getKoskiCredentials()).toRejectWith(new Error('Koski backend username not defined'), done);
     });
 
     it('Should fail if no password was given', async(done) => {
@@ -36,6 +36,6 @@ describe('LocalSecretsManager', () => {
             KOSKI_USER: expectedCredentials.username,
             KOSKI_PASSWORD: null,
         };
-        expect(new LocalSecretsManager().getKoskiCredentials()).toRejectWith(new Error('password not defined'), done);
+        expect(new LocalSecretsManager().getKoskiCredentials()).toRejectWith(new Error('Koski backend password not defined'), done);
     });
 });

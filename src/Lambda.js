@@ -14,7 +14,7 @@ class Lambda {
         this.client = null;
     }
 
-    handleWSDLRequest(queryParameters) {
+    static handleWSDLRequest(queryParameters) {
         return new Promise((resolve, reject) => {
             if (Object.prototype.hasOwnProperty.call(queryParameters, 'wsdl')) {
                 resolve(WSDLGenerator.createOpintoOikeusWSDL());
@@ -54,8 +54,9 @@ class Lambda {
                 const oid = await this.client.getUserOid(hetu);
                 const opintoOikeudet = await this.client.getOpintoOikeudet(oid);
 
-                const soapEnvelope = this.adapterServer.createOpintoOikeusSoapResponse(clientXRoadInstance, clientMemberClass,
-                    clientMemberCode, clientSubsystemCode, clientUserId, clientRequestId, clientType, opintoOikeudet,
+                const soapEnvelope = this.adapterServer.createOpintoOikeusSoapResponse(
+                    clientXRoadInstance, clientMemberClass, clientMemberCode, clientSubsystemCode,
+                    clientUserId, clientRequestId, clientType, opintoOikeudet,
                 );
 
                 resolve(soapEnvelope);
@@ -70,7 +71,7 @@ class Lambda {
             if (event.httpMethod === 'GET') {
                 callback(null, {
                     statusCode: 200,
-                    body: await this.handleWSDLRequest(event.queryStringParameters),
+                    body: await Lambda.handleWSDLRequest(event.queryStringParameters),
                     headers: { 'content-type': 'application/wsdl+xml' },
                 });
             } else {

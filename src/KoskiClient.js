@@ -51,7 +51,7 @@ class KoskiClient {
                 const response = await this.instance.get(`oppija/${oid}`);
                 const { opiskeluoikeudet } = response.data;
 
-                if (typeof opiskeluoikeudet === 'undefined' || opiskeluoikeudet == null) reject(new Error('No opiskeluoikeudet found'));
+                if (typeof opiskeluoikeudet === 'undefined' || opiskeluoikeudet === null) reject(new Error('No opiskeluoikeudet found'));
                 resolve(deepOmit(opiskeluoikeudet, 'suoritukset')); // remove 'suoritukset' from response
             } catch (err) {
                 // error contains credentials, url contains hetu, lets not log them
