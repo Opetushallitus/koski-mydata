@@ -1,8 +1,8 @@
 import PromiseMatcher from 'jasmine-node-promise-matchers';
 import fs from 'fs';
-import SoapPayloadParser from '../src/SoapPayloadParser';
+import SoapPayloadParser from '../../src/soap/SoapRequestPayloadParser';
 
-describe('SoapPayloadParser', () => {
+describe('SoapRequestPayloadParser', () => {
     beforeEach(() => {
         jasmine.addMatchers(PromiseMatcher);
     });

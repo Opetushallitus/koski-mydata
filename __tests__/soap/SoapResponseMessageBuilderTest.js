@@ -1,12 +1,12 @@
 import fs from 'fs';
 import XMLDom from 'xmldom';
 import { compare } from 'dom-compare';
-import SoapResponseMessageBuilder from '../src/soap/SoapResponseMessageBuilder';
+import SoapResponseMessageBuilder from '../../src/soap/SoapResponseMessageBuilder';
 
 const responseBuilder = new SoapResponseMessageBuilder();
 const parser = new XMLDom.DOMParser();
 
-describe('OpintoOikeusAdapterServer', () => {
+describe('SoapResponseMessageBuilder', () => {
     it('Should create correct response XML', () => {
         const opintoOikeudet = JSON.parse(fs.readFileSync('examples/opinto-oikeudet-ei-suoritukset.json', 'UTF-8'));
         const expectedResponse = parser.parseFromString(fs.readFileSync('examples/opintooikeudet-response.xml', 'UTF-8'));

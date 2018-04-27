@@ -1,8 +1,8 @@
 import { DOMParser } from 'xmldom';
 import xpath from 'xpath';
-import ClientError from './error/ClientError';
+import ClientError from '../error/ClientError';
 
-class SoapPayloadParser {
+class SoapRequestPayloadParser {
     constructor() {
         this.select = xpath.useNamespaces({
             soap: 'http://schemas.xmlsoap.org/soap/envelope/',
@@ -32,4 +32,4 @@ class SoapPayloadParser {
     }
 }
 
-export default SoapPayloadParser;
+export default SoapRequestPayloadParser;
