@@ -37,7 +37,7 @@ describe('KoskiClient', () => {
         const userId = 123;
         const axios = {
             get: () => new Promise((resolve) => {
-                resolve({ data: { henkilöt: [{ oid: userId }] } });
+                resolve({ data: [{ oid: userId }] });
             }),
         };
         const koskiClient = new KoskiClient();
@@ -47,7 +47,7 @@ describe('KoskiClient', () => {
 
         const oid = await koskiClient.getUserOid('210947-613P');
         expect(oid).toBe(userId);
-        expect(koskiClient.instance.get).toHaveBeenCalledWith('henkilo/search?query=210947-613P');
+        expect(koskiClient.instance.get).toHaveBeenCalledWith('henkilo/hetu/210947-613P');
     });
 
     it('Error messages should not contain sensitive information', () => {

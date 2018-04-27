@@ -27,8 +27,8 @@ class KoskiClient {
 
         return new Promise(async(resolve, reject) => {
             try {
-                const response = await this.instance.get(`henkilo/search?query=${hetu}`);
-                const students = response.data['henkilöt'];
+                const response = await this.instance.get(`henkilo/hetu/${hetu}`);
+                const students = response.data;
 
                 if (!Array.isArray(students)) reject(new Error('Unexpected student search response from Koski backend'));
                 if (students.length < 1) reject(new ClientError('No users found with given hetu'));
