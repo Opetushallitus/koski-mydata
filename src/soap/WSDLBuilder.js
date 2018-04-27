@@ -1,6 +1,6 @@
 import builder from 'xmlbuilder';
 
-class WSDLGenerator {
+class WSDLBuilder {
     static createOpintoOikeusWSDL() {
         return builder.create({
             'wsdl:definitions': {
@@ -228,4 +228,4 @@ class WSDLGenerator {
     }
 }
 
-export default WSDLGenerator;
+export default WSDLBuilder;

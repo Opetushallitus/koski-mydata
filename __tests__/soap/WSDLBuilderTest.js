@@ -1,15 +1,15 @@
 import fs from 'fs';
 import XMLDom from 'xmldom';
 import { compare } from 'dom-compare';
-import WSDLGenerator from '../src/WSDLGenerator';
+import WSDLBuilder from '../../src/soap/WSDLBuilder';
 
 const parser = new XMLDom.DOMParser();
 
-describe('WSDLGenerator', () => {
+describe('WSDLBuilder', () => {
     describe('#createOpintoOikeusWSDL()', () => {
         it('Should return same WSDL definition as docs/koski.wsdl', () => {
             const expectedWSDL = parser.parseFromString(fs.readFileSync('docs/koski.wsdl', 'UTF-8'));
-            const createdWSDL = parser.parseFromString(WSDLGenerator.createOpintoOikeusWSDL());
+            const createdWSDL = parser.parseFromString(WSDLBuilder.createOpintoOikeusWSDL());
             const result = compare(expectedWSDL, createdWSDL, { stripSpaces: true });
 
             if (!result.getResult()) {

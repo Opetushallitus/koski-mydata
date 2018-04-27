@@ -2,7 +2,7 @@ import { DOMParser } from 'xmldom';
 import xpath from 'xpath';
 
 import { opintoOikeusHandler, lambda } from '../src/Lambda';
-import WSDLGenerator from '../src/WSDLGenerator';
+import WSDLBuilder from '../src/soap/WSDLBuilder';
 import { codes } from '../src/soap/SoapFaultMessageBuilder';
 
 describe('Lambda', () => {
@@ -20,13 +20,13 @@ describe('Lambda', () => {
             queryStringParameters: { wsdl: true },
         };
 
-        WSDLGenerator.createOpintoOikeusWSDL = () => WSDL;
-        spyOn(WSDLGenerator, 'createOpintoOikeusWSDL').and.callThrough();
+        WSDLBuilder.createOpintoOikeusWSDL = () => WSDL;
+        spyOn(WSDLBuilder, 'createOpintoOikeusWSDL').and.callThrough();
 
         opintoOikeusHandler(event, null, (error, response) => {
             expect(error).toBeNull();
             expect(response).toEqual(expectedResponse);
-            expect(WSDLGenerator.createOpintoOikeusWSDL).toHaveBeenCalled();
+            expect(WSDLBuilder.createOpintoOikeusWSDL).toHaveBeenCalled();
             done();
         });
     });
@@ -37,12 +37,12 @@ describe('Lambda', () => {
             queryStringParameters: { },
         };
 
-        spyOn(WSDLGenerator, 'createOpintoOikeusWSDL').and.callThrough();
+        spyOn(WSDLBuilder, 'createOpintoOikeusWSDL').and.callThrough();
 
         opintoOikeusHandler(event, null, (error, response) => {
             expect(error).toBeNull();
             expect(response.statusCode).toEqual(500);
-            expect(WSDLGenerator.createOpintoOikeusWSDL).not.toHaveBeenCalled();
+            expect(WSDLBuilder.createOpintoOikeusWSDL).not.toHaveBeenCalled();
             done();
         });
     });

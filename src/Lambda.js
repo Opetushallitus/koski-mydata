@@ -3,7 +3,7 @@ import AWSSecretsManager from './AWSSecretsManager';
 import LocalSecretsManager from './LocalSecretsManager';
 import SoapPayloadParser from './soap/SoapRequestPayloadParser';
 import KoskiClient from './KoskiClient';
-import WSDLGenerator from './WSDLGenerator';
+import WSDLBuilder from './soap/WSDLBuilder';
 import SoapErrorBuilder from './soap/SoapFaultMessageBuilder';
 
 class Lambda {
@@ -17,7 +17,7 @@ class Lambda {
     static handleWSDLRequest(queryParameters) {
         return new Promise((resolve, reject) => {
             if (Object.prototype.hasOwnProperty.call(queryParameters, 'wsdl')) {
-                resolve(WSDLGenerator.createOpintoOikeusWSDL());
+                resolve(WSDLBuilder.createOpintoOikeusWSDL());
             } else {
                 reject(new Error('Invalid GET request, only WSDL-file requests supported'));
             }
