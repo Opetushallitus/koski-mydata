@@ -48,6 +48,7 @@ npm run build
    * What to do with people without hetu
    * API should return the nationality of the student
    * (Strip only hetu from log entries, not date of birth?)
+   * Configure environment variables in one place
 
 
 ### Running & Deploying
