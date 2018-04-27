@@ -21,6 +21,14 @@ class KoskiClient {
         return hetuRegexp.test(hetu);
     }
 
+    static generateErrorMessage(error) {
+        try {
+            return error.response.data[0].message; // error message from Axios / Koski API
+        } catch (err) {
+            return error.message; // default message
+        }
+    }
+
     // TODO: Log request time
     getUserOid(hetu) {
         if (!KoskiClient.validateHetu(hetu)) throw new ClientError('Invalid hetu format');
@@ -39,7 +47,7 @@ class KoskiClient {
                 resolve(studentId);
             } catch (err) {
                 // error contains credentials, url contains hetu, lets not log them
-                reject(new Error(`Henkilo search failed with message: ${err.message}`));
+                reject(new Error(`Henkilo search failed with message: ${KoskiClient.generateErrorMessage(err)}`));
             }
         });
     }
@@ -55,7 +63,7 @@ class KoskiClient {
                 resolve(deepOmit(opiskeluoikeudet, 'suoritukset')); // remove 'suoritukset' from response
             } catch (err) {
                 // error contains credentials, url contains hetu, lets not log them
-                reject(new Error(`Opinto-oikeus search failed with message: ${err.message}`));
+                reject(new Error(`Opinto-oikeus search failed with message: ${KoskiClient.generateErrorMessage(err)}`));
             }
         });
     }
