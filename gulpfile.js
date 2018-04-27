@@ -34,8 +34,8 @@ gulp.task('js', () =>
 
 // Next copy over environment variables managed outside of source control.
 gulp.task('env', () => {
-    gulp.src('./config.env.development')
-        .pipe(rename('.env'))
+    gulp.src('./.env')
+        //.pipe(rename('.env'))
         .pipe(gulp.dest('./dist'));
 });
 

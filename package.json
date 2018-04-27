@@ -9,7 +9,8 @@
     ],
     "collectCoverageFrom": [
       "src/**"
-    ]
+    ],
+    "testEnvironment": "node"
   },
   "scripts": {
     "lint": "eslint src",
