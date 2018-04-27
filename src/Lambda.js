@@ -1,4 +1,4 @@
-import OpintoOikeusAdapterServer from './OpintoOikeusAdapterServer';
+import SoapResponseMessageBuilder from './soap/SoapResponseMessageBuilder';
 import AWSSecretsManager from './AWSSecretsManager';
 import LocalSecretsManager from './LocalSecretsManager';
 import SoapPayloadParser from './SoapPayloadParser';
@@ -10,7 +10,7 @@ class Lambda {
     constructor() {
         this.secretsManager = (process.env.AWS_SAM_LOCAL === 'true') ? new LocalSecretsManager() : new AWSSecretsManager();
         this.parser = new SoapPayloadParser();
-        this.adapterServer = new OpintoOikeusAdapterServer();
+        this.responseBuilder = new SoapResponseMessageBuilder();
         this.client = null;
     }
 
@@ -24,7 +24,7 @@ class Lambda {
         });
     }
 
-    handleSOAPRequest(xml) {
+    handleSOAPRequest(xml) { // This is the "Adapter Server" for X-Road
         return new Promise(async(resolve, reject) => {
             try {
                 if (typeof this.client === 'undefined' || this.client === null) {
@@ -54,7 +54,7 @@ class Lambda {
                 const oid = await this.client.getUserOid(hetu);
                 const opintoOikeudet = await this.client.getOpintoOikeudet(oid);
 
-                const soapEnvelope = this.adapterServer.createOpintoOikeusSoapResponse(
+                const soapEnvelope = this.responseBuilder.buildResponseMessage(
                     clientXRoadInstance, clientMemberClass, clientMemberCode, clientSubsystemCode,
                     clientUserId, clientRequestId, clientType, opintoOikeudet,
                 );

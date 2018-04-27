@@ -1,6 +1,6 @@
 import builder from 'xmlbuilder';
 
-class OpintoOikeusAdapterServer {
+class SoapResponseMessageBuilder {
     constructor() {
         /* TODO: These are specific to our instance and environment */
         this.serverXRoadInstance = 'FI-DEV';
@@ -13,7 +13,7 @@ class OpintoOikeusAdapterServer {
         this.serverProtocolVersion = '4.0';
     }
 
-    createOpintoOikeusSoapResponse(
+    buildResponseMessage(
         clientXRoadInstance, clientMemberClass, clientMemberCode, clientSubsystemCode,
         clientUserId, clientRequestId, clientType, opintoOikeudet,
     ) {
@@ -63,4 +63,4 @@ class OpintoOikeusAdapterServer {
     }
 }
 
-export default OpintoOikeusAdapterServer;
+export default SoapResponseMessageBuilder;
