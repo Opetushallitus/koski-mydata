@@ -15,7 +15,7 @@ npm install
 ## Applikaation käynnistys lokaalisti
 
 Kysy Koski-tiimiltä dev-environmentin käyttäjätunnus ja salasana.
-Luo tiedosto ```.env``` sisällöllä:
+Luo tiedosto ```config.env.development``` sisällöllä:
 ```
 KOSKI_USER=username
 KOSKI_PASSWORD=password
@@ -47,9 +47,12 @@ npm run build
 
    * What to do with people without hetu
    * API should return the nationality of the student
-   * (Strip only hetu from log entries, not date of birth?)
+   * (Strip only hetu from log entries, not date of birth?) or encrypt entries
    * Configure environment variables in one place
 
+### Tests
+
+   * Implement integration tests
 
 ### Running & Deploying
 
