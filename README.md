@@ -14,6 +14,7 @@ npm install
 
 ## Applikaation käynnistys lokaalisti
 
+Kysy Koski-tiimiltä dev-environmentin käyttäjätunnus ja salasana.
 Luo tiedosto ```.env``` sisällöllä:
 ```
 KOSKI_USER=username
@@ -52,14 +53,14 @@ npm run build
 ### Running & Deploying
 
    * Read aws profile name from command line
-   * wait for a fix to sam-local (wrong content-type header) or roll back to older version
+   * Wait for a fix to sam-local (wrong content-type header) or roll back to older version
    * Check known security issues automatically
    * Run tests & lint before deploying
    
 ### Hosting
 
-   * use CF to set up infra
-   * monitoring
+   * Use Cloudformation/Terraform to set up infra
+   * Monitoring
    * API Gateway to VPC
    * Create role for Lambda function
    * Set up domain for Lambda function (IAM or Cloudfront or WAF?)
