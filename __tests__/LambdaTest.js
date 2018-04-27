@@ -20,13 +20,13 @@ describe('Lambda', () => {
             queryStringParameters: { wsdl: true },
         };
 
-        WSDLBuilder.createOpintoOikeusWSDL = () => WSDL;
-        spyOn(WSDLBuilder, 'createOpintoOikeusWSDL').and.callThrough();
+        WSDLBuilder.buildOpintoOikeusWSDL = () => WSDL;
+        spyOn(WSDLBuilder, 'buildOpintoOikeusWSDL').and.callThrough();
 
         opintoOikeusHandler(event, null, (error, response) => {
             expect(error).toBeNull();
             expect(response).toEqual(expectedResponse);
-            expect(WSDLBuilder.createOpintoOikeusWSDL).toHaveBeenCalled();
+            expect(WSDLBuilder.buildOpintoOikeusWSDL).toHaveBeenCalled();
             done();
         });
     });
@@ -37,12 +37,12 @@ describe('Lambda', () => {
             queryStringParameters: { },
         };
 
-        spyOn(WSDLBuilder, 'createOpintoOikeusWSDL').and.callThrough();
+        spyOn(WSDLBuilder, 'buildOpintoOikeusWSDL').and.callThrough();
 
         opintoOikeusHandler(event, null, (error, response) => {
             expect(error).toBeNull();
             expect(response.statusCode).toEqual(500);
-            expect(WSDLBuilder.createOpintoOikeusWSDL).not.toHaveBeenCalled();
+            expect(WSDLBuilder.buildOpintoOikeusWSDL).not.toHaveBeenCalled();
             done();
         });
     });

@@ -1,7 +1,7 @@
 import builder from 'xmlbuilder';
 
 class WSDLBuilder {
-    static createOpintoOikeusWSDL() {
+    static buildOpintoOikeusWSDL() {
         return builder.create({
             'wsdl:definitions': {
                 'wsdl:types': {

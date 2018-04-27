@@ -6,10 +6,10 @@ import WSDLBuilder from '../../src/soap/WSDLBuilder';
 const parser = new XMLDom.DOMParser();
 
 describe('WSDLBuilder', () => {
-    describe('#createOpintoOikeusWSDL()', () => {
+    describe('#buildOpintoOikeusWSDL()', () => {
         it('Should return same WSDL definition as docs/koski.wsdl', () => {
             const expectedWSDL = parser.parseFromString(fs.readFileSync('docs/koski.wsdl', 'UTF-8'));
-            const createdWSDL = parser.parseFromString(WSDLBuilder.createOpintoOikeusWSDL());
+            const createdWSDL = parser.parseFromString(WSDLBuilder.buildOpintoOikeusWSDL());
             const result = compare(expectedWSDL, createdWSDL, { stripSpaces: true });
 
             if (!result.getResult()) {
