@@ -13,7 +13,8 @@ class OpintoOikeusAdapterServer {
         this.serverProtocolVersion = '4.0';
     }
 
-    createOpintoOikeusSoapResponse(clientXRoadInstance, clientMemberClass, clientMemberCode, clientSubsystemCode,
+    createOpintoOikeusSoapResponse(
+        clientXRoadInstance, clientMemberClass, clientMemberCode, clientSubsystemCode,
         clientUserId, clientRequestId, clientType, opintoOikeudet,
     ) {
         try {
@@ -21,6 +22,7 @@ class OpintoOikeusAdapterServer {
                 version: '1.0',
                 encoding: 'UTF-8',
             })
+            /* eslint-disable newline-per-chained-call */
                 .att('xmlns:SOAP-ENV', 'http://schemas.xmlsoap.org/soap/envelope/')
                 .att('xmlns:id', 'http://x-road.eu/xsd/identifiers')
                 .att('xmlns:xrd', 'http://x-road.eu/xsd/xroad.xsd')
@@ -53,7 +55,7 @@ class OpintoOikeusAdapterServer {
                 .ele('kns1:opintoOikeudet').dat(JSON.stringify(opintoOikeudet))
 
                 .end({ pretty: true });
-
+            /* eslint-enable */
         } catch (err) {
             console.log('Failed to create SOAP Envelope', err);
             throw new Error('Failed to create SOAP Envelope');

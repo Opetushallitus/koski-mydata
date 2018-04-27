@@ -5,7 +5,7 @@ class ClientError extends Error {
         // a workaround to make `instanceof ClientError` work in ES5
         // see https://github.com/babel/babel/issues/4485
         this.constructor = ClientError;
-        this.__proto__ = ClientError.prototype;
+        this.__proto__ = ClientError.prototype; // eslint-disable-line no-proto
     }
 }
 

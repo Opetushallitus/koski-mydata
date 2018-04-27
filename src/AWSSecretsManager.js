@@ -1,4 +1,5 @@
-import AWS from 'aws-sdk'; // provided by the AMI
+// eslint-disable-next-line import/no-extraneous-dependencies
+import AWS from 'aws-sdk'; // provided by AWS AMI
 
 class AWSSecretsManager {
     constructor() {
@@ -24,6 +25,7 @@ class AWSSecretsManager {
                 if (err) {
                     reject(new Error(err.message));
                 } else {
+                    // eslint-disable-next-line camelcase
                     const { koski_backend_username, koski_backend_password } = JSON.parse(data.SecretString);
 
                     resolve({
