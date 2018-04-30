@@ -28,7 +28,7 @@ describe('Lambda', () => {
                 });
             });
 
-            console.log('Got response', JSON.stringify(response));
+            //console.log('Got response', JSON.stringify(response));
 
             expect(response.statusCode).toEqual(200);
             expect(response.headers['content-type']).toEqual('text/xml');
@@ -41,8 +41,26 @@ describe('Lambda', () => {
                 koski: 'http://docs.dev.koski-xroad.fi/producer',
             });
 
-            expect(select('//soap:Header/xroad:client/id:xRoadInstance/text()', doc)[0].nodeValue).toEqual('FI-DEV');
+            expect(select('//soap:Header/xroad:id/text()', doc)[0].nodeValue).toEqual('ID123456');
+            expect(select('//soap:Header/xroad:userId/text()', doc)[0].nodeValue).toEqual('123456789');
 
+            expect(select('//soap:Header/xroad:service/id:xRoadInstance/text()', doc)[0].nodeValue).toEqual('FI-DEV');
+            expect(select('//soap:Header/xroad:service/id:memberClass/text()', doc)[0].nodeValue).toEqual('GOV');
+            expect(select('//soap:Header/xroad:service/id:memberCode/text()', doc)[0].nodeValue).toEqual('2769790-1');
+            expect(select('//soap:Header/xroad:service/id:subsystemCode/text()', doc)[0].nodeValue).toEqual('koski');
+            expect(select('//soap:Header/xroad:service/id:serviceCode/text()', doc)[0].nodeValue).toEqual('opintoOikeudetService');
+            expect(select('//soap:Header/xroad:service/id:serviceVersion/text()', doc)[0].nodeValue).toEqual('v1');
+
+            expect(select('//soap:Header/xroad:client/id:xRoadInstance/text()', doc)[0].nodeValue).toEqual('FI-DEV');
+            expect(select('//soap:Header/xroad:client/id:memberClass/text()', doc)[0].nodeValue).toEqual('GOV');
+            expect(select('//soap:Header/xroad:client/id:memberCode/text()', doc)[0].nodeValue).toEqual('2769790-1');
+            expect(select('//soap:Header/xroad:client/id:subsystemCode/text()', doc)[0].nodeValue).toEqual('koski');
+
+            const jooh = select('//soap:Body/koski:opintoOikeudetServiceResponse/koski:opintoOikeudet/text()', doc)[0].nodeValue;
+            console.log('jooh', jooh);
+            const payload = JSON.parse(select('//soap:Body/koski:opintoOikeudetServiceResponse/koski:opintoOikeudet/text()', doc)[0].nodeValue);
+
+            console.log('payload', payload);
             done();
         } catch (err) {
             console.log('Failed to run integration test for Lambda', err);
