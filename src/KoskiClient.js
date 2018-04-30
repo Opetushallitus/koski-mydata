@@ -61,7 +61,7 @@ class KoskiClient {
                 const { henkilö, opiskeluoikeudet } = response.data;
 
                 if (typeof opiskeluoikeudet === 'undefined' || opiskeluoikeudet === null) reject(new Error('No opiskeluoikeudet found'));
-                resolve( {
+                resolve({
                     henkilö: deepOmit(henkilö, 'hetu'),
                     opiskeluoikeudet: deepOmit(opiskeluoikeudet, 'suoritukset'), // remove 'suoritukset' from response
                 });
