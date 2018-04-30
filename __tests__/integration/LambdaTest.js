@@ -41,6 +41,14 @@ describe('Lambda', () => {
                 koski: 'http://docs.dev.koski-xroad.fi/producer',
             });
 
+            const parse = xpath.useNamespaces({
+                soap: 'http://schemas.xmlsoap.org/soap/envelope/',
+                xroad: 'http://x-road.eu/xsd/xroad.xsd',
+                id: 'http://x-road.eu/xsd/identifiers',
+                koski: 'http://docs.dev.koski-xroad.fi/producer',
+            }).parse;
+
+
             expect(select('//soap:Header/xroad:id/text()', doc)[0].nodeValue).toEqual('ID123456');
             expect(select('//soap:Header/xroad:userId/text()', doc)[0].nodeValue).toEqual('123456789');
 
@@ -56,11 +64,24 @@ describe('Lambda', () => {
             expect(select('//soap:Header/xroad:client/id:memberCode/text()', doc)[0].nodeValue).toEqual('2769790-1');
             expect(select('//soap:Header/xroad:client/id:subsystemCode/text()', doc)[0].nodeValue).toEqual('koski');
 
-            const jooh = select('//soap:Body/koski:opintoOikeudetServiceResponse/koski:opintoOikeudet/text()', doc)[0].nodeValue;
-            console.log('jooh', jooh);
-            const payload = JSON.parse(select('//soap:Body/koski:opintoOikeudetServiceResponse/koski:opintoOikeudet/text()', doc)[0].nodeValue);
 
-            console.log('payload', payload);
+            const evaluator = xpath.parse('//soap:Body/koski:opintoOikeudetServiceResponse/koski:opintoOikeudet');
+            var characters = evaluator.evaluateString({
+                node: doc,
+                namespaces: {
+                    getNamespace: function (prefix) {
+                        if (prefix === 'soap') {
+                            return 'http://schemas.xmlsoap.org/soap/envelope/';
+                        }
+                        if (prefix === 'koski') {
+                            return 'http://docs.dev.koski-xroad.fi/producer';
+                        }
+                    }
+                }
+            });
+
+            console.log(characters);
+            
             done();
         } catch (err) {
             console.log('Failed to run integration test for Lambda', err);
