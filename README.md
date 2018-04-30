@@ -46,7 +46,6 @@ npm run build
 ### Missing features
 
    * What to do with people without hetu
-   * API should return the nationality of the student
    * (Strip only hetu from log entries, not date of birth?) or encrypt entries
    * Configure environment variables in one place
 
