@@ -10,7 +10,8 @@
     "collectCoverageFrom": [
       "src/**"
     ],
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "setupTestFrameworkScriptFile": "./jest-config.js"
   },
   "scripts": {
     "lint": "eslint src",

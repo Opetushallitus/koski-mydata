@@ -23,6 +23,7 @@ class AWSSecretsManager {
         return new Promise((resolve, reject) => {
             this.client.getSecretValue({ SecretId: this.secretName }, (err, data) => {
                 if (err) {
+                    console.log(err);
                     reject(new Error(err.message));
                 } else {
                     // eslint-disable-next-line camelcase
