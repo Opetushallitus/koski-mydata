@@ -70,7 +70,7 @@ describe('KoskiClient', () => {
         spyOn(axios, 'get').and.callThrough();
 
         const response = await koskiClient.getOpintoOikeudet(oid);
-        expect(response).toEqual(opiskeluoikeudet);
+        expect(response.opiskeluoikeudet).toEqual(opiskeluoikeudet);
         expect(koskiClient.instance.get).toHaveBeenCalledWith(`oppija/${oid}`);
     });
 });

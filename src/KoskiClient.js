@@ -40,6 +40,7 @@ class KoskiClient {
 
                 if (!Array.isArray(students)) reject(new Error('Unexpected student search response from Koski backend'));
                 if (students.length < 1) reject(new ClientError('No users found with given hetu'));
+                if (students.length > 1) reject(new ClientError('Multiple users found with given hetu'));
 
                 const studentId = students[0].oid;
                 if (typeof studentId === 'undefined' || studentId === null) reject(new Error('No oid found for student with given hetu'));
@@ -57,10 +58,13 @@ class KoskiClient {
         return new Promise(async(resolve, reject) => {
             try {
                 const response = await this.instance.get(`oppija/${oid}`);
-                const { opiskeluoikeudet } = response.data;
+                const { henkilö, opiskeluoikeudet } = response.data;
 
                 if (typeof opiskeluoikeudet === 'undefined' || opiskeluoikeudet === null) reject(new Error('No opiskeluoikeudet found'));
-                resolve(deepOmit(opiskeluoikeudet, 'suoritukset')); // remove 'suoritukset' from response
+                resolve( {
+                    henkilö: deepOmit(henkilö, 'hetu'),
+                    opiskeluoikeudet: deepOmit(opiskeluoikeudet, 'suoritukset'), // remove 'suoritukset' from response
+                });
             } catch (err) {
                 // error contains credentials, url contains hetu, lets not log them
                 reject(new Error(`Opinto-oikeus search failed with message: ${KoskiClient.generateErrorMessage(err)}`));
