@@ -49,10 +49,6 @@ npm run build
    * (Strip only hetu from log entries, not date of birth?) or encrypt entries
    * Configure environment variables in one place
 
-### Tests
-
-   * Implement integration tests
-
 ### Running & Deploying
 
    * Read aws profile name from command line
