@@ -53,10 +53,6 @@ npm run build
 ### Tests
    * Find a student with estimated end date for studies and include it in tests
 
-### Logging
-   * Log levels
-   * Access log
-
 ### Running & Deploying
 
    * Read aws profile name from command line
