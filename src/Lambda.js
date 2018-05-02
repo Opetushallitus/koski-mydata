@@ -1,3 +1,4 @@
+import log from 'lambda-log';
 import SoapResponseMessageBuilder from './soap/SoapResponseMessageBuilder';
 import AWSSecretsManager from './AWSSecretsManager';
 import LocalSecretsManager from './LocalSecretsManager';
@@ -12,6 +13,7 @@ class Lambda {
         this.parser = new SoapPayloadParser();
         this.responseBuilder = new SoapResponseMessageBuilder();
         this.client = null;
+        this.coldstart = true;
     }
 
     static handleWSDLRequest(queryParameters) {
@@ -68,6 +70,12 @@ class Lambda {
 
     async opintoOikeusHandler(event, context, callback) {
         try {
+            const { body, ...eventMeta } = event; // eslint-disable-line no-unused-vars
+            const { logGroupName, logStreamName, ...contextMeta } = context; // eslint-disable-line no-unused-vars
+            log.config.meta.event = { coldstart: this.coldstart, eventMeta, contextMeta }; // omit post body from logs, it contains hetu
+            this.coldstart = false;
+            log.info('Received request to opintoOikeusHandler');
+
             if (event.httpMethod === 'GET') {
                 callback(null, {
                     statusCode: 200,
