@@ -72,7 +72,11 @@ class Lambda {
         try {
             const { body, ...eventMeta } = event; // eslint-disable-line no-unused-vars
             const { logGroupName, logStreamName, ...contextMeta } = context; // eslint-disable-line no-unused-vars
-            log.config.meta.event = { coldstart: this.coldstart, eventMeta, contextMeta }; // omit post body from logs, it contains hetu
+            log.config = {
+                meta: { event: { coldstart: this.coldstart, eventMeta, contextMeta } }, // omit post body from logs, it contains hetu
+                debug: true, // enable debug-level logging
+            };
+
             this.coldstart = false;
             log.info('Received request to opintoOikeusHandler');
 
