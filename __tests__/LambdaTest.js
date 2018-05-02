@@ -23,7 +23,7 @@ describe('Lambda', () => {
         WSDLBuilder.buildOpintoOikeusWSDL = () => WSDL;
         spyOn(WSDLBuilder, 'buildOpintoOikeusWSDL').and.callThrough();
 
-        opintoOikeusHandler(event, null, (error, response) => {
+        opintoOikeusHandler(event, {}, (error, response) => {
             expect(error).toBeNull();
             expect(response).toEqual(expectedResponse);
             expect(WSDLBuilder.buildOpintoOikeusWSDL).toHaveBeenCalled();
@@ -39,7 +39,7 @@ describe('Lambda', () => {
 
         spyOn(WSDLBuilder, 'buildOpintoOikeusWSDL').and.callThrough();
 
-        opintoOikeusHandler(event, null, (error, response) => {
+        opintoOikeusHandler(event, {}, (error, response) => {
             expect(error).toBeNull();
             expect(response.statusCode).toEqual(500);
             expect(WSDLBuilder.buildOpintoOikeusWSDL).not.toHaveBeenCalled();
@@ -70,7 +70,7 @@ describe('Lambda', () => {
         spyOn(lambda.client, 'getOpintoOikeudet').and.returnValue({ opintooikeudet: ['mallikoulu'] });
         spyOn(lambda.responseBuilder, 'buildResponseMessage').and.returnValue(mockSoapEnvelope);
 
-        opintoOikeusHandler(event, null, (error, response) => {
+        opintoOikeusHandler(event, {}, (error, response) => {
             expect(lambda.handleSOAPRequest).toHaveBeenCalled();
             // expect(lambda.secretsManager.getKoskiCredentials).toHaveBeenCalled(); // not called as we just set the client on the test!
             expect(lambda.client.getUserOid).toHaveBeenCalledWith(hetu);
@@ -83,7 +83,7 @@ describe('Lambda', () => {
     });
 
     it('Will return SOAP Fault message', async(done) => {
-        opintoOikeusHandler({ httpMethod: 'POST' }, null, (error, response) => {
+        opintoOikeusHandler({ httpMethod: 'POST' }, {}, (error, response) => {
             const doc = new DOMParser().parseFromString(response.body);
 
             const select = xpath.useNamespaces({ soap: 'http://schemas.xmlsoap.org/soap/envelope/' });

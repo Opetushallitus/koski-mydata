@@ -20,7 +20,7 @@ describe('Lambda', () => {
 
         try {
             const response = await new Promise((resolve, reject)=> {
-                opintoOikeusHandler(soapRequest, null, (error, response) => {
+                opintoOikeusHandler(soapRequest, {}, (error, response) => {
                     if (error !== null) {
                         reject(error);
                     }
