@@ -11,7 +11,6 @@ describe('Lambda', () => {
     });
 
     it('Should be able fetch required information', async(done) => {
-
         const soapPayload = fs.readFileSync('./examples/opintooikeudet-payload.xml', 'UTF-8');
         const soapRequest = {
             httpMethod: 'POST',
@@ -19,7 +18,7 @@ describe('Lambda', () => {
         };
 
         try {
-            const response = await new Promise((resolve, reject)=> {
+            const response = await new Promise((resolve, reject) => {
                 opintoOikeusHandler(soapRequest, {}, (error, response) => {
                     if (error !== null) {
                         reject(error);
@@ -27,8 +26,6 @@ describe('Lambda', () => {
                     resolve(response);
                 });
             });
-
-            //console.log('Got response', JSON.stringify(response));
 
             expect(response.statusCode).toEqual(200);
             expect(response.headers['content-type']).toEqual('text/xml');
@@ -60,7 +57,7 @@ describe('Lambda', () => {
                 .evaluateString({
                     node: doc,
                     namespaces: {
-                        getNamespace: (prefix) => {
+                        getNamespace: (prefix) => { // eslint-disable-line consistent-return
                             if (prefix === 'soap') {
                                 return 'http://schemas.xmlsoap.org/soap/envelope/';
                             }
