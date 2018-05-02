@@ -1,4 +1,5 @@
 import builder from 'xmlbuilder';
+import log from 'lambda-log';
 
 class SoapResponseMessageBuilder {
     constructor() {
@@ -57,7 +58,7 @@ class SoapResponseMessageBuilder {
                 .end({ pretty: true });
             /* eslint-enable */
         } catch (err) {
-            console.log('Failed to create SOAP Envelope', err);
+            log.error(err);
             throw new Error('Failed to create SOAP Envelope');
         }
     }

@@ -91,7 +91,7 @@ class Lambda {
             }
         } catch (err) {
             if (process.env.NODE_ENV !== 'test') {
-                console.log('Request processing failed', err);
+                log.error(err);
             }
             callback(null, {
                 statusCode: 500,

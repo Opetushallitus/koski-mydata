@@ -1,5 +1,6 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import AWS from 'aws-sdk'; // provided by AWS AMI
+import log from 'lambda-log';
 
 class AWSSecretsManager {
     constructor() {
@@ -23,7 +24,7 @@ class AWSSecretsManager {
         return new Promise((resolve, reject) => {
             this.client.getSecretValue({ SecretId: this.secretName }, (err, data) => {
                 if (err) {
-                    console.log(err);
+                    log.error(err);
                     reject(new Error(err.message));
                 } else {
                     // eslint-disable-next-line camelcase
