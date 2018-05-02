@@ -23,10 +23,14 @@ class AWSSecretsManager {
     getKoskiCredentials() {
         return new Promise((resolve, reject) => {
             this.client.getSecretValue({ SecretId: this.secretName }, (err, data) => {
+                log.debug(`Reading secret ${this.secretName} from Secrets Manager`);
+                const startTime = new Date();
+
                 if (err) {
                     log.error(err);
                     reject(new Error(err.message));
                 } else {
+                    log.debug(`Secret ${this.secretName} received in ${new Date() - startTime}ms`);
                     // eslint-disable-next-line camelcase
                     const { koski_backend_username, koski_backend_password } = JSON.parse(data.SecretString);
 
