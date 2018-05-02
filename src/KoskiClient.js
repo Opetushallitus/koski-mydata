@@ -1,3 +1,4 @@
+import log from 'lambda-log';
 import axios from 'axios';
 import deepOmit from 'omit-deep-lodash';
 import ClientError from './error/ClientError';
@@ -14,6 +15,16 @@ class KoskiClient {
                 password,
             },
         });
+
+        this.instance.interceptors.request.use((request) => {
+            request.startTime = new Date();
+            return request;
+        });
+
+        this.instance.interceptors.response.use((response) => {
+            log.debug(`Response received in ${new Date() - response.config.startTime}ms`);
+            return response;
+        });
     }
 
     static validateHetu(hetu) {
@@ -29,12 +40,12 @@ class KoskiClient {
         }
     }
 
-    // TODO: Log request time
     getUserOid(hetu) {
         if (!KoskiClient.validateHetu(hetu)) throw new ClientError('Invalid hetu format');
 
         return new Promise(async(resolve, reject) => {
             try {
+                log.info('Getting student ID from Koski');
                 const response = await this.instance.get(`henkilo/hetu/${hetu}`);
                 const students = response.data;
 
@@ -53,10 +64,10 @@ class KoskiClient {
         });
     }
 
-    // TODO: Log request time
     getOpintoOikeudet(oid) {
         return new Promise(async(resolve, reject) => {
             try {
+                log.info(`Getting opinto-oikeudet for student ${oid}`);
                 const response = await this.instance.get(`oppija/${oid}`);
                 const { henkilö, opiskeluoikeudet } = response.data;
 
