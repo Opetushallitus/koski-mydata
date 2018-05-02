@@ -18,7 +18,7 @@
     "lint-tests": "eslint __tests__",
     "test": "jest --coverage",
     "build": "npm run test && npm run lint && gulp",
-    "deploy": "gulp && gulp upload",
+    "deploy": "npm run build && gulp upload",
     "clean": "gulp clean",
     "start": "nodemon --watch src --watch docs --exec gulp js env docs & sam local start-api"
   },
