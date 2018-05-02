@@ -48,6 +48,11 @@ npm run build
    * What to do with people without hetu
    * (Strip only hetu from log entries, not date of birth?) or encrypt entries
    * Configure environment variables in one place
+   * User should be able to give permission in Opintopolku to share data
+
+### Logging
+   * Log levels
+   * Access log
 
 ### Running & Deploying
 
@@ -58,7 +63,7 @@ npm run build
 ### Hosting
 
    * Use Cloudformation/Terraform to set up infra
-   * Monitoring
+   * Monitoring (do we have synthetic hetus in prod to monitor with?)
    * API Gateway to VPC
    * Create role for Lambda function
    * Set up domain for Lambda function (IAM or Cloudfront or WAF?)
