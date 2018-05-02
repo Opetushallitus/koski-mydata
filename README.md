@@ -50,6 +50,9 @@ npm run build
    * Configure environment variables in one place
    * User should be able to give permission in Opintopolku to share data
 
+### Tests
+   * Find a student with estimated end date for studies and include it in tests
+
 ### Logging
    * Log levels
    * Access log
