@@ -18,7 +18,7 @@ class Lambda {
 
     static handleWSDLRequest(queryParameters) {
         return new Promise((resolve, reject) => {
-            if (Object.prototype.hasOwnProperty.call(queryParameters, 'wsdl')) {
+            if (queryParameters !== null && Object.prototype.hasOwnProperty.call(queryParameters, 'wsdl')) {
                 resolve(WSDLBuilder.buildOpintoOikeusWSDL());
             } else {
                 reject(new Error('Invalid GET request, only WSDL-file requests supported'));
