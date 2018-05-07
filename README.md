@@ -68,8 +68,3 @@ npm run build
    * Set up domain for Lambda function (IAM or Cloudfront or WAF?)
    * Lambda IP whitelist as part of automatic function create
 
-### Misc
-
-   * What license to use? (Currently ISC)
-   * Add copyright
-   * Code to Github?
