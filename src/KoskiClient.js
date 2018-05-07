@@ -74,7 +74,7 @@ class KoskiClient {
                 if (typeof opiskeluoikeudet === 'undefined' || opiskeluoikeudet === null) reject(new Error('No opiskeluoikeudet found'));
                 resolve({
                     henkilö: deepOmit(henkilö, 'hetu'),
-                    opiskeluoikeudet: deepOmit(opiskeluoikeudet, 'suoritukset'), // remove 'suoritukset' from response
+                    opiskeluoikeudet: deepOmit(opiskeluoikeudet, 'suoritukset', 'lähdejärjestelmänId'),
                 });
             } catch (err) {
                 // error contains credentials, url contains hetu, lets not log them
