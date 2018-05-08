@@ -47,4 +47,16 @@ describe('KoskiClient', () => {
         */
         done();
     });
+
+    it('Should be able fetch estimated end date', async(done) => {
+        const secretsManager = new LocalSecretsManager();
+        const { username, password } = await secretsManager.getKoskiCredentials();
+
+        const client = new KoskiClient(username, password);
+        const oid = await client.getUserOid('080598-532M');
+        const opintoOikeudet = await client.getOpintoOikeudet(oid);
+
+        expect(opintoOikeudet.opiskeluoikeudet[0].arvioituPäättymispäivä).toEqual('2020-05-01');
+        done();
+    });
 });
