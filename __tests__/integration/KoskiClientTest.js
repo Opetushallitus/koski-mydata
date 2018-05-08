@@ -43,7 +43,6 @@ describe('KoskiClient', () => {
         /*
         * Tests missing for:
         • Arvioitu loppumisaika
-        • Loppumisaika
         */
         done();
     });
@@ -57,6 +56,23 @@ describe('KoskiClient', () => {
         const opintoOikeudet = await client.getOpintoOikeudet(oid);
 
         expect(opintoOikeudet.opiskeluoikeudet[0].arvioituPäättymispäivä).toEqual('2020-05-01');
+        done();
+    });
+
+    it('Should be able fetch part-time status for student', async(done) => {
+        const secretsManager = new LocalSecretsManager();
+        const { username, password } = await secretsManager.getKoskiCredentials();
+
+        const client = new KoskiClient(username, password);
+        const oid = await client.getUserOid('080598-2684');
+        const opintoOikeudet = await client.getOpintoOikeudet(oid);
+
+        const jakso1 = opintoOikeudet.opiskeluoikeudet[0].lisätiedot.osaAikaisuusjaksot.find(jakso => jakso.alku === '2018-05-08');
+        const jakso2 = opintoOikeudet.opiskeluoikeudet[0].lisätiedot.osaAikaisuusjaksot.find(jakso => jakso.alku === '2019-05-08');
+
+        expect(jakso1.osaAikaisuus).toEqual(50);
+        expect(jakso2.osaAikaisuus).toEqual(80);
+
         done();
     });
 });
