@@ -7,7 +7,7 @@ class WSDLBuilder {
                 'wsdl:types': {
                     'xsd:schema': {
                         '@elementFormDefault': 'qualified',
-                        '@targetNamespace': 'http://docs.dev.koski-xroad.fi/producer',
+                        '@targetNamespace': 'http://docs.koski-xroad.fi/producer',
                         'xsd:import': {
                             '@id': 'xrd',
                             '@namespace': 'http://x-road.eu/xsd/xroad.xsd',
@@ -217,13 +217,13 @@ class WSDLBuilder {
             standalone: false,
         })
             .att('xmlns:soap', 'http://schemas.xmlsoap.org/wsdl/soap/')
-            .att('xmlns:tns', 'http://docs.dev.koski-xroad.fi/producer')
+            .att('xmlns:tns', 'http://docs.koski-xroad.fi/producer')
             .att('xmlns:wsdl', 'http://schemas.xmlsoap.org/wsdl/')
             .att('xmlns:xrd', 'http://x-road.eu/xsd/xroad.xsd')
             .att('xmlns:xsd', 'http://www.w3.org/2001/XMLSchema')
             .att('xmlns:id', 'http://x-road.eu/xsd/identifiers')
             .att('name', 'opintoOikeudetService')
-            .att('targetNamespace', 'http://docs.dev.koski-xroad.fi/producer') // TODO: Read env from somewhere
+            .att('targetNamespace', 'http://docs.koski-xroad.fi/producer')
             .end({ pretty: true });
     }
 }

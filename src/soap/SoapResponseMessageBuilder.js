@@ -52,7 +52,7 @@ class SoapResponseMessageBuilder {
 
                 .up()
                 .ele('SOAP-ENV:Body')
-                .ele(`kns1:${this.serverServiceCode}Response`).att('xmlns:kns1', 'http://docs.dev.koski-xroad.fi/producer')
+                .ele(`kns1:${this.serverServiceCode}Response`).att('xmlns:kns1', 'http://docs.koski-xroad.fi/producer')
                 .ele('kns1:opintoOikeudet').dat(JSON.stringify(opintoOikeudet))
 
                 .end({ pretty: true });

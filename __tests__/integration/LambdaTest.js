@@ -35,7 +35,7 @@ describe('Lambda', () => {
                 soap: 'http://schemas.xmlsoap.org/soap/envelope/',
                 xroad: 'http://x-road.eu/xsd/xroad.xsd',
                 id: 'http://x-road.eu/xsd/identifiers',
-                koski: 'http://docs.dev.koski-xroad.fi/producer',
+                koski: 'http://docs.koski-xroad.fi/producer',
             });
 
             expect(select('//soap:Header/xroad:id/text()', doc)[0].nodeValue).toEqual('ID123456');
@@ -62,7 +62,7 @@ describe('Lambda', () => {
                                 return 'http://schemas.xmlsoap.org/soap/envelope/';
                             }
                             if (prefix === 'koski') {
-                                return 'http://docs.dev.koski-xroad.fi/producer';
+                                return 'http://docs.koski-xroad.fi/producer';
                             }
                         },
                     },

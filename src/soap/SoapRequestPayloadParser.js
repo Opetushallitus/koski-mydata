@@ -8,7 +8,7 @@ class SoapRequestPayloadParser {
             soap: 'http://schemas.xmlsoap.org/soap/envelope/',
             xroad: 'http://x-road.eu/xsd/xroad.xsd',
             id: 'http://x-road.eu/xsd/identifiers',
-            koski: 'http://docs.dev.koski-xroad.fi/producer', // TODO: We have environment here!
+            koski: 'http://docs.koski-xroad.fi/producer',
         });
     }
 
