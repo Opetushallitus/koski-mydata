@@ -19,6 +19,7 @@
     "test": "jest --coverage",
     "build": "npm run test && npm run lint && gulp",
     "deploy": "npm run build && gulp upload",
+    "codebuild": "gulp",
     "clean": "gulp clean",
     "start": "nodemon --watch src --watch docs --exec gulp js env docs & sam local start-api"
   },
