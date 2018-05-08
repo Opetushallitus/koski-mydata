@@ -62,10 +62,9 @@ npm run build
    
 ### Hosting
 
-   * Use Cloudformation/Terraform to set up infra
+   * Use Terraform to set up infra
    * Monitoring (do we have synthetic hetus in prod to monitor with?)
    * API Gateway to VPC
-   * Create role for Lambda function
    * Set up domain for Lambda function (IAM or Cloudfront or WAF?)
    * Lambda IP whitelist as part of automatic function create
 
