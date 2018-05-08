@@ -40,10 +40,6 @@ describe('KoskiClient', () => {
         expect(present.oppilaitos.nimi.fi).toMatch(/[a-zA-Z0-9\s]{5,}/); // "Stadin ammattiopisto" for now
         expect(present.oppilaitos.oppilaitosnumero.koodiarvo).toMatch(/[0-9\s]{3,}/); // "10105" for now
 
-        /*
-        * Tests missing for:
-        • Arvioitu loppumisaika
-        */
         done();
     });
 
