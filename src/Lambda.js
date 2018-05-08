@@ -1,15 +1,14 @@
 import log from 'lambda-log';
 import SoapResponseMessageBuilder from './soap/SoapResponseMessageBuilder';
-import AWSSecretsManager from './AWSSecretsManager';
-import LocalSecretsManager from './LocalSecretsManager';
 import SoapPayloadParser from './soap/SoapRequestPayloadParser';
 import KoskiClient from './KoskiClient';
 import WSDLBuilder from './soap/WSDLBuilder';
 import SoapErrorBuilder from './soap/SoapFaultMessageBuilder';
+import SecretsManagerProvider from './SecretsManagerProvider';
 
 class Lambda {
     constructor() {
-        this.secretsManager = (process.env.AWS_SAM_LOCAL === 'true') ? new LocalSecretsManager() : new AWSSecretsManager();
+        this.secretsManager = SecretsManagerProvider.getSecretsManager();
         this.parser = new SoapPayloadParser();
         this.responseBuilder = new SoapResponseMessageBuilder();
         this.client = null;

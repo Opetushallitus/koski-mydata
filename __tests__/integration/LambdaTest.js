@@ -7,7 +7,6 @@ import { opintoOikeusHandler } from '../../src/Lambda';
 describe('Lambda', () => {
     beforeEach(() => {
         jasmine.addMatchers(PromiseMatcher);
-        process.env.AWS_SAM_LOCAL = 'true'; // imitate running on sam-local
     });
 
     it('Should be able fetch required information', async(done) => {
