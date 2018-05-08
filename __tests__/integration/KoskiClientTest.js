@@ -1,6 +1,6 @@
 import PromiseMatcher from 'jasmine-node-promise-matchers';
 import KoskiClient from '../../src/KoskiClient';
-import LocalSecretsManager from '../../src/LocalSecretsManager';
+import SecretsManagerProvider from '../../src/SecretsManagerProvider';
 
 describe('KoskiClient', () => {
     beforeEach(() => {
@@ -8,8 +8,7 @@ describe('KoskiClient', () => {
     });
 
     it('Should be able to return correct student ID', async(done) => {
-        const secretsManager = new LocalSecretsManager();
-        const { username, password } = await secretsManager.getKoskiCredentials();
+        const { username, password } = await SecretsManagerProvider.getSecretsManager().getKoskiCredentials();
 
         const client = new KoskiClient(username, password);
         const oid = await client.getUserOid('210947-613P');
@@ -18,8 +17,7 @@ describe('KoskiClient', () => {
     });
 
     it('Should be able fetch required information', async(done) => {
-        const secretsManager = new LocalSecretsManager();
-        const { username, password } = await secretsManager.getKoskiCredentials();
+        const { username, password } = await SecretsManagerProvider.getSecretsManager().getKoskiCredentials();
 
         const client = new KoskiClient(username, password);
         const oid = await client.getUserOid('120496-949B');
