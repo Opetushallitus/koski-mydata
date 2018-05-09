@@ -1,15 +1,14 @@
 {
   "version": 1.0,
   "resources": [{
-      "LambdaGetOpintoOikeudet" {
-          "type": "AWS::Lambda::Function"
+      "LambdaGetOpintoOikeudet": {
+          "type": "AWS::Lambda::Function",
           "properties": {
-              "name": "LambdaGetOpintoOikeudet"
-              "alias": "OpintoOikeudetDevelopment"
-              "currentversion": "$LATEST"
+              "name": "LambdaGetOpintoOikeudet",
+              "alias": "OpintoOikeudetDevelopment",
+              "currentversion": "$LATEST",
               "targetversion": "$LATEST"
           }
       }
   }]
 }
-
