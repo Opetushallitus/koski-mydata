@@ -3,7 +3,9 @@ version: 0.2
 phases:
   install:
     commands:
-      - echo Installing test dependencies...
+      - echo Cloudformation package
+      - aws cloudformation package --template-file template.yaml --s3-bucket s3://com.oph.koski.lambda.dev.code
+                                   --output-template-file outputSamTemplate.yaml
   pre_build:
     commands:
       - echo Installing source NPM dependencies...
@@ -19,4 +21,5 @@ phases:
 artifacts:
   files:
     - dist.zip
-    - AppSpec.json
+    - samTemplate.yaml
+    - outputSamTemplate.yaml
