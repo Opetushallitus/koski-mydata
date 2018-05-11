@@ -38,11 +38,35 @@ describe('KoskiClient', () => {
         expect(present.oppilaitos.nimi.fi).toMatch(/[a-zA-Z0-9\s]{5,}/); // "Stadin ammattiopisto" for now
         expect(present.oppilaitos.oppilaitosnumero.koodiarvo).toMatch(/[0-9\s]{3,}/); // "10105" for now
 
-        /*
-        * Tests missing for:
-        • Arvioitu loppumisaika
-        • Loppumisaika
-        */
+        done();
+    });
+
+    it('Should be able fetch estimated end date', async(done) => {
+        const secretsManager = new LocalSecretsManager();
+        const { username, password } = await secretsManager.getKoskiCredentials();
+
+        const client = new KoskiClient(username, password);
+        const oid = await client.getUserOid('080598-532M');
+        const opintoOikeudet = await client.getOpintoOikeudet(oid);
+
+        expect(opintoOikeudet.opiskeluoikeudet[0].arvioituPäättymispäivä).toEqual('2020-05-01');
+        done();
+    });
+
+    it('Should be able fetch part-time status for student', async(done) => {
+        const secretsManager = new LocalSecretsManager();
+        const { username, password } = await secretsManager.getKoskiCredentials();
+
+        const client = new KoskiClient(username, password);
+        const oid = await client.getUserOid('080598-2684');
+        const opintoOikeudet = await client.getOpintoOikeudet(oid);
+
+        const jakso1 = opintoOikeudet.opiskeluoikeudet[0].lisätiedot.osaAikaisuusjaksot.find(jakso => jakso.alku === '2018-05-08');
+        const jakso2 = opintoOikeudet.opiskeluoikeudet[0].lisätiedot.osaAikaisuusjaksot.find(jakso => jakso.alku === '2019-05-08');
+
+        expect(jakso1.osaAikaisuus).toEqual(50);
+        expect(jakso2.osaAikaisuus).toEqual(80);
+
         done();
     });
 });

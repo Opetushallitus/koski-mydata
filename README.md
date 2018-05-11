@@ -50,10 +50,6 @@ npm run build
    * Configure environment variables in one place
    * User should be able to give permission in Opintopolku to share data
 
-### Tests
-   * Find a part-time student and test that the 'osaAikaisuusjaksot' is available.
-   * Find a student with estimated end date for studies and include it in tests
-
 ### Running & Deploying
 
    * Read aws profile name from command line
