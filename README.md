@@ -52,7 +52,6 @@ npm run build
 
 ### Running & Deploying
 
-   * Read aws profile name from command line
    * Wait for a fix to sam-local (wrong content-type header) or roll back to older version
    * Check known security issues automatically
    
