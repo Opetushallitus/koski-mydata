@@ -4,7 +4,7 @@ phases:
   install:
     commands:
       - echo Cloudformation package
-      - aws cloudformation package --template-file template.yaml --s3-bucket s3://com.oph.koski.lambda.dev.code
+      - aws cloudformation package --template-file template.yaml --s3-bucket com.oph.koski.lambda.dev.code
                                    --output-template-file outputSamTemplate.yaml
   pre_build:
     commands:
