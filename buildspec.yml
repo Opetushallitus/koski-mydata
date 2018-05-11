@@ -3,7 +3,7 @@ version: 0.2
 phases:
   install:
     commands:
-      - echo Installing test dependencies...
+      - echo No operation...
   pre_build:
     commands:
       - echo Installing source NPM dependencies...
@@ -16,7 +16,8 @@ phases:
   post_build:
     commands:
       - echo Build completed on `date`
+      - env
+      - npm run deploy
 artifacts:
   files:
     - dist.zip
-    - AppSpec.json
