@@ -17,7 +17,6 @@ npm install
 Kysy Koski-tiimiltä dev-environmentin käyttäjätunnus ja salasana.
 Luo tiedosto ```.env``` sisällöllä:
 ```
-XROAD_ENV=FI-DEV
 KOSKI_USER=username
 KOSKI_PASSWORD=password
 ```

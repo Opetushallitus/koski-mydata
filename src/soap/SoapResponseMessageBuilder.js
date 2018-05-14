@@ -1,9 +1,10 @@
 import builder from 'xmlbuilder';
 import log from 'lambda-log';
+import config from 'config';
 
 class SoapResponseMessageBuilder {
     constructor() {
-        this.serverXRoadInstance = process.env.XROAD_ENV;
+        this.serverXRoadInstance = config.get('xroad.env');
         this.serverMemberClass = 'GOV';
         this.serverMemberCode = '2769790-1';
         this.serverSubsystemCode = 'koski';

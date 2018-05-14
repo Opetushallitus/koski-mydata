@@ -1,6 +1,7 @@
 import log from 'lambda-log';
 import axios from 'axios';
 import deepOmit from 'omit-deep-lodash';
+import config from 'config';
 import ClientError from './error/ClientError';
 
 const hetuRegexp = /^\d{6}[+-A]\d{3}[a-zA-Z0-9]$/;
@@ -8,7 +9,7 @@ const hetuRegexp = /^\d{6}[+-A]\d{3}[a-zA-Z0-9]$/;
 class KoskiClient {
     constructor(username, password) {
         this.instance = axios.create({
-            baseURL: 'https://dev.koski.opintopolku.fi/koski/api/', // TODO: Read URL from environment variables
+            baseURL: config.get('backend.url'),
             timeout: 5000,
             auth: {
                 username,
