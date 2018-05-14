@@ -15,8 +15,9 @@ npm install
 ## Applikaation käynnistys lokaalisti
 
 Kysy Koski-tiimiltä dev-environmentin käyttäjätunnus ja salasana.
-Luo tiedosto ```config.env.development``` sisällöllä:
+Luo tiedosto ```.env``` sisällöllä:
 ```
+XROAD_ENV=FI-DEV
 KOSKI_USER=username
 KOSKI_PASSWORD=password
 ```

@@ -3,6 +3,8 @@ import XMLDom from 'xmldom';
 import { compare } from 'dom-compare';
 import SoapResponseMessageBuilder from '../../src/soap/SoapResponseMessageBuilder';
 
+require('dotenv').config();
+
 const responseBuilder = new SoapResponseMessageBuilder();
 const parser = new XMLDom.DOMParser();
 

@@ -3,8 +3,7 @@ import log from 'lambda-log';
 
 class SoapResponseMessageBuilder {
     constructor() {
-        /* TODO: These are specific to our instance and environment */
-        this.serverXRoadInstance = 'FI-DEV';
+        this.serverXRoadInstance = process.env.XROAD_ENV;
         this.serverMemberClass = 'GOV';
         this.serverMemberCode = '2769790-1';
         this.serverSubsystemCode = 'koski';
