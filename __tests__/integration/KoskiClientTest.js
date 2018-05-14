@@ -42,8 +42,7 @@ describe('KoskiClient', () => {
     });
 
     it('Should be able fetch estimated end date', async(done) => {
-        const secretsManager = new LocalSecretsManager();
-        const { username, password } = await secretsManager.getKoskiCredentials();
+        const { username, password } = await SecretsManagerProvider.getSecretsManager().getKoskiCredentials();
 
         const client = new KoskiClient(username, password);
         const oid = await client.getUserOid('080598-532M');
@@ -54,8 +53,7 @@ describe('KoskiClient', () => {
     });
 
     it('Should be able fetch part-time status for student', async(done) => {
-        const secretsManager = new LocalSecretsManager();
-        const { username, password } = await secretsManager.getKoskiCredentials();
+        const { username, password } = await SecretsManagerProvider.getSecretsManager().getKoskiCredentials();
 
         const client = new KoskiClient(username, password);
         const oid = await client.getUserOid('080598-2684');
