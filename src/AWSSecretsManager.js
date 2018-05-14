@@ -6,7 +6,7 @@ class AWSSecretsManager {
     constructor() {
         this.endpoint = 'https://secretsmanager.eu-west-1.amazonaws.com';
         this.region = 'eu-west-1';
-        this.secretName = 'dev/koski/backend/api';
+        this.secretName = 'lambda/dev/koski/backend/api/2';
 
         // Create a Secrets Manager client
         this.client = new AWS.SecretsManager({
