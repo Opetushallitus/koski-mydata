@@ -8,6 +8,7 @@ const runSequence = require('run-sequence');
 
 const paths = {
     srcJS: 'src/**/*.js',
+    config: 'config/*.json',
     tmp: 'tmp',
     tmpJS: 'tmp/**/*.js',
     dist: 'dist',
@@ -28,6 +29,11 @@ gulp.task('js', () =>
         .pipe(babel())
         .pipe(gulp.dest('dist')),
 );
+
+gulp.task('config', () => {
+    gulp.src(paths.config, { base: '.' })
+        .pipe(gulp.dest('./dist'));
+});
 
 // Next copy over environment variables managed outside of source control.
 gulp.task('env', () => {
@@ -59,7 +65,7 @@ gulp.task('zip', (callback) => {
 gulp.task('default', (callback) => {
     return runSequence(
         ['clean'],
-        ['js', 'npm', 'docs'],
+        ['js', 'config', 'npm', 'docs'],
         ['zip'],
         callback,
     );

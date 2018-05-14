@@ -1,0 +1,8 @@
+{
+  "backend": {
+    "url": "https://dev.koski.opintopolku.fi/koski/api/"
+  },
+  "xroad": {
+    "env": "FI-DEV"
+  }
+}
