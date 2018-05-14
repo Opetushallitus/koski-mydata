@@ -34,6 +34,13 @@ class AWSSecretsManager {
                     // eslint-disable-next-line camelcase
                     const { koski_backend_username, koski_backend_password } = JSON.parse(data.SecretString);
 
+                    if (typeof koski_backend_username === 'undefined' || koski_backend_username === null) { // eslint-disable-line camelcase
+                        reject(new Error('Failed to get secret username'));
+                    }
+                    if (typeof koski_backend_password === 'undefined' || koski_backend_password === null) { // eslint-disable-line camelcase
+                        reject(new Error('Failed to get secret password'));
+                    }
+
                     resolve({
                         username: koski_backend_username,
                         password: koski_backend_password,

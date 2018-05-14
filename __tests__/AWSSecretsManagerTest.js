@@ -27,7 +27,7 @@ describe('AWSSecretsManager', () => {
 
     it('Should call getSecretValue', async(done) => {
         const receivedCredentials = await secretsManager.getKoskiCredentials();
-        expect(client.getSecretValue).toHaveBeenCalledWith({ SecretId: 'dev/koski/backend/api' }, expect.any(Function));
+        expect(client.getSecretValue).toHaveBeenCalledWith({ SecretId: 'lambda/dev/koski/backend/api/2' }, expect.any(Function));
         expect(expectedCredentials).toEqual(receivedCredentials);
         done();
     });
