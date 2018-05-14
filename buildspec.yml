@@ -1,9 +1,6 @@
 version: 0.2
 
 phases:
-  install:
-    commands:
-      - echo No operation...
   pre_build:
     commands:
       - echo Installing source NPM dependencies...
@@ -11,12 +8,14 @@ phases:
   build:
     commands:
       - echo Build started on `date`
-      - echo Compiling the Node.js code
       - npm run build
+      - echo Build completed on `date`
   post_build:
     commands:
-      - echo Build completed on `date`
+      - echo Deployment started on `date`
       - npm run deploy
+      - npm run smoketest
+      - echo Deployment completed on `date`
 artifacts:
   files:
     - dist.zip
