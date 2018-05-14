@@ -7,8 +7,16 @@
     "modulePathIgnorePatterns": [
       "dist/*"
     ],
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "src/test/smoke/"
+    ],
     "collectCoverageFrom": [
       "src/**"
+    ],
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "src/test/smoke/"
     ],
     "testEnvironment": "node",
     "setupTestFrameworkScriptFile": "./jest-config.js"
@@ -20,7 +28,8 @@
     "build": "npm run test && npm run lint && gulp",
     "deploy": "aws lambda update-function-code --function-name LambdaGetOpintoOikeudet --zip-file fileb://dist.zip",
     "clean": "gulp clean",
-    "start": "nodemon --watch src --watch docs --exec gulp js env docs & sam local start-api"
+    "start": "nodemon --watch src --watch docs --exec gulp js env docs & sam local start-api",
+    "smoketest": "gulp js && node dist/test/smoke/ApiTest.js"
   },
   "author": "",
   "license": "EUPL 1.1",
