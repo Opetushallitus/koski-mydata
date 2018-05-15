@@ -47,7 +47,6 @@ npm run build
 
    * What to do with people without hetu
    * (Strip only hetu from log entries, not date of birth?) or encrypt entries
-   * Configure environment variables in one place
    * User should be able to give permission in Opintopolku to share data
 
 ### Running & Deploying
