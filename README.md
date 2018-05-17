@@ -49,6 +49,9 @@ npm run build
    * (Strip only hetu from log entries, not date of birth?) or encrypt entries
    * User should be able to give permission in Opintopolku to share data
 
+### Terraform
+   * Read function name (LambdaGetOpintoOikeudet) from environment variable
+
 ### Running & Deploying
 
    * Wait for a fix to sam-local (wrong content-type header) or roll back to older version
