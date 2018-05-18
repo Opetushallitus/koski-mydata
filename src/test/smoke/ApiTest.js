@@ -5,7 +5,7 @@ import { DOMParser } from 'xmldom';
 import xpath from 'xpath';
 
 const client = axios.create({
-    baseURL: 'https://nfrn9xwnx0.execute-api.eu-west-1.amazonaws.com/dev', // TODO: Read URL from environment variables
+    baseURL: process.env.FUNCTION_HTTP_URL,
     timeout: 15000,
 });
 
