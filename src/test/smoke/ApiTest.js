@@ -33,7 +33,7 @@ async function TestDeployedFunction() {
         const opintoOikeudet = JSON.parse(cdata);
         assert.strictEqual(opintoOikeudet.henkilö.oid, '1.2.246.562.24.69337840275');
 
-        console.log('API Response succeeded!')
+        console.log('API Response succeeded!');
         process.exit(0);
     } catch (err) {
         console.log(`API Response failed!\n${err}`);
