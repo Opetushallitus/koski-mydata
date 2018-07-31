@@ -1,6 +1,10 @@
 {
   "backend": {
-    "url": "https://dev.koski.opintopolku.fi/koski/api/"
+    "url": "https://dev.koski.opintopolku.fi/koski/api/",
+    "api": {
+      "henkilö": "henkilo/hetu",
+      "oppija": "omadata/oppija"
+    }
   },
   "xroad": {
     "env": "FI-DEV"

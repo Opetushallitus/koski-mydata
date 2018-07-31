@@ -47,7 +47,7 @@ class KoskiClient {
         return new Promise(async(resolve, reject) => {
             try {
                 log.info('Getting student ID from Koski');
-                const response = await this.instance.get(`henkilo/hetu/${hetu}`);
+                const response = await this.instance.get(`${config.get('backend.api.henkilö')}/${hetu}`);
                 const students = response.data;
 
                 if (!Array.isArray(students)) reject(new Error('Unexpected student search response from Koski backend'));
@@ -71,7 +71,9 @@ class KoskiClient {
         return new Promise(async(resolve, reject) => {
             try {
                 log.info(`Getting opinto-oikeudet for student ${oid}`);
-                const response = await this.instance.get(`oppija/${oid}`, { headers: { 'X-ROAD-MEMBER': clientMemberCode }});
+                const response = await this.instance.get(`${config.get('backend.api.oppija')}/${oid}`,
+                    { headers: { 'X-ROAD-MEMBER': clientMemberCode } },
+                );
                 const { henkilö, opiskeluoikeudet } = response.data;
 
                 if (typeof opiskeluoikeudet === 'undefined' || opiskeluoikeudet === null) reject(new Error('No opiskeluoikeudet found'));
