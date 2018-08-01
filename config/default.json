@@ -3,7 +3,7 @@
     "url": "https://dev.koski.opintopolku.fi/koski/api/",
     "api": {
       "henkilö": "henkilo/hetu",
-      "oppija": "omadata/oppija"
+      "oppija": "oppija"
     }
   },
   "xroad": {
