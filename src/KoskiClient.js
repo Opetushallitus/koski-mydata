@@ -71,7 +71,8 @@ class KoskiClient {
         return new Promise(async(resolve, reject) => {
             try {
                 log.info(`Getting opinto-oikeudet for student ${oid}`);
-                const response = await this.instance.get(`${config.get('backend.api.oppija')}/${oid}`,
+                const response = await this.instance.get(
+                    `${config.get('backend.api.oppija')}/${oid}`,
                     { headers: { 'X-ROAD-MEMBER': clientMemberCode } },
                 );
                 const { henkilö, opiskeluoikeudet } = response.data;
