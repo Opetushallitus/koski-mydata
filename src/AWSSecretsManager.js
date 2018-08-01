@@ -6,7 +6,7 @@ class AWSSecretsManager {
     constructor() {
         this.endpoint = 'https://secretsmanager.eu-west-1.amazonaws.com';
         this.region = 'eu-west-1';
-        this.environment = process.env.NODE_ENV || 'dev';
+        this.environment = process.env.NODE_CONFIG_ENV || 'dev';
         this.secretName = `koski/api-credentials/${this.environment}`;
 
         // Create a Secrets Manager client
