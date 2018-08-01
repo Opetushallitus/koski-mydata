@@ -26,6 +26,8 @@ class KoskiClient {
             log.debug(`Response received in ${new Date() - response.config.startTime}ms`);
             return response;
         });
+
+        log.debug(`Created axios instance with backend URL ${config.get('backend.url')}`);
     }
 
     static validateHetu(hetu) {
@@ -70,11 +72,10 @@ class KoskiClient {
 
         return new Promise(async(resolve, reject) => {
             try {
-                log.info(`Getting opinto-oikeudet for student ${oid}`);
-                const response = await this.instance.get(
-                    `${config.get('backend.api.oppija')}/${oid}`,
-                    { headers: { 'X-ROAD-MEMBER': clientMemberCode } },
-                );
+                const requestPath = `${config.get('backend.api.oppija')}/${oid}`;
+                log.info(`Getting opinto-oikeudet from ${requestPath}`);
+
+                const response = await this.instance.get(requestPath, { headers: { 'X-ROAD-MEMBER': clientMemberCode } });
                 const { henkilö, opiskeluoikeudet } = response.data;
 
                 if (typeof opiskeluoikeudet === 'undefined' || opiskeluoikeudet === null) reject(new Error('No opiskeluoikeudet found'));
