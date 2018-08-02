@@ -23,6 +23,7 @@ describe('SoapRequestPayloadParser', () => {
                 clientUserId: '123456789',
                 clientRequestId: 'ID123456',
                 clientType: 'SUBSYSTEM',
+                clientIssue: 'issue #123',
                 hetu: '210947-613P',
             };
 

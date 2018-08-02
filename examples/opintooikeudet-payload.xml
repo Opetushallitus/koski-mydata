@@ -1,7 +1,7 @@
 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xro="http://x-road.eu/xsd/xroad.xsd" xmlns:id="http://x-road.eu/xsd/identifiers" xmlns:prod="http://docs.koski-xroad.fi/producer">
    <soapenv:Header>
       <xro:protocolVersion>4.0</xro:protocolVersion>
-      <!-- <xro:issue>?</xro:issue> -->
+      <xro:issue>issue #123</xro:issue>
       <xro:id>ID123456</xro:id>
       <xro:userId>123456789</xro:userId>
       <xro:service id:objectType="SERVICE">
