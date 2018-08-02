@@ -70,7 +70,7 @@ gulp.task('upload', () => {
 
     // TODO: This should probably pull from package.json
     AWS.config.region = 'eu-west-1';
-    AWS.config.credentials = new AWS.SharedIniFileCredentials({profile: 'oph-dev'});
+    AWS.config.credentials = new AWS.SharedIniFileCredentials({profile: 'oph-koski-dev'});
     const lambda = new AWS.Lambda();
     const functionName = 'getOpintoOikeudet';
 
