@@ -21,6 +21,7 @@
     <xrd:requestHash algorithmId="http://www.w3.org/2001/04/xmlenc#sha512">zOVgyoXpF59C5qXykS6DvDZzkvhAIF9ItHsuK3gU3MHWLRQ2mKp19HqJ7sZraE6b5jySrcwVL9EGIXPAck7ykg==</xrd:requestHash>
     -->
     <xrd:protocolVersion>4.0</xrd:protocolVersion>
+    <xrd:issue>issue #123</xrd:issue>
   </SOAP-ENV:Header>
   <SOAP-ENV:Body>
     <kns1:opintoOikeudetServiceResponse xmlns:kns1="http://docs.dev.koski-xroad.fi/producer">
