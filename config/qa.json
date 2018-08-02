@@ -1,6 +1,6 @@
 {
   "backend": {
-    "url": "https://dev.koski.opintopolku.fi/koski/api/",
+    "url": "https://qa.koski.testiopintopolku.fi/koski/api/",
     "api": {
       "henkilö": "henkilo/hetu",
       "oppija": "omadata/oppija"
