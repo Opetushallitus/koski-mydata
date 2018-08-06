@@ -56,6 +56,8 @@ describe('KoskiClient', () => {
 
     it('Should be able to get opinto-oikeudet', async() => {
         const oid = 123;
+        const clientMemberCode = '123456789-0';
+
         const opiskeluoikeudet = {
             oppilaitokset: ['mallikoulu'],
         };
@@ -69,8 +71,8 @@ describe('KoskiClient', () => {
         koskiClient.instance = axios;
         spyOn(axios, 'get').and.callThrough();
 
-        const response = await koskiClient.getOpintoOikeudet(oid);
+        const response = await koskiClient.getOpintoOikeudet(oid, clientMemberCode);
         expect(response.opiskeluoikeudet).toEqual(opiskeluoikeudet);
-        expect(koskiClient.instance.get).toHaveBeenCalledWith(`oppija/${oid}`);
+        expect(koskiClient.instance.get).toHaveBeenCalledWith(`oppija/${oid}`, { headers: { 'X-ROAD-MEMBER': clientMemberCode }});
     });
 });

@@ -2,6 +2,8 @@ import PromiseMatcher from 'jasmine-node-promise-matchers';
 import KoskiClient from '../../src/KoskiClient';
 import SecretsManagerProvider from '../../src/SecretsManagerProvider';
 
+const clientMemberCode = '123456789-0';
+
 describe('KoskiClient', () => {
     beforeEach(() => {
         jasmine.addMatchers(PromiseMatcher);
@@ -21,7 +23,7 @@ describe('KoskiClient', () => {
 
         const client = new KoskiClient(username, password);
         const oid = await client.getUserOid('120496-949B');
-        const opintoOikeudet = await client.getOpintoOikeudet(oid);
+        const opintoOikeudet = await client.getOpintoOikeudet(oid, clientMemberCode);
 
         // Required by HSL
         expect(opintoOikeudet.henkilö.oid).toEqual('1.2.246.562.24.92333381381');
@@ -46,7 +48,7 @@ describe('KoskiClient', () => {
 
         const client = new KoskiClient(username, password);
         const oid = await client.getUserOid('080598-532M');
-        const opintoOikeudet = await client.getOpintoOikeudet(oid);
+        const opintoOikeudet = await client.getOpintoOikeudet(oid, clientMemberCode);
 
         expect(opintoOikeudet.opiskeluoikeudet[0].arvioituPäättymispäivä).toEqual('2020-05-01');
         done();
@@ -57,7 +59,7 @@ describe('KoskiClient', () => {
 
         const client = new KoskiClient(username, password);
         const oid = await client.getUserOid('080598-2684');
-        const opintoOikeudet = await client.getOpintoOikeudet(oid);
+        const opintoOikeudet = await client.getOpintoOikeudet(oid, clientMemberCode);
 
         const jakso1 = opintoOikeudet.opiskeluoikeudet[0].lisätiedot.osaAikaisuusjaksot.find(jakso => jakso.alku === '2018-05-08');
         const jakso2 = opintoOikeudet.opiskeluoikeudet[0].lisätiedot.osaAikaisuusjaksot.find(jakso => jakso.alku === '2019-05-08');
