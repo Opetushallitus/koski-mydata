@@ -49,6 +49,7 @@ class Lambda {
                     clientUserId,
                     clientRequestId,
                     clientType,
+                    clientIssue,
                     hetu,
                 } = this.parser.parsePayload(xml);
 
@@ -57,7 +58,7 @@ class Lambda {
 
                 const soapEnvelope = this.responseBuilder.buildResponseMessage(
                     clientXRoadInstance, clientMemberClass, clientMemberCode, clientSubsystemCode,
-                    clientUserId, clientRequestId, clientType, opintoOikeudet,
+                    clientUserId, clientRequestId, clientType, clientIssue, opintoOikeudet,
                 );
 
                 resolve(soapEnvelope);
