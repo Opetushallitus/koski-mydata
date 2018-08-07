@@ -1,0 +1,17 @@
+{
+  "backend": {
+    "url": "https://qa.koski.testiopintopolku.fi/koski/api/",
+    "api": {
+      "henkilö": "henkilo/hetu",
+      "oppija": "omadata/oppija"
+    }
+  },
+  "xroad": {
+    "env": "FI-TEST",
+    "service": {
+      "port": {
+        "address": "https://sp.omadata.testiopintopolku.fi"
+      }
+    }
+  }
+}
