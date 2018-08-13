@@ -1,4 +1,5 @@
 import builder from 'xmlbuilder';
+import config from 'config';
 
 class WSDLBuilder {
     static buildOpintoOikeusWSDL() {
@@ -206,7 +207,7 @@ class WSDLBuilder {
                         '@binding': 'tns:opintoOikeudetServiceBinding',
                         '@name': 'opintoOikeudetServicePort',
                         'soap:address': {
-                            '@location': 'https://e5tcdum0og.execute-api.eu-west-1.amazonaws.com/dev',
+                            '@location': `${config.get('xroad.service.port.address')}`,
                         },
                     },
                 },

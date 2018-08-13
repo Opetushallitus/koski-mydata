@@ -2,7 +2,7 @@ import PromiseMatcher from 'jasmine-node-promise-matchers';
 import KoskiClient from '../../src/KoskiClient';
 import SecretsManagerProvider from '../../src/SecretsManagerProvider';
 
-const clientMemberCode = '123456789-0';
+const clientMemberCode = '2769790-1';
 
 describe('KoskiClient', () => {
     beforeEach(() => {

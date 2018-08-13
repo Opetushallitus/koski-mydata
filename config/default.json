@@ -1,8 +1,17 @@
 {
   "backend": {
-    "url": "https://dev.koski.opintopolku.fi/koski/api/"
+    "url": "https://dev.koski.opintopolku.fi/koski/api/",
+    "api": {
+      "henkilö": "henkilo/hetu",
+      "oppija": "oppija"
+    }
   },
   "xroad": {
-    "env": "FI-DEV"
+    "env": "FI-DEV",
+    "service": {
+      "port": {
+        "address": "https://e5tcdum0og.execute-api.eu-west-1.amazonaws.com/dev"
+      }
+    }
   }
 }
