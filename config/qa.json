@@ -13,5 +13,8 @@
         "address": "https://sp.omadata.testiopintopolku.fi"
       }
     }
+  },
+  "member": {
+    "1516651-3": { "name": "frank" }
   }
 }
