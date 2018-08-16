@@ -21,7 +21,7 @@ class AWSSecretsManager {
      * @returns {Promise<any>}
      */
     getSecretValue() {
-        return new Promise((resolve,reject) => {
+        return new Promise((resolve, reject) => {
             this.client.getSecretValue({ SecretId: this.secretName }, (err, data) => {
                 const startTime = new Date();
 
@@ -42,7 +42,6 @@ class AWSSecretsManager {
      * @returns {Promise<any>}
      */
     getKoskiCredentials(memberName) {
-
         log.debug(`Reading secret ${this.secretName} from Secrets Manager for ${memberName}`);
 
         if (typeof memberName === 'undefined' || memberName === null) {

@@ -73,6 +73,6 @@ describe('KoskiClient', () => {
 
         const response = await koskiClient.getOpintoOikeudet(oid, clientMemberCode);
         expect(response.opiskeluoikeudet).toEqual(opiskeluoikeudet);
-        expect(koskiClient.instance.get).toHaveBeenCalledWith(`oppija/${oid}`, { headers: { 'X-ROAD-MEMBER': clientMemberCode }});
+        expect(koskiClient.instance.get).toHaveBeenCalledWith(`oppija/${oid}`, { headers: { 'X-ROAD-MEMBER': clientMemberCode } });
     });
 });
