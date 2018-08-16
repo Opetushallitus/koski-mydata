@@ -72,7 +72,6 @@ describe('Lambda', () => {
 
         opintoOikeusHandler(event, {}, async(error, response) => {
             expect(lambda.handleSOAPRequest).toHaveBeenCalled();
-            expect(await lambda.secretsManager.getKoskiCredentials).toHaveBeenCalled(); // not called as we just set the client on the test!
             expect(await mockClient.getUserOid).toHaveBeenCalledWith(hetu);
             expect(await mockClient.getOpintoOikeudet).toHaveBeenCalledWith(oid, clientMemberCode);
             expect(lambda.responseBuilder.buildResponseMessage).toHaveBeenCalled();

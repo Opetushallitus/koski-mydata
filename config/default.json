@@ -13,5 +13,8 @@
         "address": "https://e5tcdum0og.execute-api.eu-west-1.amazonaws.com/dev"
       }
     }
+  },
+  "member": {
+    "2769790-1": { "name": "hsl" }
   }
 }

@@ -1,4 +1,5 @@
 import log from 'lambda-log';
+import config from 'config';
 import SoapResponseMessageBuilder from './soap/SoapResponseMessageBuilder';
 import SoapPayloadParser from './soap/SoapRequestPayloadParser';
 import KoskiClient from './KoskiClient';
@@ -24,24 +25,16 @@ class Lambda {
         });
     }
 
-    getClient(username, password) {
+    async getClient(memberId) {
+        const memberName = config.get(`member.${memberId}.name`);
+        const { username, password } = await this.secretsManager.getKoskiCredentials(memberName);
+
         return new KoskiClient(username, password);
     }
 
     handleSOAPRequest(xml) { // This is the "Adapter Server" for X-Road
         return new Promise(async(resolve, reject) => {
             try {
-                const { username, password } = await this.secretsManager.getKoskiCredentials();
-
-                if (typeof username === 'undefined' || username === null) {
-                    reject(new Error('Koski username must be provided'));
-                }
-                if (typeof password === 'undefined' || password === null) {
-                    reject(new Error('Koski password must be provided'));
-                }
-
-                const client = this.getClient(username, password);
-
                 const {
                     clientXRoadInstance,
                     clientMemberClass,
@@ -53,6 +46,8 @@ class Lambda {
                     clientIssue,
                     hetu,
                 } = this.parser.parsePayload(xml);
+
+                const client = await this.getClient(clientMemberCode);
 
                 const oid = await client.getUserOid(hetu);
                 const opintoOikeudet = await client.getOpintoOikeudet(oid, clientMemberCode);
