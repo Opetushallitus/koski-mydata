@@ -52,6 +52,7 @@ describe('Lambda', () => {
         const hetu = '010190-012A';
         const clientMemberCode = '123456789-0';
         const mockSoapEnvelope = '<xml><response>opinto-oikeudet</response></xml>';
+        const mockClient = { getUserOid: () => {}, getOpintoOikeudet: () => {} };
         const event = {
             httpMethod: 'POST',
         };
@@ -62,20 +63,18 @@ describe('Lambda', () => {
         };
 
         spyOn(lambda, 'handleSOAPRequest').and.callThrough();
-        spyOn(lambda.secretsManager, 'getKoskiCredentials').and.returnValue(() => {
-            Promise.resolve({ username: 'u', password: 'p' }); // our mock client doesn't actually make http requests
-        });
+        spyOn(lambda.secretsManager, 'getKoskiCredentials').and.returnValue(() => Promise.resolve({ username: 'u', password: 'p' }));
         spyOn(lambda.parser, 'parsePayload').and.returnValue({ hetu, clientMemberCode });
-        lambda.client = { getUserOid: () => {}, getOpintoOikeudet: () => {} }; // cannot spy on null client
-        spyOn(lambda.client, 'getUserOid').and.returnValue(oid);
-        spyOn(lambda.client, 'getOpintoOikeudet').and.returnValue({ opintooikeudet: ['mallikoulu'] });
+        lambda.getClient = () => mockClient;
+        spyOn(mockClient, 'getUserOid').and.returnValue(oid);
+        spyOn(mockClient, 'getOpintoOikeudet').and.returnValue({ opintooikeudet: ['mallikoulu'] });
         spyOn(lambda.responseBuilder, 'buildResponseMessage').and.returnValue(mockSoapEnvelope);
 
-        opintoOikeusHandler(event, {}, (error, response) => {
+        opintoOikeusHandler(event, {}, async(error, response) => {
             expect(lambda.handleSOAPRequest).toHaveBeenCalled();
-            // expect(lambda.secretsManager.getKoskiCredentials).toHaveBeenCalled(); // not called as we just set the client on the test!
-            expect(lambda.client.getUserOid).toHaveBeenCalledWith(hetu);
-            expect(lambda.client.getOpintoOikeudet).toHaveBeenCalledWith(oid, clientMemberCode);
+            expect(await lambda.secretsManager.getKoskiCredentials).toHaveBeenCalled(); // not called as we just set the client on the test!
+            expect(await mockClient.getUserOid).toHaveBeenCalledWith(hetu);
+            expect(await mockClient.getOpintoOikeudet).toHaveBeenCalledWith(oid, clientMemberCode);
             expect(lambda.responseBuilder.buildResponseMessage).toHaveBeenCalled();
             expect(error).toBe(null);
             expect(response).toEqual(expectedResponse);
