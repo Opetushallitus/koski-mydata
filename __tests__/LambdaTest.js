@@ -63,11 +63,11 @@ describe('Lambda', () => {
         };
 
         spyOn(lambda, 'handleSOAPRequest').and.callThrough();
-        spyOn(lambda.secretsManager, 'getKoskiCredentials').and.returnValue(() => Promise.resolve({ username: 'u', password: 'p' }));
+        spyOn(lambda.secretsManager, 'getKoskiCredentials').and.returnValue(Promise.resolve({ username: 'u', password: 'p' }));
         spyOn(lambda.parser, 'parsePayload').and.returnValue({ hetu, clientMemberCode });
         lambda.getClient = () => mockClient;
-        spyOn(mockClient, 'getUserOid').and.returnValue(oid);
-        spyOn(mockClient, 'getOpintoOikeudet').and.returnValue({ opintooikeudet: ['mallikoulu'] });
+        spyOn(mockClient, 'getUserOid').and.returnValue(Promise.resolve(oid));
+        spyOn(mockClient, 'getOpintoOikeudet').and.returnValue(Promise.resolve({ opintooikeudet: ['mallikoulu'] }));
         spyOn(lambda.responseBuilder, 'buildResponseMessage').and.returnValue(mockSoapEnvelope);
 
         opintoOikeusHandler(event, {}, async(error, response) => {
@@ -77,7 +77,7 @@ describe('Lambda', () => {
             expect(await mockClient.getOpintoOikeudet).toHaveBeenCalledWith(oid, clientMemberCode);
             expect(lambda.responseBuilder.buildResponseMessage).toHaveBeenCalled();
             expect(error).toBe(null);
-            expect(response).toEqual(expectedResponse);
+            expect(await response).toEqual(expectedResponse);
             done();
         });
     });
