@@ -1,6 +1,7 @@
 {
   "backend": {
     "url": "https://dev.koski.opintopolku.fi/koski/api/",
+    "timeout": 30000,
     "api": {
       "henkilö": "henkilo/hetu",
       "oppija": "oppija"

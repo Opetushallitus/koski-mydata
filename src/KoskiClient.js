@@ -10,7 +10,7 @@ class KoskiClient {
     constructor(username, password) {
         this.instance = axios.create({
             baseURL: config.get('backend.url'),
-            timeout: 5000,
+            timeout: config.has('backend.timeout') ? config.get('backend.timeout') : 30000, // default to 30 seconds
             auth: {
                 username,
                 password,
