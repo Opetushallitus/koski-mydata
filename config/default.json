@@ -1,6 +1,7 @@
 {
   "backend": {
     "url": "https://dev.koski.opintopolku.fi/koski/api/",
+    "timeout": 30000,
     "api": {
       "henkilö": "henkilo/hetu",
       "oppija": "oppija"
@@ -13,5 +14,8 @@
         "address": "https://e5tcdum0og.execute-api.eu-west-1.amazonaws.com/dev"
       }
     }
+  },
+  "member": {
+    "2274586-3": { "name": "hsl" }
   }
 }

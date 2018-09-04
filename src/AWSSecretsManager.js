@@ -17,14 +17,12 @@ class AWSSecretsManager {
     }
 
     /**
-     * Get Koski credentials from Amazon Secrets Manager.
-     * At the moment this function does not cache the result.
+     * Get secret JSON from Amazon Secrets Manager
      * @returns {Promise<any>}
      */
-    getKoskiCredentials() {
+    getSecretValue() {
         return new Promise((resolve, reject) => {
             this.client.getSecretValue({ SecretId: this.secretName }, (err, data) => {
-                log.debug(`Reading secret ${this.secretName} from Secrets Manager`);
                 const startTime = new Date();
 
                 if (err) {
@@ -32,21 +30,37 @@ class AWSSecretsManager {
                     reject(new Error(err.message));
                 } else {
                     log.debug(`Secret ${this.secretName} received in ${new Date() - startTime}ms`);
-                    // eslint-disable-next-line camelcase
-                    const { koski_backend_username, koski_backend_password } = JSON.parse(data.SecretString);
-
-                    if (typeof koski_backend_username === 'undefined' || koski_backend_username === null) { // eslint-disable-line camelcase
-                        reject(new Error('Failed to get secret username'));
-                    }
-                    if (typeof koski_backend_password === 'undefined' || koski_backend_password === null) { // eslint-disable-line camelcase
-                        reject(new Error('Failed to get secret password'));
-                    }
-
-                    resolve({
-                        username: koski_backend_username,
-                        password: koski_backend_password,
-                    });
+                    resolve(JSON.parse(data.SecretString));
                 }
+            });
+        });
+    }
+
+    /**
+     * Get Koski credentials from Amazon Secrets Manager.
+     * At the moment this function does not cache the result.
+     * @returns {Promise<any>}
+     */
+    getKoskiCredentials(memberName) {
+        log.debug(`Reading secret ${this.secretName} from Secrets Manager for ${memberName}`);
+
+        if (typeof memberName === 'undefined' || memberName === null) {
+            return Promise.reject(new Error('Cannot get credentials for undefined member'));
+        }
+
+        return new Promise(async(resolve, reject) => {
+            const { [memberName]: { username, password } } = await this.getSecretValue();
+
+            if (typeof username === 'undefined' || username === null) {
+                reject(new Error('Failed to get secret username'));
+            }
+            if (typeof password === 'undefined' || password === null) {
+                reject(new Error('Failed to get secret password'));
+            }
+
+            resolve({
+                username,
+                password,
             });
         });
     }

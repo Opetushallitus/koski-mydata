@@ -10,7 +10,7 @@ class KoskiClient {
     constructor(username, password) {
         this.instance = axios.create({
             baseURL: config.get('backend.url'),
-            timeout: 5000,
+            timeout: config.has('backend.timeout') ? config.get('backend.timeout') : 30000, // default to 30 seconds
             auth: {
                 username,
                 password,
@@ -49,7 +49,7 @@ class KoskiClient {
         return new Promise(async(resolve, reject) => {
             try {
                 log.info('Getting student ID from Koski');
-                const response = await this.instance.get(`${config.get('backend.api.henkilö')}/${hetu}`);
+                const response = await this.instance.post(config.get('backend.api.henkilö'), { hetu });
                 const students = response.data;
 
                 if (!Array.isArray(students)) reject(new Error('Unexpected student search response from Koski backend'));

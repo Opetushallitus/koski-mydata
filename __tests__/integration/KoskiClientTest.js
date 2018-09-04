@@ -3,6 +3,7 @@ import KoskiClient from '../../src/KoskiClient';
 import SecretsManagerProvider from '../../src/SecretsManagerProvider';
 
 const clientMemberCode = '2769790-1';
+const clientMemberName = 'hsl';
 
 describe('KoskiClient', () => {
     beforeEach(() => {
@@ -10,7 +11,7 @@ describe('KoskiClient', () => {
     });
 
     it('Should be able to return correct student ID', async(done) => {
-        const { username, password } = await SecretsManagerProvider.getSecretsManager().getKoskiCredentials();
+        const { username, password } = await SecretsManagerProvider.getSecretsManager().getKoskiCredentials(clientMemberName);
 
         const client = new KoskiClient(username, password);
         const oid = await client.getUserOid('210947-613P');
@@ -19,7 +20,7 @@ describe('KoskiClient', () => {
     });
 
     it('Should be able fetch required information', async(done) => {
-        const { username, password } = await SecretsManagerProvider.getSecretsManager().getKoskiCredentials();
+        const { username, password } = await SecretsManagerProvider.getSecretsManager().getKoskiCredentials(clientMemberName);
 
         const client = new KoskiClient(username, password);
         const oid = await client.getUserOid('120496-949B');
@@ -44,7 +45,7 @@ describe('KoskiClient', () => {
     });
 
     it('Should be able fetch estimated end date', async(done) => {
-        const { username, password } = await SecretsManagerProvider.getSecretsManager().getKoskiCredentials();
+        const { username, password } = await SecretsManagerProvider.getSecretsManager().getKoskiCredentials(clientMemberName);
 
         const client = new KoskiClient(username, password);
         const oid = await client.getUserOid('080598-532M');
@@ -55,7 +56,7 @@ describe('KoskiClient', () => {
     });
 
     it('Should be able fetch part-time status for student', async(done) => {
-        const { username, password } = await SecretsManagerProvider.getSecretsManager().getKoskiCredentials();
+        const { username, password } = await SecretsManagerProvider.getSecretsManager().getKoskiCredentials(clientMemberName);
 
         const client = new KoskiClient(username, password);
         const oid = await client.getUserOid('080598-2684');

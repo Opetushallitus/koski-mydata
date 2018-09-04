@@ -1,16 +1,19 @@
 import AWSSecretsManager from '../src/AWSSecretsManager';
 
 const secretsManager = new AWSSecretsManager();
+const clientMemberName = 'hsl';
 
 describe('AWSSecretsManager', () => {
     const awsSecretCredentials = { // This is how AWS will return them
-        koski_backend_username: 'username',
-        koski_backend_password: 'password',
+        hsl: {
+            username: 'username',
+            password: 'password',
+        },
     };
 
     const expectedCredentials = { // This is what we expect to return after AWS response has been parsed
-        username: awsSecretCredentials.koski_backend_username,
-        password: awsSecretCredentials.koski_backend_password,
+        username: awsSecretCredentials.hsl.username,
+        password: awsSecretCredentials.hsl.password,
     };
 
     const client = {
@@ -26,7 +29,7 @@ describe('AWSSecretsManager', () => {
     });
 
     it('Should call getSecretValue', async(done) => {
-        const receivedCredentials = await secretsManager.getKoskiCredentials();
+        const receivedCredentials = await secretsManager.getKoskiCredentials(clientMemberName);
         expect(client.getSecretValue).toHaveBeenCalledWith({ SecretId: 'koski/api-credentials/dev' }, expect.any(Function));
         expect(expectedCredentials).toEqual(receivedCredentials);
         done();

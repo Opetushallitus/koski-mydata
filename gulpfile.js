@@ -1,10 +1,10 @@
 const gulp = require('gulp');
 const babel = require('gulp-babel');
 const del = require('del');
-const rename = require('gulp-rename');
 const install = require('gulp-install');
 const zip = require('gulp-zip');
 const runSequence = require('run-sequence');
+const { exec } = require('child_process');
 
 const paths = {
     srcJS: 'src/**/*.js',
@@ -62,10 +62,19 @@ gulp.task('zip', (callback) => {
         .on('end', callback);
 });
 
+gulp.task('version', (callback) => {
+    exec('git rev-parse HEAD > dist/version.txt', (err, stdout, stderr) => {
+        console.log(stdout);
+        console.log(stderr);
+        callback(err);
+    });
+});
+
 gulp.task('default', (callback) => {
     return runSequence(
         ['clean'],
         ['js', 'config', 'npm', 'docs'],
+        ['version'],
         ['zip'],
         callback,
     );

@@ -1,6 +1,8 @@
 import PromiseMatcher from 'jasmine-node-promise-matchers';
 import LocalSecretsManager from '../src/LocalSecretsManager';
 
+const clientMemberName = 'hsl';
+
 describe('LocalSecretsManager', () => {
     beforeEach(() => {
         jasmine.addMatchers(PromiseMatcher);
@@ -13,10 +15,10 @@ describe('LocalSecretsManager', () => {
 
     it('Should return credentials from process.env', async(done) => {
         process.env = {
-            KOSKI_USER: expectedCredentials.username,
-            KOSKI_PASSWORD: expectedCredentials.password,
+            koski_user_hsl: expectedCredentials.username,
+            koski_password_hsl: expectedCredentials.password,
         };
-        const receivedCredentials = await new LocalSecretsManager().getKoskiCredentials();
+        const receivedCredentials = await new LocalSecretsManager().getKoskiCredentials(clientMemberName);
         expect(expectedCredentials).toEqual(receivedCredentials);
         done();
     });
@@ -25,17 +27,19 @@ describe('LocalSecretsManager', () => {
 
     it('Should fail if no username was given', async(done) => {
         process.env = {
-            KOSKI_USER: undefined,
-            KOSKI_PASSWORD: expectedCredentials.password,
+            koski_user_hsl: undefined,
+            koski_password_hsl: expectedCredentials.password,
         };
-        expect(new LocalSecretsManager().getKoskiCredentials()).toRejectWith(new Error('Koski backend username not defined'), done);
+        expect(new LocalSecretsManager().getKoskiCredentials(clientMemberName))
+            .toRejectWith(new Error(`Koski backend username not defined for member ${clientMemberName}`), done);
     });
 
     it('Should fail if no password was given', async(done) => {
         process.env = {
-            KOSKI_USER: expectedCredentials.username,
-            KOSKI_PASSWORD: null,
+            koski_user_hsl: expectedCredentials.username,
+            koski_password_hsl: null,
         };
-        expect(new LocalSecretsManager().getKoskiCredentials()).toRejectWith(new Error('Koski backend password not defined'), done);
+        expect(new LocalSecretsManager().getKoskiCredentials(clientMemberName))
+            .toRejectWith(new Error(`Koski backend password not defined for member ${clientMemberName}`), done);
     });
 });

@@ -15,7 +15,7 @@
       <xro:client id:objectType="SUBSYSTEM">
          <id:xRoadInstance>FI-DEV</id:xRoadInstance>
          <id:memberClass>GOV</id:memberClass>
-         <id:memberCode>2769790-1</id:memberCode>
+         <id:memberCode>2274586-3</id:memberCode>
          <id:subsystemCode>koski</id:subsystemCode>
       </xro:client>
    </soapenv:Header>

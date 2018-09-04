@@ -36,18 +36,18 @@ describe('KoskiClient', () => {
     it('Should be able to get student number from koski backend', async() => {
         const userId = 123;
         const axios = {
-            get: () => new Promise((resolve) => {
+            post: () => new Promise((resolve) => {
                 resolve({ data: [{ oid: userId }] });
             }),
         };
         const koskiClient = new KoskiClient();
 
         koskiClient.instance = axios;
-        spyOn(axios, 'get').and.callThrough();
+        spyOn(axios, 'post').and.callThrough();
 
         const oid = await koskiClient.getUserOid('210947-613P');
         expect(oid).toBe(userId);
-        expect(koskiClient.instance.get).toHaveBeenCalledWith('henkilo/hetu/210947-613P');
+        expect(koskiClient.instance.post).toHaveBeenCalledWith('henkilo/hetu', { hetu: '210947-613P' });
     });
 
     it('Error messages should not contain sensitive information', () => {
@@ -73,6 +73,6 @@ describe('KoskiClient', () => {
 
         const response = await koskiClient.getOpintoOikeudet(oid, clientMemberCode);
         expect(response.opiskeluoikeudet).toEqual(opiskeluoikeudet);
-        expect(koskiClient.instance.get).toHaveBeenCalledWith(`oppija/${oid}`, { headers: { 'X-ROAD-MEMBER': clientMemberCode }});
+        expect(koskiClient.instance.get).toHaveBeenCalledWith(`oppija/${oid}`, { headers: { 'X-ROAD-MEMBER': clientMemberCode } });
     });
 });

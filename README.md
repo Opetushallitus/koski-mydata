@@ -17,8 +17,8 @@ npm install
 Kysy Koski-tiimiltä dev-environmentin käyttäjätunnus ja salasana.
 Luo tiedosto ```.env``` sisällöllä:
 ```
-KOSKI_USER=username
-KOSKI_PASSWORD=password
+koski_user_hsl=username
+koski_password_hsl=password
 ```
 
 käynnistä palvelin:

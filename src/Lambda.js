@@ -1,4 +1,5 @@
 import log from 'lambda-log';
+import config from 'config';
 import SoapResponseMessageBuilder from './soap/SoapResponseMessageBuilder';
 import SoapPayloadParser from './soap/SoapRequestPayloadParser';
 import KoskiClient from './KoskiClient';
@@ -11,7 +12,6 @@ class Lambda {
         this.secretsManager = SecretsManagerProvider.getSecretsManager();
         this.parser = new SoapPayloadParser();
         this.responseBuilder = new SoapResponseMessageBuilder();
-        this.client = null;
         this.coldstart = true;
     }
 
@@ -25,22 +25,16 @@ class Lambda {
         });
     }
 
+    async getClient(memberId) {
+        const memberName = config.get(`member.${memberId}.name`);
+        const { username, password } = await this.secretsManager.getKoskiCredentials(memberName);
+
+        return new KoskiClient(username, password);
+    }
+
     handleSOAPRequest(xml) { // This is the "Adapter Server" for X-Road
         return new Promise(async(resolve, reject) => {
             try {
-                if (typeof this.client === 'undefined' || this.client === null) {
-                    const { username, password } = await this.secretsManager.getKoskiCredentials();
-
-                    if (typeof username === 'undefined' || username === null) {
-                        reject(new Error('Koski username must be provided'));
-                    }
-                    if (typeof password === 'undefined' || password === null) {
-                        reject(new Error('Koski password must be provided'));
-                    }
-
-                    this.client = new KoskiClient(username, password);
-                }
-
                 const {
                     clientXRoadInstance,
                     clientMemberClass,
@@ -53,8 +47,10 @@ class Lambda {
                     hetu,
                 } = this.parser.parsePayload(xml);
 
-                const oid = await this.client.getUserOid(hetu);
-                const opintoOikeudet = await this.client.getOpintoOikeudet(oid, clientMemberCode);
+                const client = await this.getClient(clientMemberCode);
+
+                const oid = await client.getUserOid(hetu);
+                const opintoOikeudet = await client.getOpintoOikeudet(oid, clientMemberCode);
 
                 const soapEnvelope = this.responseBuilder.buildResponseMessage(
                     clientXRoadInstance, clientMemberClass, clientMemberCode, clientSubsystemCode,
