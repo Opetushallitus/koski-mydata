@@ -3,6 +3,7 @@ import axios from 'axios';
 import deepOmit from 'omit-deep-lodash';
 import config from 'config';
 import ClientError from './error/ClientError';
+import Forbidden from './error/Forbidden';
 
 const hetuRegexp = /^\d{6}[+-A]\d{3}[a-zA-Z0-9]$/;
 
@@ -27,7 +28,7 @@ class KoskiClient {
             return response;
         });
 
-        log.debug(`Created axios instance with backend URL ${config.get('backend.url')}`);
+        log.info(`Created axios instance with backend URL ${config.get('backend.url')}`);
     }
 
     static validateHetu(hetu) {
@@ -85,7 +86,12 @@ class KoskiClient {
                 });
             } catch (err) {
                 // error contains credentials, url contains hetu, lets not log them
-                reject(new Error(`Opinto-oikeus search failed with message: ${KoskiClient.generateErrorMessage(err)}`));
+                if (err.response && err.response.status && err.response.status === 403) {
+                    reject(new Forbidden(`Opinto-oikeus search failed due to insufficient permissions: 
+                    ${KoskiClient.generateErrorMessage(err)}`));
+                } else {
+                    reject(new Error(`Opinto-oikeus search failed with message: ${KoskiClient.generateErrorMessage(err)}`));
+                }
             }
         });
     }
