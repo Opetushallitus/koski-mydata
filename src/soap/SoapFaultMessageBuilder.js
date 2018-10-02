@@ -1,22 +1,29 @@
 import builder from 'xmlbuilder';
 import ClientError from '../error/ClientError';
+import Forbidden from '../error/Forbidden';
 
 const codes = {
     client: 'SOAP-ENV:Client',
     server: 'SOAP-ENV:Server',
+    forbidden: 'SOAP-ENV:Server.Forbidden',
 };
 
 Object.freeze(codes);
 
+const getCode = (error) => {
+    if (error instanceof Forbidden) return codes.forbidden;
+    if (error instanceof ClientError) return codes.client;
+    return codes.server;
+};
+
 class SoapFaultMessageBuilder {
     static buildErrorMessage(error) {
-        const code = (error instanceof ClientError) ? codes.client : codes.server;
         return builder.create({
             'SOAP-ENV:Envelope': {
                 'SOAP-ENV:Header': {},
                 'SOAP-ENV:Body': {
                     'SOAP-ENV:Fault': {
-                        faultcode: code,
+                        faultcode: getCode(error),
                         faultstring: error.message,
                         detail: error.details,
                     },
