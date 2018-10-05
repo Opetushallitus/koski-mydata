@@ -11,7 +11,7 @@
     "env": "FI",
     "service": {
       "port": {
-        "address": "https://sp.prod.koski-xroad.fi"
+        "address": "https://sp.omadata.opintopolku.fi"
       }
     }
   }
