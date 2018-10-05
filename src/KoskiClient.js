@@ -7,6 +7,22 @@ import Forbidden from './error/Forbidden';
 
 const hetuRegexp = /^\d{6}[+-A]\d{3}[a-zA-Z0-9]$/;
 
+const blacklistedOpiskeluOikeudetFields = [
+    'suoritukset',
+    'lähdejärjestelmänId',
+    'koulutustoimija',
+    'oikeusMaksuttomaanAsuntolapaikkaan',
+    'majoitus',
+    'henkilöstökoulutus',
+];
+
+const blacklistedStudentFields = [
+    'hetu',
+    'turvakielto',
+];
+
+const callerId = '1.2.246.562.10.00000000001.koski-mydata';
+
 class KoskiClient {
     constructor(username, password) {
         this.instance = axios.create({
@@ -16,6 +32,7 @@ class KoskiClient {
                 username,
                 password,
             },
+            headers: { 'Caller-Id': callerId },
         });
 
         this.instance.interceptors.request.use((request) => {
@@ -81,8 +98,8 @@ class KoskiClient {
 
                 if (typeof opiskeluoikeudet === 'undefined' || opiskeluoikeudet === null) reject(new Error('No opiskeluoikeudet found'));
                 resolve({
-                    henkilö: deepOmit(henkilö, 'hetu'),
-                    opiskeluoikeudet: deepOmit(opiskeluoikeudet, 'suoritukset', 'lähdejärjestelmänId', 'koulutustoimija'),
+                    henkilö: deepOmit(henkilö, ...blacklistedStudentFields),
+                    opiskeluoikeudet: deepOmit(opiskeluoikeudet, ...blacklistedOpiskeluOikeudetFields),
                 });
             } catch (err) {
                 // error contains credentials, url contains hetu, lets not log them
