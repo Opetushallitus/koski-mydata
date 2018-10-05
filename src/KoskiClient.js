@@ -14,6 +14,7 @@ const blacklistedOpiskeluOikeudetFields = [
     'oikeusMaksuttomaanAsuntolapaikkaan',
     'majoitus',
     'henkilöstökoulutus',
+    'koulutusvienti',
 ];
 
 const blacklistedStudentFields = [
