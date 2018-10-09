@@ -110,11 +110,15 @@ class KoskiClient {
                 if (typeof opiskeluoikeudet === 'undefined' || opiskeluoikeudet === null) reject(new Error('No opiskeluoikeudet found'));
 
                 // Remove 'suoritukset', except 'osaamisenHankkimistavat which is required for oppisopimus
-                const filteredOpiskeluoikeudet = deepOmit(opiskeluoikeudet, ...blacklistedOpiskeluOikeudetFields).map(x => {
+                const filteredOpiskeluoikeudet = deepOmit(opiskeluoikeudet, ...blacklistedOpiskeluOikeudetFields).map((x) => {
+
                     const { suoritukset, ...opiskeluoikeus } = x;
+                    const filteredSuoritukset = deepOmit(suoritukset, ...blacklistedSuoritusFields);
+                    const shouldIncludeSuoritukset = Array.isArray(filteredSuoritukset) && filteredSuoritukset.length > 0;
+
                     return {
                         ...opiskeluoikeus,
-                        suoritukset: deepOmit(suoritukset, ...blacklistedSuoritusFields),
+                        ...(shouldIncludeSuoritukset && { suoritukset: filteredSuoritukset }), // include suoritukset only if not empty
                     };
                 });
 

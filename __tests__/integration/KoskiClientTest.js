@@ -78,8 +78,8 @@ describe('KoskiClient', () => {
         const oid = await client.getUserOid('081098-9505');
         const opintoOikeudet = await client.getOpintoOikeudet(oid, clientMemberCode);
 
-        expect(opintoOikeudet.opiskeluoikeudet[0].suoritukset[0].osaamisenHankkimistavat[0].
-            osaamisenHankkimistapa.tunniste.koodiarvo).toEqual('oppisopimus');
+        expect(opintoOikeudet.opiskeluoikeudet[0].suoritukset[0].osaamisenHankkimistavat[0]
+            .osaamisenHankkimistapa.tunniste.koodiarvo).toEqual('oppisopimus');
         console.log(JSON.stringify(opintoOikeudet.opiskeluoikeudet, null, 2));
 
         done();
