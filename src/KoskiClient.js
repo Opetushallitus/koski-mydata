@@ -22,7 +22,6 @@ const blacklistedSuoritusFields = [
     'tutkintonimike',
     'toimipiste',
     'suorituskieli',
-    'järjestämismuodot',
     'tyyppi',
     'oppisopimus',
 ];
