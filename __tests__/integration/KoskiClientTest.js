@@ -82,8 +82,6 @@ describe('KoskiClient', () => {
         expect(opintoOikeudet.opiskeluoikeudet[0].suoritukset[0].osaamisenHankkimistavat[0]
             .osaamisenHankkimistapa.tunniste.koodiarvo).toEqual('oppisopimus');
 
-        // console.log(JSON.stringify(opintoOikeudet.opiskeluoikeudet[0].suoritukset[0], null, 2));
-
         // This is the old way for storing oppisopimus
         expect(opintoOikeudet.opiskeluoikeudet[0].suoritukset[0].järjestämismuodot[0]
             .järjestämismuoto.tunniste.koodiarvo).toEqual('20');
