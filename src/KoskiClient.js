@@ -110,7 +110,6 @@ class KoskiClient {
 
                 // Remove 'suoritukset', except 'osaamisenHankkimistavat which is required for oppisopimus
                 const filteredOpiskeluoikeudet = deepOmit(opiskeluoikeudet, ...blacklistedOpiskeluOikeudetFields).map((x) => {
-
                     const { suoritukset, ...opiskeluoikeus } = x;
                     const filteredSuoritukset = deepOmit(suoritukset, ...blacklistedSuoritusFields);
                     const shouldIncludeSuoritukset = Array.isArray(filteredSuoritukset) && filteredSuoritukset.length > 0;

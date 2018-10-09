@@ -88,6 +88,9 @@ describe('KoskiClient', () => {
         expect(opintoOikeudet.opiskeluoikeudet[0].suoritukset[0].järjestämismuodot[0]
             .järjestämismuoto.tunniste.koodiarvo).toEqual('20');
 
+        const includedInOpintoOikeus = opintoOikeudet.opiskeluoikeudet.find(x => x.sisältyyOpiskeluoikeuteen);
+        expect(includedInOpintoOikeus.sisältyyOpiskeluoikeuteen.oppilaitos.oid).toEqual('1.2.246.562.10.52251087186');
+
         done();
     });
 });
