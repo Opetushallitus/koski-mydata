@@ -8,13 +8,23 @@ import Forbidden from './error/Forbidden';
 const hetuRegexp = /^\d{6}[+-A]\d{3}[a-zA-Z0-9]$/;
 
 const blacklistedOpiskeluOikeudetFields = [
-    'suoritukset',
     'lähdejärjestelmänId',
     'koulutustoimija',
     'oikeusMaksuttomaanAsuntolapaikkaan',
     'majoitus',
     'henkilöstökoulutus',
     'koulutusvienti',
+];
+
+const blacklistedSuoritusFields = [
+    'koulutusmoduuli',
+    'suoritustapa',
+    'tutkintonimike',
+    'toimipiste',
+    'suorituskieli',
+    'järjestämismuodot',
+    'tyyppi',
+    'oppisopimus',
 ];
 
 const blacklistedStudentFields = [
@@ -98,9 +108,19 @@ class KoskiClient {
                 const { henkilö, opiskeluoikeudet } = response.data;
 
                 if (typeof opiskeluoikeudet === 'undefined' || opiskeluoikeudet === null) reject(new Error('No opiskeluoikeudet found'));
+
+                // Remove 'suoritukset', except 'osaamisenHankkimistavat which is required for oppisopimus
+                const filteredOpiskeluoikeudet = deepOmit(opiskeluoikeudet, ...blacklistedOpiskeluOikeudetFields).map(x => {
+                    const { suoritukset, ...opiskeluoikeus } = x;
+                    return {
+                        ...opiskeluoikeus,
+                        suoritukset: deepOmit(suoritukset, ...blacklistedSuoritusFields),
+                    };
+                });
+
                 resolve({
                     henkilö: deepOmit(henkilö, ...blacklistedStudentFields),
-                    opiskeluoikeudet: deepOmit(opiskeluoikeudet, ...blacklistedOpiskeluOikeudetFields),
+                    opiskeluoikeudet: filteredOpiskeluoikeudet,
                 });
             } catch (err) {
                 // error contains credentials, url contains hetu, lets not log them
