@@ -58,9 +58,9 @@ describe('KoskiClient', () => {
         const oid = 123;
         const clientMemberCode = '123456789-0';
 
-        const opiskeluoikeudet = {
+        const opiskeluoikeudet = [{
             oppilaitokset: ['mallikoulu'],
-        };
+        }];
         const axios = {
             get: () => new Promise((resolve) => {
                 resolve({ data: { opiskeluoikeudet } });

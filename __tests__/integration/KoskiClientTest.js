@@ -70,4 +70,25 @@ describe('KoskiClient', () => {
 
         done();
     });
+
+    it('Should not omit oppisopimus from suoritukset', async(done) => {
+        const { username, password } = await SecretsManagerProvider.getSecretsManager().getKoskiCredentials(clientMemberName);
+
+        const client = new KoskiClient(username, password);
+        const oid = await client.getUserOid('081098-9505');
+        const opintoOikeudet = await client.getOpintoOikeudet(oid, clientMemberCode);
+
+        // This is the new way for storing oppisopimus
+        expect(opintoOikeudet.opiskeluoikeudet[0].suoritukset[0].osaamisenHankkimistavat[0]
+            .osaamisenHankkimistapa.tunniste.koodiarvo).toEqual('oppisopimus');
+
+        // This is the old way for storing oppisopimus
+        expect(opintoOikeudet.opiskeluoikeudet[0].suoritukset[0].järjestämismuodot[0]
+            .järjestämismuoto.tunniste.koodiarvo).toEqual('20');
+
+        const includedInOpintoOikeus = opintoOikeudet.opiskeluoikeudet.find(x => x.sisältyyOpiskeluoikeuteen);
+        expect(includedInOpintoOikeus.sisältyyOpiskeluoikeuteen.oppilaitos.oid).toEqual('1.2.246.562.10.52251087186');
+
+        done();
+    });
 });
