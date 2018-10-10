@@ -103,7 +103,7 @@ class KoskiClient {
                     const { suoritukset, ...opiskeluoikeus } = x;
 
                     // Return only the properties required for determining 'oppisopimus', omit the rest
-                    const filteredSuoritukset = suoritukset.map(suoritus => {
+                    const filteredSuoritukset = suoritukset.map((suoritus) => {
                         const { osaamisenHankkimistavat, koulutussopimukset, järjestämismuodot } = suoritus;
                         return { osaamisenHankkimistavat, koulutussopimukset, järjestämismuodot };
                     });
