@@ -11,11 +11,12 @@
     "env": "FI-DEV",
     "service": {
       "port": {
-        "address": "https://e5tcdum0og.execute-api.eu-west-1.amazonaws.com/dev"
+        "address": "https://sp.omadata.koski-xroad.fi"
       }
     }
   },
   "member": {
-    "2274586-3": { "name": "hsl" }
+    "2274586-3": { "name": "hsl" },
+    "1516651-3": { "name": "frank" }
   }
 }
