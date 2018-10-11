@@ -60,6 +60,7 @@ describe('KoskiClient', () => {
 
         const opiskeluoikeudet = [{
             oppilaitokset: ['mallikoulu'],
+            suoritukset: [{ koulutussopimukset: '' }],
         }];
         const axios = {
             get: () => new Promise((resolve) => {

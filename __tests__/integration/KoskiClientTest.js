@@ -89,6 +89,11 @@ describe('KoskiClient', () => {
         const includedInOpintoOikeus = opintoOikeudet.opiskeluoikeudet.find(x => x.sisältyyOpiskeluoikeuteen);
         expect(includedInOpintoOikeus.sisältyyOpiskeluoikeuteen.oppilaitos.oid).toEqual('1.2.246.562.10.52251087186');
 
+        const työssäOppimisPaikkaOikeus = opintoOikeudet.opiskeluoikeudet.find(x =>
+            x.suoritukset.find(y => y.koulutussopimukset)
+        );
+
+        expect(työssäOppimisPaikkaOikeus.suoritukset[0].koulutussopimukset[0].työssäoppimispaikka.fi).toEqual('McDonalds');
         done();
     });
 });
