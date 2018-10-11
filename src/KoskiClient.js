@@ -16,16 +16,6 @@ const blacklistedOpiskeluOikeudetFields = [
     'koulutusvienti',
 ];
 
-const blacklistedSuoritusFields = [
-    'koulutusmoduuli',
-    'suoritustapa',
-    'tutkintonimike',
-    'toimipiste',
-    'suorituskieli',
-    'tyyppi',
-    'oppisopimus',
-];
-
 const blacklistedStudentFields = [
     'hetu',
     'turvakielto',
@@ -111,12 +101,15 @@ class KoskiClient {
                 // Remove 'suoritukset', except 'osaamisenHankkimistavat which is required for oppisopimus
                 const filteredOpiskeluoikeudet = deepOmit(opiskeluoikeudet, ...blacklistedOpiskeluOikeudetFields).map((x) => {
                     const { suoritukset, ...opiskeluoikeus } = x;
-                    const filteredSuoritukset = deepOmit(suoritukset, ...blacklistedSuoritusFields);
-                    const shouldIncludeSuoritukset = Array.isArray(filteredSuoritukset) && filteredSuoritukset.length > 0;
 
+                    // Return only the properties required for determining 'oppisopimus', omit the rest
+                    const filteredSuoritukset = suoritukset.map((suoritus) => {
+                        const { osaamisenHankkimistavat, koulutussopimukset, järjestämismuodot } = suoritus;
+                        return { osaamisenHankkimistavat, koulutussopimukset, järjestämismuodot };
+                    });
                     return {
                         ...opiskeluoikeus,
-                        ...(shouldIncludeSuoritukset && { suoritukset: filteredSuoritukset }), // include suoritukset only if not empty
+                        suoritukset: filteredSuoritukset,
                     };
                 });
 
