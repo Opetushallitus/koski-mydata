@@ -1,1 +1,22 @@
-default.json
+{
+  "backend": {
+    "url": "https://dev.koski.opintopolku.fi/koski/api/",
+    "timeout": 30000,
+    "api": {
+      "henkilö": "henkilo/hetu",
+      "oppija": "oppija"
+    }
+  },
+  "xroad": {
+    "env": "FI-DEV",
+    "service": {
+      "port": {
+        "address": "https://sp.omadata.koski-xroad.fi"
+      }
+    }
+  },
+  "member": {
+    "2274586-3": { "name": "hsl" },
+    "1516651-3": { "name": "frank" }
+  }
+}
