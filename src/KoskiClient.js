@@ -10,10 +10,6 @@ const hetuRegexp = /^\d{6}[+-A]\d{3}[a-zA-Z0-9]$/;
 const blacklistedOpiskeluOikeudetFields = [
     'lähdejärjestelmänId',
     'koulutustoimija',
-    'oikeusMaksuttomaanAsuntolapaikkaan',
-    'majoitus',
-    'henkilöstökoulutus',
-    'koulutusvienti',
 ];
 
 const blacklistedStudentFields = [
@@ -100,16 +96,18 @@ class KoskiClient {
 
                 // Remove 'suoritukset', except 'osaamisenHankkimistavat which is required for oppisopimus
                 const filteredOpiskeluoikeudet = deepOmit(opiskeluoikeudet, ...blacklistedOpiskeluOikeudetFields).map((x) => {
-                    const { suoritukset, ...opiskeluoikeus } = x;
+                    const { suoritukset, lisätiedot, ...opiskeluoikeus } = x;
 
                     // Return only the properties required for determining 'oppisopimus', omit the rest
                     const filteredSuoritukset = suoritukset.map((suoritus) => {
                         const { osaamisenHankkimistavat, koulutussopimukset, järjestämismuodot } = suoritus;
                         return { osaamisenHankkimistavat, koulutussopimukset, järjestämismuodot };
                     });
+                    const { osaAikaisuusjaksot } = lisätiedot || false;
                     return {
                         ...opiskeluoikeus,
                         suoritukset: filteredSuoritukset,
+                        ...(osaAikaisuusjaksot && { lisätiedot: { osaAikaisuusjaksot } }), // include osaAikaisuusjaksot, but only if exists
                     };
                 });
 
