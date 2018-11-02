@@ -28,33 +28,25 @@ npm run build
 npm run start
 ``` 
 
-TODO: Jos package.json:ia modataan niin pitää ajaa npm run build uudestaan
+Jos package.json:ia muokataan niin `npm run build` tulee ajaa uudestaan
 
 ja testaa että applikaatio toimii:
 ```
 curl -v -k -d @opintooikeudet-payload.xml --header "Content-Type: text/xml" -X POST http://localhost:3000/Endpoint
 ```
 
-## Applikaation buildaus
+## Applikaation kääntäminen
 
 ```
 npm run build
 ```
 
-## TODO
+## Käännetyn applikaation asentaminen QA:lle
 
-### Missing features
+Asenna AWS-avaimet [kuten täällä on ohjeistettu](https://github.com/Opetushallitus/koski-aws-infra#2-api-avaimien-ja-tilien-asennus).
 
-   * What to do with people without hetu
-   * (Strip only hetu from log entries, not date of birth?) or encrypt entries
-
-### Running & Deploying
-
-   * Wait for a fix to sam-local (wrong content-type header) or roll back to older version
-   * Check known security issues automatically
-   
-### Hosting
-
-   * Monitoring (do we have synthetic hetus in prod to monitor with?)
-   * API Gateway to VPC
-
+Jonka jälkeen voit ajaa komennot:
+```sbtshell
+export AWS_PROFILE=oph-koski-qa
+scripts/deploy.sh qa
+```
