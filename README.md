@@ -32,7 +32,7 @@ Jos package.json:ia muokataan niin `npm run build` tulee ajaa uudestaan
 
 ja testaa että applikaatio toimii:
 ```
-curl -v -k -d @opintooikeudet-payload.xml --header "Content-Type: text/xml" -X POST http://localhost:3000/Endpoint
+curl -v -k -d @examples/opintooikeudet-payload.xml --header "Content-Type: text/xml" -X POST http://localhost:3000/
 ```
 
 ## Applikaation kääntäminen
