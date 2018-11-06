@@ -33,23 +33,6 @@ describe('KoskiClient', () => {
         }).toThrowError();
     });
 
-    it('Should be able to get student number from koski backend', async() => {
-        const userId = 123;
-        const axios = {
-            post: () => new Promise((resolve) => {
-                resolve({ data: [{ oid: userId }] });
-            }),
-        };
-        const koskiClient = new KoskiClient();
-
-        koskiClient.instance = axios;
-        spyOn(axios, 'post').and.callThrough();
-
-        const oid = await koskiClient.getUserOid('210947-613P');
-        expect(oid).toBe(userId);
-        expect(koskiClient.instance.post).toHaveBeenCalledWith('henkilo/hetu', { hetu: '210947-613P' });
-    });
-
     it('Error messages should not contain sensitive information', () => {
         // TODO: Implement sensitive information test
     });
