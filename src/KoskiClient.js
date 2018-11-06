@@ -57,39 +57,17 @@ class KoskiClient {
         }
     }
 
-    getUserOid(hetu) {
+    getOpintoOikeudet(hetu, clientMemberCode) {
+        if (!clientMemberCode) throw new ClientError('clientMemberCode must be defined when requesting opinto-oikeudet');
         if (!KoskiClient.validateHetu(hetu)) throw new ClientError('Invalid hetu format');
 
         return new Promise(async(resolve, reject) => {
             try {
-                log.info('Getting student ID from Koski');
-                const response = await this.instance.post(config.get('backend.api.henkilö'), { hetu });
-                const students = response.data;
+                log.info(`Getting opinto-oikeudet from ${config.get('backend.api.oppija')} for ${clientMemberCode}`);
 
-                if (!Array.isArray(students)) reject(new Error('Unexpected student search response from Koski backend'));
-                if (students.length < 1) reject(new ClientError('No users found with given hetu'));
-                if (students.length > 1) reject(new ClientError('Multiple users found with given hetu'));
+                const response = await this.instance
+                    .post(config.get('backend.api.oppija'), { hetu }, { headers: { 'X-ROAD-MEMBER': clientMemberCode } });
 
-                const studentId = students[0].oid;
-                if (typeof studentId === 'undefined' || studentId === null) reject(new Error('No oid found for student with given hetu'));
-
-                resolve(studentId);
-            } catch (err) {
-                // error contains credentials, url contains hetu, lets not log them
-                reject(new Error(`Henkilo search failed with message: ${KoskiClient.generateErrorMessage(err)}`));
-            }
-        });
-    }
-
-    getOpintoOikeudet(oid, clientMemberCode) {
-        if (!clientMemberCode) throw new ClientError('clientMemberCode must be defined when requesting opinto-oikeudet');
-
-        return new Promise(async(resolve, reject) => {
-            try {
-                const requestPath = `${config.get('backend.api.oppija')}/${oid}`;
-                log.info(`Getting opinto-oikeudet from ${requestPath}`);
-
-                const response = await this.instance.get(requestPath, { headers: { 'X-ROAD-MEMBER': clientMemberCode } });
                 const { henkilö, opiskeluoikeudet } = response.data;
 
                 if (typeof opiskeluoikeudet === 'undefined' || opiskeluoikeudet === null) reject(new Error('No opiskeluoikeudet found'));

@@ -48,11 +48,10 @@ describe('Lambda', () => {
     });
 
     it('Can parse SOAP POST payload', async(done) => {
-        const oid = 123;
         const hetu = '010190-012A';
         const clientMemberCode = '123456789-0';
         const mockSoapEnvelope = '<xml><response>opinto-oikeudet</response></xml>';
-        const mockClient = { getUserOid: () => {}, getOpintoOikeudet: () => {} };
+        const mockClient = { getOpintoOikeudet: () => {} };
         const event = {
             httpMethod: 'POST',
         };
@@ -66,14 +65,12 @@ describe('Lambda', () => {
         spyOn(lambda.secretsManager, 'getKoskiCredentials').and.returnValue(Promise.resolve({ username: 'u', password: 'p' }));
         spyOn(lambda.parser, 'parsePayload').and.returnValue({ hetu, clientMemberCode });
         lambda.getClient = () => mockClient;
-        spyOn(mockClient, 'getUserOid').and.returnValue(Promise.resolve(oid));
         spyOn(mockClient, 'getOpintoOikeudet').and.returnValue(Promise.resolve({ opintooikeudet: ['mallikoulu'] }));
         spyOn(lambda.responseBuilder, 'buildResponseMessage').and.returnValue(mockSoapEnvelope);
 
         opintoOikeusHandler(event, {}, async(error, response) => {
             expect(lambda.handleSOAPRequest).toHaveBeenCalled();
-            expect(await mockClient.getUserOid).toHaveBeenCalledWith(hetu);
-            expect(await mockClient.getOpintoOikeudet).toHaveBeenCalledWith(oid, clientMemberCode);
+            expect(await mockClient.getOpintoOikeudet).toHaveBeenCalledWith(hetu, clientMemberCode);
             expect(lambda.responseBuilder.buildResponseMessage).toHaveBeenCalled();
             expect(error).toBe(null);
             expect(await response).toEqual(expectedResponse);

@@ -10,7 +10,7 @@ node_modules
 
 ## sensitive data
 config.env.development
-.env
+.env*
 
 ## Test data
 coverage

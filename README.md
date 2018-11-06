@@ -47,6 +47,6 @@ Asenna AWS-avaimet [kuten täällä on ohjeistettu](https://github.com/Opetushal
 
 Jonka jälkeen voit ajaa komennot:
 ```sbtshell
-export AWS_PROFILE=oph-koski-qa
+export AWS_PROFILE=oph-utility
 scripts/deploy.sh qa
 ```

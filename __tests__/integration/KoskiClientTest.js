@@ -10,21 +10,11 @@ describe('KoskiClient', () => {
         jasmine.addMatchers(PromiseMatcher);
     });
 
-    it('Should be able to return correct student ID', async(done) => {
+    it('Should be able to fetch required information', async(done) => {
         const { username, password } = await SecretsManagerProvider.getSecretsManager().getKoskiCredentials(clientMemberName);
 
         const client = new KoskiClient(username, password);
-        const oid = await client.getUserOid('210947-613P');
-        expect(oid).toEqual('1.2.246.562.24.69337840275');
-        done();
-    });
-
-    it('Should be able fetch required information', async(done) => {
-        const { username, password } = await SecretsManagerProvider.getSecretsManager().getKoskiCredentials(clientMemberName);
-
-        const client = new KoskiClient(username, password);
-        const oid = await client.getUserOid('120496-949B');
-        const opintoOikeudet = await client.getOpintoOikeudet(oid, clientMemberCode);
+        const opintoOikeudet = await client.getOpintoOikeudet('120496-949B', clientMemberCode);
 
         // Required by HSL
         expect(opintoOikeudet.henkilö.oid).toEqual('1.2.246.562.24.92333381381');
@@ -48,8 +38,7 @@ describe('KoskiClient', () => {
         const { username, password } = await SecretsManagerProvider.getSecretsManager().getKoskiCredentials(clientMemberName);
 
         const client = new KoskiClient(username, password);
-        const oid = await client.getUserOid('080598-532M');
-        const opintoOikeudet = await client.getOpintoOikeudet(oid, clientMemberCode);
+        const opintoOikeudet = await client.getOpintoOikeudet('080598-532M', clientMemberCode);
 
         expect(opintoOikeudet.opiskeluoikeudet[0].arvioituPäättymispäivä).toEqual('2020-05-01');
         done();
@@ -59,8 +48,7 @@ describe('KoskiClient', () => {
         const { username, password } = await SecretsManagerProvider.getSecretsManager().getKoskiCredentials(clientMemberName);
 
         const client = new KoskiClient(username, password);
-        const oid = await client.getUserOid('080598-2684');
-        const opintoOikeudet = await client.getOpintoOikeudet(oid, clientMemberCode);
+        const opintoOikeudet = await client.getOpintoOikeudet('080598-2684', clientMemberCode);
 
         const jakso1 = opintoOikeudet.opiskeluoikeudet[0].lisätiedot.osaAikaisuusjaksot.find(jakso => jakso.alku === '2018-05-08');
         const jakso2 = opintoOikeudet.opiskeluoikeudet[0].lisätiedot.osaAikaisuusjaksot.find(jakso => jakso.alku === '2019-05-08');
@@ -75,8 +63,7 @@ describe('KoskiClient', () => {
         const { username, password } = await SecretsManagerProvider.getSecretsManager().getKoskiCredentials(clientMemberName);
 
         const client = new KoskiClient(username, password);
-        const oid = await client.getUserOid('081098-9505');
-        const opintoOikeudet = await client.getOpintoOikeudet(oid, clientMemberCode);
+        const opintoOikeudet = await client.getOpintoOikeudet('081098-9505', clientMemberCode);
 
         // This is the new way for storing oppisopimus
         expect(opintoOikeudet.opiskeluoikeudet[0].suoritukset[0].osaamisenHankkimistavat[0]
@@ -90,8 +77,7 @@ describe('KoskiClient', () => {
         expect(includedInOpintoOikeus.sisältyyOpiskeluoikeuteen.oppilaitos.oid).toEqual('1.2.246.562.10.52251087186');
 
         const työssäOppimisPaikkaOikeus = opintoOikeudet.opiskeluoikeudet.find(x =>
-            x.suoritukset.find(y => y.koulutussopimukset)
-        );
+            x.suoritukset.find(y => y.koulutussopimukset));
 
         expect(työssäOppimisPaikkaOikeus.suoritukset[0].koulutussopimukset[0].työssäoppimispaikka.fi).toEqual('McDonalds');
         done();

@@ -18,7 +18,7 @@ describe('SoapRequestPayloadParser', () => {
             const expectedResult = {
                 clientXRoadInstance: 'FI-DEV',
                 clientMemberClass: 'GOV',
-                clientMemberCode: '2274586-3',
+                clientMemberCode: '2769790-1',
                 clientSubsystemCode: 'koski',
                 clientUserId: '123456789',
                 clientRequestId: 'ID123456',
