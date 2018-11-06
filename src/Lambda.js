@@ -48,9 +48,7 @@ class Lambda {
                 } = this.parser.parsePayload(xml);
 
                 const client = await this.getClient(clientMemberCode);
-
-                const oid = await client.getUserOid(hetu);
-                const opintoOikeudet = await client.getOpintoOikeudet(oid, clientMemberCode);
+                const opintoOikeudet = await client.getOpintoOikeudet(hetu, clientMemberCode);
 
                 const soapEnvelope = this.responseBuilder.buildResponseMessage(
                     clientXRoadInstance, clientMemberClass, clientMemberCode, clientSubsystemCode,

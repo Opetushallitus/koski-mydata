@@ -81,7 +81,7 @@ class KoskiClient {
         });
     }
 
-    getOpintoOikeudet(oid, clientMemberCode) {
+    getOpintoOikeudet(hetu, clientMemberCode) {
         if (!clientMemberCode) throw new ClientError('clientMemberCode must be defined when requesting opinto-oikeudet');
 
         return new Promise(async(resolve, reject) => {
@@ -89,7 +89,9 @@ class KoskiClient {
                 const requestPath = `${config.get('backend.api.oppija')}/${oid}`;
                 log.info(`Getting opinto-oikeudet from ${requestPath}`);
 
-                const response = await this.instance.get(requestPath, { headers: { 'X-ROAD-MEMBER': clientMemberCode } });
+                const response = await this.instance.post(
+                    config.get('backend.api.oppija'), { hetu }, { headers: { 'X-ROAD-MEMBER': clientMemberCode } });
+
                 const { henkilö, opiskeluoikeudet } = response.data;
 
                 if (typeof opiskeluoikeudet === 'undefined' || opiskeluoikeudet === null) reject(new Error('No opiskeluoikeudet found'));
