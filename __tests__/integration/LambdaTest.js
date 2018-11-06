@@ -9,7 +9,7 @@ describe('Lambda', () => {
         jasmine.addMatchers(PromiseMatcher);
     });
 
-    it('Should be able fetch required information', async(done) => {
+    it('Should be able to fetch required information', async(done) => {
         const soapPayload = fs.readFileSync('./examples/opintooikeudet-payload.xml', 'UTF-8');
         const soapRequest = {
             httpMethod: 'POST',
@@ -49,7 +49,7 @@ describe('Lambda', () => {
 
             expect(select('//soap:Header/xroad:client/id:xRoadInstance/text()', doc)[0].nodeValue).toEqual('FI-DEV');
             expect(select('//soap:Header/xroad:client/id:memberClass/text()', doc)[0].nodeValue).toEqual('GOV');
-            expect(select('//soap:Header/xroad:client/id:memberCode/text()', doc)[0].nodeValue).toEqual('2274586-3');
+            expect(select('//soap:Header/xroad:client/id:memberCode/text()', doc)[0].nodeValue).toEqual('2769790-1');
             expect(select('//soap:Header/xroad:client/id:subsystemCode/text()', doc)[0].nodeValue).toEqual('koski');
 
             const cdata = xpath.parse('//soap:Body/koski:opintoOikeudetServiceResponse/koski:opintoOikeudet')

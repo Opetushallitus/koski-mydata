@@ -55,7 +55,7 @@ describe('KoskiClient', () => {
     });
 
     it('Should be able to get opinto-oikeudet', async() => {
-        const oid = 123;
+        const hetu = '120339-9876';
         const clientMemberCode = '123456789-0';
 
         const opiskeluoikeudet = [{
@@ -63,17 +63,17 @@ describe('KoskiClient', () => {
             suoritukset: [{ koulutussopimukset: '' }],
         }];
         const axios = {
-            get: () => new Promise((resolve) => {
+            post: () => new Promise((resolve) => {
                 resolve({ data: { opiskeluoikeudet } });
             }),
         };
         const koskiClient = new KoskiClient();
 
         koskiClient.instance = axios;
-        spyOn(axios, 'get').and.callThrough();
+        spyOn(axios, 'post').and.callThrough();
 
-        const response = await koskiClient.getOpintoOikeudet(oid, clientMemberCode);
+        const response = await koskiClient.getOpintoOikeudet(hetu, clientMemberCode);
         expect(response.opiskeluoikeudet).toEqual(opiskeluoikeudet);
-        expect(koskiClient.instance.get).toHaveBeenCalledWith(`oppija/${oid}`, { headers: { 'X-ROAD-MEMBER': clientMemberCode } });
+        expect(koskiClient.instance.post).toHaveBeenCalledWith('omadata/oppija', { hetu }, { headers: { 'X-ROAD-MEMBER': clientMemberCode } });
     });
 });

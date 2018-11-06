@@ -86,8 +86,7 @@ class KoskiClient {
 
         return new Promise(async(resolve, reject) => {
             try {
-                const requestPath = `${config.get('backend.api.oppija')}/${oid}`;
-                log.info(`Getting opinto-oikeudet from ${requestPath}`);
+                log.info(`Getting opinto-oikeudet from ${config.get('backend.api.oppija')} for ${clientMemberCode}`);
 
                 const response = await this.instance.post(
                     config.get('backend.api.oppija'), { hetu }, { headers: { 'X-ROAD-MEMBER': clientMemberCode } });

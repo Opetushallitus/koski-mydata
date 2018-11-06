@@ -3,8 +3,7 @@
     "url": "https://dev.koski.opintopolku.fi/koski/api/",
     "timeout": 30000,
     "api": {
-      "henkilö": "henkilo/hetu",
-      "oppija": "oppija"
+      "oppija": "omadata/oppija"
     }
   },
   "xroad": {
@@ -17,6 +16,7 @@
   },
   "member": {
     "2274586-3": { "name": "hsl" },
-    "1516651-3": { "name": "frank" }
+    "1516651-3": { "name": "frank" },
+    "2769790-1": { "name": "hsl" }
   }
 }
