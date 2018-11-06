@@ -48,7 +48,6 @@ describe('Lambda', () => {
     });
 
     it('Can parse SOAP POST payload', async(done) => {
-        const oid = 123;
         const hetu = '010190-012A';
         const clientMemberCode = '123456789-0';
         const mockSoapEnvelope = '<xml><response>opinto-oikeudet</response></xml>';

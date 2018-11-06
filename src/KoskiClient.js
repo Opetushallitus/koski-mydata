@@ -65,8 +65,8 @@ class KoskiClient {
             try {
                 log.info(`Getting opinto-oikeudet from ${config.get('backend.api.oppija')} for ${clientMemberCode}`);
 
-                const response = await this.instance.post(
-                    config.get('backend.api.oppija'), { hetu }, { headers: { 'X-ROAD-MEMBER': clientMemberCode } });
+                const response = await this.instance
+                    .post(config.get('backend.api.oppija'), { hetu }, { headers: { 'X-ROAD-MEMBER': clientMemberCode } });
 
                 const { henkilö, opiskeluoikeudet } = response.data;
 
