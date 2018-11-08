@@ -3,6 +3,10 @@
 Tämä applikaatio toimii sovitinpalveluna kansallisessa palveluväylässä,
 sen kautta voi hakea opiskelijoiden opinto-oikeuksia henkilötunnuksella.
 
+## Vaatimukset
+
+- Node.js uusin 8.x ja sen mukana tuleva NPM-versio
+
 ## Asentaminen
 
 ```
