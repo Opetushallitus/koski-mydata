@@ -1,6 +1,6 @@
 {
   "backend": {
-    "url": "https://qa.koski.testiopintopolku.fi/koski/api/",
+    "url": "https://koski.opintopolku.fi/koski/api/",
     "timeout": 30000,
     "api": {
       "henkilö": "henkilo/hetu",
@@ -14,5 +14,8 @@
         "address": "https://sp.omadata.opintopolku.fi"
       }
     }
+  },
+  "member": {
+    "2274586-3": { "name": "hsl" }
   }
 }
