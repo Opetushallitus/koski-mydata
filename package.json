@@ -22,15 +22,15 @@
     "setupTestFrameworkScriptFile": "./jest-config.js"
   },
   "scripts": {
-    "lint":         "eslint src",
-    "lint-tests":   "eslint __tests__",
-    "unit":         "jest --testPathIgnorePatterns=integration --coverage",
-    "integration":  "jest --testPathPattern=integration.*\\.js$",
-    "build":        "npm run unit && npm run lint && gulp && npm run integration",
-    "deploy":       "./scripts/deploy.sh",
-    "clean":        "gulp clean",
-    "start":        "nodemon --watch src --watch docs --exec gulp js env docs & sam local start-api",
-    "smoketest":    "gulp js && node dist/test/smoke/ApiTest.js"
+    "lint": "eslint src",
+    "lint-tests": "eslint __tests__",
+    "unit": "jest --testPathIgnorePatterns=integration --coverage",
+    "integration": "jest --testPathPattern=integration.*\\.js$",
+    "build": "npm run unit && npm run lint && gulp && npm run integration",
+    "deploy": "./scripts/deploy.sh",
+    "clean": "gulp clean",
+    "start": "nodemon --watch src --watch docs --exec gulp js env docs & sam local start-api",
+    "smoketest": "gulp js && node dist/test/smoke/ApiTest.js"
   },
   "author": "",
   "license": "EUPL 1.1",
