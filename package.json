@@ -79,6 +79,7 @@
     "gulp-zip": "^4.1.0",
     "jasmine-node-promise-matchers": "^0.1.6",
     "jest": "^23.6.0",
+    "merge": "^1.2.1",
     "mocha": "^5.1.1",
     "morgan": "^1.9.0",
     "nodemon": "^1.18.6",
