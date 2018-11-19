@@ -57,6 +57,11 @@ class KoskiClient {
         }
     }
 
+    /* istanbul ignore next */
+    async _executeOppijaDataRequest(hetu, clientMemberCode) {
+        return this.instance.post(config.get('backend.api.oppija'), { hetu }, { headers: { 'X-ROAD-MEMBER': clientMemberCode } });
+    }
+
     getOpintoOikeudet(hetu, clientMemberCode) {
         if (!clientMemberCode) throw new ClientError('clientMemberCode must be defined when requesting opinto-oikeudet');
         if (!KoskiClient.validateHetu(hetu)) throw new ClientError('Invalid hetu format');
@@ -65,8 +70,7 @@ class KoskiClient {
             try {
                 log.info(`Getting opinto-oikeudet from ${config.get('backend.api.oppija')} for ${clientMemberCode}`);
 
-                const response = await this.instance
-                    .post(config.get('backend.api.oppija'), { hetu }, { headers: { 'X-ROAD-MEMBER': clientMemberCode } });
+                const response = await this._executeOppijaDataRequest(hetu, clientMemberCode);
 
                 const { henkilö, opiskeluoikeudet } = response.data;
 
