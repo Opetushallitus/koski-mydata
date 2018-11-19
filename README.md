@@ -3,6 +3,8 @@
 Tämä applikaatio toimii sovitinpalveluna kansallisessa palveluväylässä.
 Sen kautta voi hakea opiskelijoiden opinto-oikeuksia henkilötunnuksella.
 
+[![Build Status](https://travis-ci.org/Opetushallitus/koski-mydata.svg?branch=master)](https://travis-ci.org/Opetushallitus/koski-mydata)
+
 ## Vaatimukset
 
 - Node.js uusin 8.x ja sen mukana tuleva NPM-versio
