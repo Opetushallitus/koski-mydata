@@ -24,7 +24,7 @@
   "scripts": {
     "lint": "eslint src",
     "lint-tests": "eslint __tests__",
-    "unit": "jest --testPathIgnorePatterns=integration --coverage",
+    "unit": "jest --testPathPattern=Test.js --testPathIgnorePatterns=integration --coverage",
     "integration": "jest --testPathPattern=integration.*\\.js$",
     "build": "npm run unit && npm run lint && gulp && npm run integration",
     "deploy": "./scripts/deploy.sh",
