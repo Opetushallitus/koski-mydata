@@ -90,7 +90,7 @@
     </wsdl:binding>
     <wsdl:service name="opintoOikeudetService">
         <wsdl:port binding="tns:opintoOikeudetServiceBinding" name="opintoOikeudetServicePort">
-            <soap:address location="https://sp.omadata.koski-xroad.fi"/>
+            <soap:address location="http://localhost/to-be-replaced-with-actual-service-address"/>
         </wsdl:port>
     </wsdl:service>
 </wsdl:definitions>

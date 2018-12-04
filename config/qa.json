@@ -8,12 +8,7 @@
     }
   },
   "xroad": {
-    "env": "FI-TEST",
-    "service": {
-      "port": {
-        "address": "https://sp.omadata.testiopintopolku.fi"
-      }
-    }
+    "env": "FI-TEST"
   },
   "member": {
     "1516651-3": { "name": "frank" },

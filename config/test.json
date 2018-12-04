@@ -7,12 +7,7 @@
     }
   },
   "xroad": {
-    "env": "FI-DEV",
-    "service": {
-      "port": {
-        "address": "https://sp.omadata.koski-xroad.fi"
-      }
-    }
+    "env": "FI-DEV"
   },
   "member": {
     "1516651-3": { "name": "frank" },

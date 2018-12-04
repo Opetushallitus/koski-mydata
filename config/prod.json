@@ -7,12 +7,7 @@
     }
   },
   "xroad": {
-    "env": "FI",
-    "service": {
-      "port": {
-        "address": "https://sp.omadata.opintopolku.fi"
-      }
-    }
+    "env": "FI"
   },
   "member": {
     "2274586-3": { "name": "hsl" }
