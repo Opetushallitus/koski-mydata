@@ -167,4 +167,28 @@ describe('KoskiClient', () => {
 
         done();
     });
+
+    it('Should not omit virtaOpiskeluoikeudenTyyppi from response', async(done) => {
+        KoskiClient.prototype._executeOppijaDataRequest =
+            jest.fn(() => Promise.resolve({ status: 200, data: valleVirta }));
+
+        const client = new KoskiClient('username', 'password');
+        const opintoOikeudet = await client.getOpintoOikeudet('060696-5219', clientMemberCode);
+
+        const virtaType = opintoOikeudet.opiskeluoikeudet[0].lisätiedot.virtaOpiskeluoikeudenTyyppi;
+
+        const expectedType = {
+            koodiarvo: '2',
+            nimi: {
+                fi: 'Alempi korkeakoulututkinto',
+                sv: 'Lägre högskoleexamen',
+            },
+            koodistoUri: 'virtaopiskeluoikeudentyyppi',
+            koodistoVersio: 1,
+        };
+
+        expect(virtaType).toEqual(expectedType);
+
+        done();
+    });
 });
