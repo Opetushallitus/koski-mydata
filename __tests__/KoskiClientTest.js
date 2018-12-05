@@ -1,6 +1,6 @@
 import PromiseMatcher from 'jasmine-node-promise-matchers';
 import KoskiClient from '../src/KoskiClient';
-import { oppija } from './Fixtures';
+import { oppija, valleVirta } from './Fixtures';
 
 jest.unmock('../src/KoskiClient');
 
@@ -148,6 +148,47 @@ describe('KoskiClient', () => {
             x.suoritukset.find(y => y.koulutussopimukset));
 
         expect(työssäOppimisPaikkaOikeus.suoritukset[0].koulutussopimukset[0].työssäoppimispaikka.fi).toEqual('McDonalds');
+        done();
+    });
+
+    it('Should not omit lukukausiIlmoittautuminen from lisätiedot', async(done) => {
+        KoskiClient.prototype._executeOppijaDataRequest =
+            jest.fn(() => Promise.resolve({ status: 200, data: valleVirta }));
+
+        const client = new KoskiClient('username', 'password');
+        const opintoOikeudet = await client.getOpintoOikeudet('060696-5219', clientMemberCode);
+
+        const viimeisinJakso = opintoOikeudet.opiskeluoikeudet[0].lisätiedot.lukukausiIlmoittautuminen
+            .ilmoittautumisjaksot.find(x => x.alku === '2020-08-01');
+
+        expect(viimeisinJakso.tila.koodiarvo).toEqual('1');
+        expect(viimeisinJakso.ylioppilaskunnanJäsen).toEqual(true);
+        expect(viimeisinJakso.ythsMaksettu).toEqual(false);
+
+        done();
+    });
+
+    it('Should not omit virtaOpiskeluoikeudenTyyppi from response', async(done) => {
+        KoskiClient.prototype._executeOppijaDataRequest =
+            jest.fn(() => Promise.resolve({ status: 200, data: valleVirta }));
+
+        const client = new KoskiClient('username', 'password');
+        const opintoOikeudet = await client.getOpintoOikeudet('060696-5219', clientMemberCode);
+
+        const virtaType = opintoOikeudet.opiskeluoikeudet[0].lisätiedot.virtaOpiskeluoikeudenTyyppi;
+
+        const expectedType = {
+            koodiarvo: '2',
+            nimi: {
+                fi: 'Alempi korkeakoulututkinto',
+                sv: 'Lägre högskoleexamen',
+            },
+            koodistoUri: 'virtaopiskeluoikeudentyyppi',
+            koodistoVersio: 1,
+        };
+
+        expect(virtaType).toEqual(expectedType);
+
         done();
     });
 });

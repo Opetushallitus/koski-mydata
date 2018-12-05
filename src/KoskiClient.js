@@ -85,11 +85,21 @@ class KoskiClient {
                         const { osaamisenHankkimistavat, koulutussopimukset, järjestämismuodot } = suoritus;
                         return { osaamisenHankkimistavat, koulutussopimukset, järjestämismuodot };
                     });
+
                     const { osaAikaisuusjaksot } = lisätiedot || false;
+                    const { virtaOpiskeluoikeudenTyyppi } = lisätiedot || false;
+                    const { lukukausiIlmoittautuminen } = lisätiedot || false;
+
+                    const extra = {
+                        ...(osaAikaisuusjaksot && { osaAikaisuusjaksot }),
+                        ...(virtaOpiskeluoikeudenTyyppi && { virtaOpiskeluoikeudenTyyppi }),
+                        ...(lukukausiIlmoittautuminen && { lukukausiIlmoittautuminen }),
+                    };
+
                     return {
                         ...opiskeluoikeus,
                         suoritukset: filteredSuoritukset,
-                        ...(osaAikaisuusjaksot && { lisätiedot: { osaAikaisuusjaksot } }), // include osaAikaisuusjaksot, but only if exists
+                        ...(extra && Object.keys(extra).length > 0 && { lisätiedot: extra }),
                     };
                 });
 
