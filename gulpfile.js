@@ -3,7 +3,7 @@ const babel = require('gulp-babel');
 const del = require('del');
 const install = require('gulp-install');
 const zip = require('gulp-zip');
-const runSequence = require('run-sequence');
+const runSequence = require('gulp4-run-sequence');
 const { exec } = require('child_process');
 
 const paths = {
@@ -30,9 +30,10 @@ gulp.task('js', () =>
         .pipe(gulp.dest('dist')),
 );
 
-gulp.task('config', () => {
+gulp.task('config', (callback) => {
     gulp.src(paths.config, { base: '.' })
-        .pipe(gulp.dest('./dist'));
+        .pipe(gulp.dest('./dist'))
+        .on('end', callback);
 });
 
 // Next copy over environment variables managed outside of source control.
@@ -42,9 +43,10 @@ gulp.task('env', () => {
         .pipe(gulp.dest('./dist'));
 });
 
-gulp.task('docs', () => {
+gulp.task('docs', (callback) => {
     gulp.src(paths.docs)
-        .pipe(gulp.dest('./dist'));
+        .pipe(gulp.dest('./dist'))
+        .on('end', callback);
 });
 
 // Here we want to install npm packages to dist, ignoring devDependencies.

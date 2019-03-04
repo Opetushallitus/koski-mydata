@@ -72,7 +72,7 @@
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-react": "^7.7.0",
     "express": "^4.16.3",
-    "gulp": "^3.9.1",
+    "gulp": "^4.0.0",
     "gulp-babel": "^7.0.1",
     "gulp-install": "^1.1.0",
     "gulp-rename": "^1.2.2",
@@ -85,6 +85,6 @@
     "nodemon": "^1.18.7",
     "randomatic": "^3.1.1",
     "rewire": "^4.0.1",
-    "run-sequence": "^2.2.1"
+    "gulp4-run-sequence": "^0.3.1"
   }
 }
