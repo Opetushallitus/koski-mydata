@@ -54,7 +54,7 @@ Varmista että Pythonin user basen (`python -m site --user-base`) `/bin` -hakemi
 
 ### .env-tiedoston luominen
 
-Kysy Koski-tiimiltä dev-environmentin käyttäjätunnus ja salasana.
+Kysy Koski-tiimiltä QA-environmentin käyttäjätunnus ja salasana.
 Luo tiedosto ```.env``` sisällöllä:
 ```
 koski_user_hsl=username
