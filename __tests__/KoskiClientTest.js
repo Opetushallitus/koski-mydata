@@ -231,7 +231,6 @@ describe('KoskiClient', () => {
         const opintoOikeudet = await client.getOpintoOikeudet('060696-5219', frankClientMemberCode);
         const lisätiedot = opintoOikeudet.opiskeluoikeudet[0].lisätiedot.lukukausiIlmoittautuminen.ilmoittautumisjaksot[0];
 
-
         const expectedLisätiedot = {
             alku: '2013-08-01',
             loppu: '2013-12-31',
@@ -252,5 +251,4 @@ describe('KoskiClient', () => {
 
         done();
     });
-
 });
