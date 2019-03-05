@@ -17,6 +17,15 @@ const blacklistedStudentFields = [
     'turvakielto',
 ];
 
+const blacklistedLisätiedotForMember = (memberCode) => {
+    switch (memberCode) {
+    case '2274586-3': // HSL
+        return ['ythsMaksettu'];
+    default:
+        return [];
+    }
+};
+
 const callerId = '1.2.246.562.10.00000000001.koski-mydata';
 
 class KoskiClient {
@@ -62,6 +71,20 @@ class KoskiClient {
         return this.instance.post(config.get('backend.api.oppija'), { hetu }, { headers: { 'X-ROAD-MEMBER': clientMemberCode } });
     }
 
+    filterLisätiedot(lisätiedot, memberCode) {
+        const { osaAikaisuusjaksot } = lisätiedot || false;
+        const { virtaOpiskeluoikeudenTyyppi } = lisätiedot || false;
+        const { lukukausiIlmoittautuminen } = lisätiedot || false;
+
+        const filtered = {
+            ...(osaAikaisuusjaksot && { osaAikaisuusjaksot }),
+            ...(virtaOpiskeluoikeudenTyyppi && { virtaOpiskeluoikeudenTyyppi }),
+            ...(lukukausiIlmoittautuminen && { lukukausiIlmoittautuminen }),
+        };
+
+        return deepOmit(filtered, ...blacklistedLisätiedotForMember(memberCode));
+    }
+
     getOpintoOikeudet(hetu, clientMemberCode) {
         if (!clientMemberCode) throw new ClientError('clientMemberCode must be defined when requesting opinto-oikeudet');
         if (!KoskiClient.validateHetu(hetu)) throw new ClientError('Invalid hetu format');
@@ -86,20 +109,13 @@ class KoskiClient {
                         return { osaamisenHankkimistavat, koulutussopimukset, järjestämismuodot };
                     });
 
-                    const { osaAikaisuusjaksot } = lisätiedot || false;
-                    const { virtaOpiskeluoikeudenTyyppi } = lisätiedot || false;
-                    const { lukukausiIlmoittautuminen } = lisätiedot || false;
-
-                    const extra = {
-                        ...(osaAikaisuusjaksot && { osaAikaisuusjaksot }),
-                        ...(virtaOpiskeluoikeudenTyyppi && { virtaOpiskeluoikeudenTyyppi }),
-                        ...(lukukausiIlmoittautuminen && { lukukausiIlmoittautuminen }),
-                    };
+                    const filteredLisätiedot = this.filterLisätiedot(lisätiedot, clientMemberCode);
+                    const hasLisätiedot = filteredLisätiedot && Object.keys(filteredLisätiedot).length > 0;
 
                     return {
                         ...opiskeluoikeus,
                         suoritukset: filteredSuoritukset,
-                        ...(extra && Object.keys(extra).length > 0 && { lisätiedot: extra }),
+                        ...(hasLisätiedot && { lisätiedot: filteredLisätiedot }),
                     };
                 });
 

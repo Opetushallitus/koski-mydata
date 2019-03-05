@@ -4,7 +4,9 @@ import { oppija, valleVirta } from './Fixtures';
 
 jest.unmock('../src/KoskiClient');
 
-const clientMemberCode = '2769790-1';
+const koskiClientMemberCode = '2769790-1';
+const hslClientMemberCode = '2274586-3';
+const frankClientMemberCode = '1516651-3';
 
 describe('KoskiClient', () => {
     afterAll(() => {
@@ -79,7 +81,7 @@ describe('KoskiClient', () => {
             jest.fn(() => Promise.resolve({ status: 200, data: oppija }));
 
         const client = new KoskiClient('username', 'password');
-        const opintoOikeudet = await client.getOpintoOikeudet('120496-949B', clientMemberCode);
+        const opintoOikeudet = await client.getOpintoOikeudet('120496-949B', koskiClientMemberCode);
 
         // Required by HSL
         expect(opintoOikeudet.henkilö.oid).toEqual('1.2.246.562.24.92333381381');
@@ -104,7 +106,7 @@ describe('KoskiClient', () => {
             jest.fn(() => Promise.resolve({ status: 200, data: oppija }));
 
         const client = new KoskiClient('username', 'password');
-        const opintoOikeudet = await client.getOpintoOikeudet('080598-532M', clientMemberCode);
+        const opintoOikeudet = await client.getOpintoOikeudet('080598-532M', koskiClientMemberCode);
 
         expect(opintoOikeudet.opiskeluoikeudet[0].arvioituPäättymispäivä).toEqual('2020-05-01');
         done();
@@ -115,7 +117,7 @@ describe('KoskiClient', () => {
             jest.fn(() => Promise.resolve({ status: 200, data: oppija }));
 
         const client = new KoskiClient('username', 'password');
-        const opintoOikeudet = await client.getOpintoOikeudet('080598-2684', clientMemberCode);
+        const opintoOikeudet = await client.getOpintoOikeudet('080598-2684', koskiClientMemberCode);
 
         const jakso1 = opintoOikeudet.opiskeluoikeudet[0].lisätiedot.osaAikaisuusjaksot.find(jakso => jakso.alku === '2018-05-08');
         const jakso2 = opintoOikeudet.opiskeluoikeudet[0].lisätiedot.osaAikaisuusjaksot.find(jakso => jakso.alku === '2019-05-08');
@@ -131,7 +133,7 @@ describe('KoskiClient', () => {
             jest.fn(() => Promise.resolve({ status: 200, data: oppija }));
 
         const client = new KoskiClient('username', 'password');
-        const opintoOikeudet = await client.getOpintoOikeudet('081098-9505', clientMemberCode);
+        const opintoOikeudet = await client.getOpintoOikeudet('081098-9505', koskiClientMemberCode);
 
         // This is the new way for storing oppisopimus
         expect(opintoOikeudet.opiskeluoikeudet[0].suoritukset[0].osaamisenHankkimistavat[0]
@@ -156,7 +158,7 @@ describe('KoskiClient', () => {
             jest.fn(() => Promise.resolve({ status: 200, data: valleVirta }));
 
         const client = new KoskiClient('username', 'password');
-        const opintoOikeudet = await client.getOpintoOikeudet('060696-5219', clientMemberCode);
+        const opintoOikeudet = await client.getOpintoOikeudet('060696-5219', koskiClientMemberCode);
 
         const viimeisinJakso = opintoOikeudet.opiskeluoikeudet[0].lisätiedot.lukukausiIlmoittautuminen
             .ilmoittautumisjaksot.find(x => x.alku === '2020-08-01');
@@ -173,7 +175,7 @@ describe('KoskiClient', () => {
             jest.fn(() => Promise.resolve({ status: 200, data: valleVirta }));
 
         const client = new KoskiClient('username', 'password');
-        const opintoOikeudet = await client.getOpintoOikeudet('060696-5219', clientMemberCode);
+        const opintoOikeudet = await client.getOpintoOikeudet('060696-5219', koskiClientMemberCode);
 
         const virtaType = opintoOikeudet.opiskeluoikeudet[0].lisätiedot.virtaOpiskeluoikeudenTyyppi;
 
@@ -191,4 +193,64 @@ describe('KoskiClient', () => {
 
         done();
     });
+
+    it('Should omit ythsMaksettu for HSL', async(done) => {
+        KoskiClient.prototype._executeOppijaDataRequest =
+            jest.fn(() => Promise.resolve({ status: 200, data: valleVirta }));
+
+        const client = new KoskiClient('username', 'password');
+        const opintoOikeudet = await client.getOpintoOikeudet('060696-5219', hslClientMemberCode);
+
+        const lisätiedot = opintoOikeudet.opiskeluoikeudet[0].lisätiedot.lukukausiIlmoittautuminen.ilmoittautumisjaksot[0];
+
+        const expectedLisätiedot = {
+            alku: '2013-08-01',
+            loppu: '2013-12-31',
+            tila: {
+                koodiarvo: '1',
+                nimi: {
+                    fi: 'Läsnä',
+                    sv: 'Närvarande',
+                },
+                koodistoUri: 'virtalukukausiilmtila',
+                koodistoVersio: 1,
+            },
+            ylioppilaskunnanJäsen: true,
+        };
+
+        expect(lisätiedot).toEqual(expectedLisätiedot);
+
+        done();
+    });
+
+    it('Should not omit ythsMaksettu Frank', async(done) => {
+        KoskiClient.prototype._executeOppijaDataRequest =
+            jest.fn(() => Promise.resolve({ status: 200, data: valleVirta }));
+
+        const client = new KoskiClient('username', 'password');
+        const opintoOikeudet = await client.getOpintoOikeudet('060696-5219', frankClientMemberCode);
+        const lisätiedot = opintoOikeudet.opiskeluoikeudet[0].lisätiedot.lukukausiIlmoittautuminen.ilmoittautumisjaksot[0];
+
+
+        const expectedLisätiedot = {
+            alku: '2013-08-01',
+            loppu: '2013-12-31',
+            tila: {
+                koodiarvo: '1',
+                nimi: {
+                    fi: 'Läsnä',
+                    sv: 'Närvarande',
+                },
+                koodistoUri: 'virtalukukausiilmtila',
+                koodistoVersio: 1,
+            },
+            ylioppilaskunnanJäsen: true,
+            ythsMaksettu: false,
+        };
+
+        expect(lisätiedot).toEqual(expectedLisätiedot);
+
+        done();
+    });
+
 });
