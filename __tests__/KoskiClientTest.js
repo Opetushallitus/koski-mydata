@@ -279,4 +279,30 @@ describe('KoskiClient', () => {
 
         done();
     });
+
+    it('Should include suoritukset tyyppi in response', async(done) => {
+        KoskiClient.prototype._executeOppijaDataRequest =
+            jest.fn(() => Promise.resolve({ status: 200, data: entinenEsiopiskelija }));
+
+        const client = new KoskiClient('username', 'password');
+        const opintoOikeudet = await client.getOpintoOikeudet('130620-4884', koskiClientMemberCode);
+
+        const suoritusTyypit = opintoOikeudet.opiskeluoikeudet.map(oikeus => oikeus.suoritukset.map(suoritus => suoritus.tyyppi) );
+
+        const flattenedSuoritusTyypit = [].concat(...suoritusTyypit);
+
+        const lukionTyyppi = flattenedSuoritusTyypit.find(x => x.koodiarvo === 'lukionoppimaara');
+
+        expect(lukionTyyppi).toEqual({
+            koodiarvo: 'lukionoppimaara',
+            nimi: {
+                fi: 'Lukion oppimäärä',
+                sv: 'Gymnasiets lärokurs'
+            },
+            koodistoUri: 'suorituksentyyppi',
+            koodistoVersio: 1,
+        });
+
+        done();
+    });
 });
