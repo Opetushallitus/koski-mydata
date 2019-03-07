@@ -1,6 +1,6 @@
 import PromiseMatcher from 'jasmine-node-promise-matchers';
 import KoskiClient from '../src/KoskiClient';
-import { oppija, valleVirta } from './Fixtures';
+import { oppija, valleVirta, entinenEsiopiskelija } from './Fixtures';
 
 jest.unmock('../src/KoskiClient');
 
@@ -28,6 +28,7 @@ describe('KoskiClient', () => {
         const opiskeluoikeudet = [{
             oppilaitokset: ['mallikoulu'],
             suoritukset: [{ koulutussopimukset: '' }],
+            tyyppi: { koodiarvo: 'korkeakoulutus' },
         }];
         const axios = {
             post: () => new Promise((resolve) => {
@@ -248,6 +249,22 @@ describe('KoskiClient', () => {
         };
 
         expect(lisätiedot).toEqual(expectedLisätiedot);
+
+        done();
+    });
+
+    it('Should omit only esiopetus from opiskeluoikeudet', async(done) => {
+        KoskiClient.prototype._executeOppijaDataRequest =
+            jest.fn(() => Promise.resolve({ status: 200, data: entinenEsiopiskelija }));
+
+        const client = new KoskiClient('username', 'password');
+        const opintoOikeudet = await client.getOpintoOikeudet('130620-4884', hslClientMemberCode);
+
+        const esiopetuksenOpiskeluoikeus = opintoOikeudet.opiskeluoikeudet.find(x => x.tyyppi.koodiarvo === 'esiopetus');
+        const lukionOpiskeluoikeus = opintoOikeudet.opiskeluoikeudet.find(x => x.tyyppi.koodiarvo === 'lukiokoulutus');
+
+        expect(lukionOpiskeluoikeus.oid).toEqual('1.2.246.562.15.80877052243');
+        expect(esiopetuksenOpiskeluoikeus).toBeUndefined();
 
         done();
     });

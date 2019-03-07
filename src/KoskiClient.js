@@ -99,8 +99,11 @@ class KoskiClient {
 
                 if (typeof opiskeluoikeudet === 'undefined' || opiskeluoikeudet === null) reject(new Error('No opiskeluoikeudet found'));
 
+                // Remove 'esiopetus' from response
+                const opiskeluoikeudetNoEsiopetus = opiskeluoikeudet.filter(x => (x.tyyppi && x.tyyppi.koodiarvo !== 'esiopetus'));
+
                 // Remove 'suoritukset', except 'osaamisenHankkimistavat which is required for oppisopimus
-                const filteredOpiskeluoikeudet = deepOmit(opiskeluoikeudet, ...blacklistedOpiskeluOikeudetFields).map((x) => {
+                const filteredOpiskeluoikeudet = deepOmit(opiskeluoikeudetNoEsiopetus, ...blacklistedOpiskeluOikeudetFields).map((x) => {
                     const { suoritukset, lisätiedot, ...opiskeluoikeus } = x;
 
                     // Return only the properties required for determining 'oppisopimus', omit the rest
