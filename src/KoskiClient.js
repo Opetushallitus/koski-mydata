@@ -116,10 +116,10 @@ class KoskiClient {
                 const filteredOpiskeluoikeudet = deepOmit(opiskeluoikeudetNoEsiopetus, ...blacklistedOpiskeluOikeudetFields).map((x) => {
                     const { suoritukset, lisätiedot, ...opiskeluoikeus } = x;
 
-                    // Return only the properties required for determining 'oppisopimus', omit the rest
+                    // Return only the properties required for determining 'oppisopimus' and 'lukion aineopiskelija', omit the rest
                     const filteredSuoritukset = suoritukset.map((suoritus) => {
-                        const { osaamisenHankkimistavat, koulutussopimukset, järjestämismuodot } = suoritus;
-                        return { osaamisenHankkimistavat, koulutussopimukset, järjestämismuodot };
+                        const { osaamisenHankkimistavat, koulutussopimukset, järjestämismuodot, tyyppi } = suoritus;
+                        return { osaamisenHankkimistavat, koulutussopimukset, järjestämismuodot, tyyppi };
                     });
 
                     const filteredLisätiedot = this.filterLisätiedot(lisätiedot, clientMemberCode);
