@@ -11,6 +11,7 @@ const hetuRegexp = /^\d{6}[+-A]\d{3}[a-zA-Z0-9]$/;
 const blacklistedOpiskeluOikeudetFields = [
     'lähdejärjestelmänId',
     'koulutustoimija',
+    'opintojenRahoitus',
 ];
 
 const blacklistedStudentFields = [
@@ -96,10 +97,44 @@ class KoskiClient {
         return deepOmit(filtered, ...blacklistedLisätiedotForMember(memberCode));
     }
 
+    järjestämismuotoFilter(muodot) {
+        if (!muodot) return muodot;
+
+        return muodot.map(m => ({
+            alku: m.alku,
+            loppu: m.loppu,
+            järjestämismuoto: {
+                tunniste: m.järjestämismuoto.tunniste,
+            } }
+        ));
+    }
+
+    koulutussopimusFilter(sopimukset) {
+        if (!sopimukset) return sopimukset;
+
+        const { alku, loppu, paikkakunta, maa } = sopimukset;
+        return { alku, loppu, paikkakunta, maa };
+    }
+
+    hankkimistapaFilter(hankkimistavat) {
+        if (!hankkimistavat) return hankkimistavat;
+
+        return hankkimistavat.map(t => ({
+            alku: t.alku,
+            loppu: t.loppu,
+            osaamisenHankkimistapa: { tunniste: t.osaamisenHankkimistapa.tunniste },
+        }));
+    }
+
     suoritusFilter(suoritukset) {
         return suoritukset.map((suoritus) => {
             const { osaamisenHankkimistavat, koulutussopimukset, järjestämismuodot, tyyppi } = suoritus;
-            return { osaamisenHankkimistavat, koulutussopimukset, järjestämismuodot, tyyppi };
+
+            return {
+                osaamisenHankkimistavat: this.hankkimistapaFilter(osaamisenHankkimistavat),
+                koulutussopimukset: this.koulutussopimusFilter(koulutussopimukset),
+                järjestämismuodot: this.järjestämismuotoFilter(järjestämismuodot),
+                tyyppi };
         });
     }
 

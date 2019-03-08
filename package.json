@@ -74,6 +74,7 @@
     "@babel/plugin-transform-async-to-generator": "^7.0.0",
     "@babel/plugin-transform-runtime": "^7.0.0",
     "@babel/preset-env": "^7.0.0",
+    "array.prototype.flatmap": "^1.2.2",
     "aws-sdk": "^2.224.1",
     "babel-core": "^7.0.0-bridge.0",
     "babel-eslint": "^9.0.0",
