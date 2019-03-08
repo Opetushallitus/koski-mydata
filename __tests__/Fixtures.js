@@ -8978,3 +8978,1817 @@ export const valleVirta = {
         },
     ],
 };
+
+export const minnaMonirahoitteinen = {
+    henkilö: {
+        oid: '1.2.246.562.24.28837147778',
+        hetu: '250689-466Y',
+        syntymäaika: '1989-06-25',
+        etunimet: 'Minna',
+        kutsumanimi: 'Minna',
+        sukunimi: 'Monirahoitteinen',
+        turvakielto: false,
+    },
+    opiskeluoikeudet: [
+        {
+            oid: '1.2.246.562.15.14043810895',
+            versionumero: 2,
+            aikaleima: '2019-03-08T11:36:59.749538',
+            oppilaitos: {
+                oid: '1.2.246.562.10.52251087186',
+                oppilaitosnumero: {
+                    koodiarvo: '10105',
+                    nimi: {
+                        fi: 'Stadin ammatti- ja aikuisopisto',
+                    },
+                    lyhytNimi: {
+                        fi: 'Stadin ammattiopisto',
+                    },
+                    koodistoUri: 'oppilaitosnumero',
+                    koodistoVersio: 1,
+                },
+                nimi: {
+                    fi: 'Stadin ammatti- ja aikuisopisto',
+                },
+                kotipaikka: {
+                    koodiarvo: '091',
+                    nimi: {
+                        fi: 'Helsinki',
+                        sv: 'Helsingfors',
+                    },
+                    koodistoUri: 'kunta',
+                    koodistoVersio: 2,
+                },
+            },
+            koulutustoimija: {
+                oid: '1.2.246.562.10.346830761110',
+                nimi: {
+                    fi: 'Helsingin kaupunki',
+                    sv: 'Helsingfors stad',
+                },
+                yTunnus: '0201256-6',
+                kotipaikka: {
+                    koodiarvo: '091',
+                    nimi: {
+                        fi: 'Helsinki',
+                        sv: 'Helsingfors',
+                    },
+                    koodistoUri: 'kunta',
+                    koodistoVersio: 2,
+                },
+            },
+            päättymispäivä: '2010-04-01',
+            tila: {
+                opiskeluoikeusjaksot: [
+                    {
+                        alku: '2010-03-01',
+                        tila: {
+                            koodiarvo: 'lasna',
+                            nimi: {
+                                fi: 'Läsnä',
+                                sv: 'Närvarande',
+                                en: 'Present',
+                            },
+                            koodistoUri: 'koskiopiskeluoikeudentila',
+                            koodistoVersio: 1,
+                        },
+                        opintojenRahoitus: {
+                            koodiarvo: '9',
+                            nimi: {
+                                fi: 'Maahanmuuttajien ammatillinen koulutus (valtionavustus)',
+                                sv: 'Yrkesutbildning för invandrare (statsunderstöd)',
+                            },
+                            koodistoUri: 'opintojenrahoitus',
+                            koodistoVersio: 1,
+                        },
+                    },
+                    {
+                        alku: '2010-04-01',
+                        tila: {
+                            koodiarvo: 'eronnut',
+                            nimi: {
+                                fi: 'Eronnut',
+                                sv: 'Utskriven',
+                                en: 'Discontinued',
+                            },
+                            koodistoUri: 'koskiopiskeluoikeudentila',
+                            koodistoVersio: 1,
+                        },
+                        opintojenRahoitus: {
+                            koodiarvo: '6',
+                            nimi: {
+                                fi: 'Muuta kautta rahoitettu',
+                                sv: 'Finansierad på annat sätt',
+                            },
+                            koodistoUri: 'opintojenrahoitus',
+                            koodistoVersio: 1,
+                        },
+                    },
+                ],
+            },
+            suoritukset: [
+                {
+                    koulutusmoduuli: {
+                        tunniste: {
+                            koodiarvo: '354401',
+                            nimi: {
+                                fi: 'Automaatioasentajan ammattitutkinto',
+                                sv: 'Yrkesexamen för automationsmontör',
+                                en: 'Automation Assembler, FQ',
+                            },
+                            lyhytNimi: {
+                                fi: 'Automaatioasentajan at',
+                                sv: 'Yrkesexamen för automationsmontör',
+                                en: 'Automation Assembler, Further Qualification',
+                            },
+                            koodistoUri: 'koulutus',
+                            koodistoVersio: 11,
+                        },
+                        perusteenDiaarinumero: '3/011/2013',
+                        perusteenNimi: {
+                            fi: 'Automaatioasentajan ammattitutkinto',
+                            sv: 'Yrkesexamen för automationsmontör',
+                        },
+                        koulutustyyppi: {
+                            koodiarvo: '11',
+                            nimi: {
+                                fi: 'Ammattitutkinto',
+                                sv: 'Yrkesexamen',
+                            },
+                            lyhytNimi: {
+                                fi: 'Ammattitutkinto',
+                                sv: 'Yrkesexamen',
+                            },
+                            koodistoUri: 'koulutustyyppi',
+                            koodistoVersio: 2,
+                        },
+                    },
+                    suoritustapa: {
+                        koodiarvo: 'naytto',
+                        nimi: {
+                            fi: 'Näyttötutkinto',
+                            sv: 'Fristående examen',
+                            en: 'Näyttö',
+                        },
+                        koodistoUri: 'ammatillisentutkinnonsuoritustapa',
+                        koodistoVersio: 1,
+                    },
+                    toimipiste: {
+                        oid: '1.2.246.562.10.52251087186',
+                        oppilaitosnumero: {
+                            koodiarvo: '10105',
+                            nimi: {
+                                fi: 'Stadin ammatti- ja aikuisopisto',
+                            },
+                            lyhytNimi: {
+                                fi: 'Stadin ammattiopisto',
+                            },
+                            koodistoUri: 'oppilaitosnumero',
+                            koodistoVersio: 1,
+                        },
+                        nimi: {
+                            fi: 'Stadin ammatti- ja aikuisopisto',
+                        },
+                        kotipaikka: {
+                            koodiarvo: '091',
+                            nimi: {
+                                fi: 'Helsinki',
+                                sv: 'Helsingfors',
+                            },
+                            koodistoUri: 'kunta',
+                            koodistoVersio: 2,
+                        },
+                    },
+                    suorituskieli: {
+                        koodiarvo: 'FI',
+                        nimi: {
+                            fi: 'suomi',
+                            sv: 'finska',
+                            en: 'Finnish',
+                        },
+                        lyhytNimi: {
+                            fi: 'suomi',
+                            sv: 'finska',
+                            en: 'Finnish',
+                        },
+                        koodistoUri: 'kieli',
+                        koodistoVersio: 1,
+                    },
+                    tyyppi: {
+                        koodiarvo: 'ammatillinentutkinto',
+                        nimi: {
+                            fi: 'Ammatillinen tutkinto',
+                            sv: 'Yrkesinriktad examen',
+                            en: 'Vocational education  qualification',
+                        },
+                        koodistoUri: 'suorituksentyyppi',
+                        koodistoVersio: 1,
+                    },
+                },
+            ],
+            tyyppi: {
+                koodiarvo: 'ammatillinenkoulutus',
+                nimi: {
+                    fi: 'Ammatillinen koulutus',
+                    sv: 'Yrkesutbildning',
+                },
+                lyhytNimi: {
+                    fi: 'Ammatillinen koulutus',
+                },
+                koodistoUri: 'opiskeluoikeudentyyppi',
+                koodistoVersio: 1,
+            },
+            alkamispäivä: '2010-03-01',
+        },
+    ],
+};
+
+export const koulutussopimusopiskelija = {
+    henkilö: {
+        oid: '1.2.246.562.24.56199242273',
+        hetu: '190804A0168',
+        syntymäaika: '2004-08-19',
+        etunimet: 'Ammatti',
+        kutsumanimi: 'Ammatti',
+        sukunimi: 'Oppisopimus-Koulutussopimus',
+        turvakielto: false,
+    },
+    opiskeluoikeudet: [
+        {
+            oid: '1.2.246.562.15.56720600354',
+            versionumero: 7,
+            aikaleima: '2019-10-25T12:45:45.114938',
+            oppilaitos: {
+                oid: '1.2.246.562.10.52251087186',
+                oppilaitosnumero: {
+                    koodiarvo: '10105',
+                    nimi: {
+                        fi: 'Stadin ammatti- ja aikuisopisto',
+                    },
+                    lyhytNimi: {
+                        fi: 'Stadin ammatti- ja aikuisopisto',
+                    },
+                    koodistoUri: 'oppilaitosnumero',
+                    koodistoVersio: 1,
+                },
+                nimi: {
+                    fi: 'Stadin ammattiopisto',
+                },
+                kotipaikka: {
+                    koodiarvo: '091',
+                    nimi: {
+                        fi: 'Helsinki',
+                        sv: 'Helsingfors',
+                    },
+                    koodistoUri: 'kunta',
+                    koodistoVersio: 2,
+                },
+            },
+            koulutustoimija: {
+                oid: '1.2.246.562.10.346830761110',
+                nimi: {
+                    fi: 'Helsingin kaupunki',
+                    sv: 'Helsingfors stad',
+                },
+                yTunnus: '0201256-6',
+                kotipaikka: {
+                    koodiarvo: '091',
+                    nimi: {
+                        fi: 'Helsinki',
+                        sv: 'Helsingfors',
+                    },
+                    koodistoUri: 'kunta',
+                    koodistoVersio: 2,
+                },
+            },
+            ostettu: false,
+            tila: {
+                opiskeluoikeusjaksot: [
+                    {
+                        alku: '2017-04-03',
+                        tila: {
+                            koodiarvo: 'lasna',
+                            nimi: {
+                                fi: 'Läsnä',
+                                sv: 'Närvarande',
+                                en: 'Present',
+                            },
+                            koodistoUri: 'koskiopiskeluoikeudentila',
+                            koodistoVersio: 1,
+                        },
+                        opintojenRahoitus: {
+                            koodiarvo: '1',
+                            nimi: {
+                                fi: 'Valtionosuusrahoitteinen koulutus',
+                                sv: 'Statsandelsfinansierad utbildning',
+                            },
+                            koodistoUri: 'opintojenrahoitus',
+                            koodistoVersio: 1,
+                        },
+                    },
+                    {
+                        alku: '2018-10-31',
+                        tila: {
+                            koodiarvo: 'katsotaaneronneeksi',
+                            nimi: {
+                                fi: 'Katsotaan eronneeksi',
+                                sv: 'Anses utskriven',
+                                en: 'Considered as discontinued',
+                            },
+                            koodistoUri: 'koskiopiskeluoikeudentila',
+                            koodistoVersio: 1,
+                        },
+                        opintojenRahoitus: {
+                            koodiarvo: '1',
+                            nimi: {
+                                fi: 'Valtionosuusrahoitteinen koulutus',
+                                sv: 'Statsandelsfinansierad utbildning',
+                            },
+                            koodistoUri: 'opintojenrahoitus',
+                            koodistoVersio: 1,
+                        },
+                    },
+                ],
+            },
+            suoritukset: [
+                {
+                    koulutusmoduuli: {
+                        tunniste: {
+                            koodiarvo: '381304',
+                            nimi: {
+                                fi: 'Kauneudenhoitoalan perustutkinto',
+                                sv: 'Grundexamen inom skönhetsbranschen',
+                                en: 'Beauty Care, VQ',
+                            },
+                            lyhytNimi: {
+                                fi: 'Kauneudenhoitoalan perustutk',
+                                sv: 'Skönhetsbr., gr.ex.',
+                                en: 'Beauty Care, Vocational Qualification',
+                            },
+                            koodistoUri: 'koulutus',
+                            koodistoVersio: 11,
+                        },
+                        perusteenDiaarinumero: '47/011/2014',
+                        perusteenNimi: {
+                            fi: 'Kauneudenhoitoalan perustutkinto',
+                            sv: 'Grundexamen inom skönhetsbranschen',
+                        },
+                        koulutustyyppi: {
+                            koodiarvo: '1',
+                            nimi: {
+                                fi: 'Ammatillinen perustutkinto',
+                                sv: 'Yrkesinriktad grundexamen',
+                                en: 'Vocational upper secondary qualification',
+                            },
+                            lyhytNimi: {
+                                fi: 'Ammatillinen perustutkinto',
+                                sv: 'Yrkesinriktad grundexamen',
+                            },
+                            koodistoUri: 'koulutustyyppi',
+                            koodistoVersio: 2,
+                        },
+                    },
+                    suoritustapa: {
+                        koodiarvo: 'ops',
+                        nimi: {
+                            fi: 'Ammatillinen perustutkinto',
+                            sv: 'Läroplansbaserad',
+                            en: 'Opetussuunnitelman mukainen',
+                        },
+                        lyhytNimi: {
+                            fi: 'ops',
+                            sv: 'ops',
+                            en: 'ops',
+                        },
+                        koodistoUri: 'ammatillisentutkinnonsuoritustapa',
+                        koodistoVersio: 1,
+                    },
+                    toimipiste: {
+                        oid: '1.2.246.562.10.52251087186',
+                        oppilaitosnumero: {
+                            koodiarvo: '10105',
+                            nimi: {
+                                fi: 'Stadin ammatti- ja aikuisopisto',
+                            },
+                            lyhytNimi: {
+                                fi: 'Stadin ammatti- ja aikuisopisto',
+                            },
+                            koodistoUri: 'oppilaitosnumero',
+                            koodistoVersio: 1,
+                        },
+                        nimi: {
+                            fi: 'Stadin ammattiopisto',
+                        },
+                        kotipaikka: {
+                            koodiarvo: '091',
+                            nimi: {
+                                fi: 'Helsinki',
+                                sv: 'Helsingfors',
+                            },
+                            koodistoUri: 'kunta',
+                            koodistoVersio: 2,
+                        },
+                    },
+                    suorituskieli: {
+                        koodiarvo: 'FI',
+                        nimi: {
+                            fi: 'suomi',
+                            sv: 'finska',
+                            en: 'Finnish',
+                        },
+                        lyhytNimi: {
+                            fi: 'suomi',
+                            sv: 'finska',
+                            en: 'Finnish',
+                        },
+                        koodistoUri: 'kieli',
+                        koodistoVersio: 1,
+                    },
+                    järjestämismuodot: [
+                        {
+                            alku: '2017-10-01',
+                            loppu: '2017-11-30',
+                            järjestämismuoto: {
+                                tunniste: {
+                                    koodiarvo: '20',
+                                    nimi: {
+                                        fi: 'Koulutuksen järjestäminen oppisopimuskoulutuksena',
+                                        sv: 'Att ordna utbildningen som läroavtalsutbildning',
+                                    },
+                                    koodistoUri: 'jarjestamismuoto',
+                                    koodistoVersio: 1,
+                                },
+                                oppisopimus: {
+                                    työnantaja: {
+                                        nimi: {
+                                            fi: 'Kampaamo Kauneus',
+                                        },
+                                        yTunnus: '1234567-8',
+                                    },
+                                },
+                            },
+                        },
+                    ],
+                    osaamisenHankkimistavat: [
+                        {
+                            alku: '2018-03-01',
+                            loppu: '2018-05-01',
+                            osaamisenHankkimistapa: {
+                                tunniste: {
+                                    koodiarvo: 'oppisopimus',
+                                    nimi: {
+                                        fi: 'Oppisopimus',
+                                        sv: 'Läroavtalsutbildning',
+                                    },
+                                    koodistoUri: 'osaamisenhankkimistapa',
+                                    koodistoVersio: 1,
+                                },
+                                oppisopimus: {
+                                    työnantaja: {
+                                        nimi: {
+                                            fi: 'Kampaamo Kauneus',
+                                        },
+                                        yTunnus: '1234567-8',
+                                    },
+                                    oppisopimuksenPurkaminen: {
+                                        päivä: '2019-11-13',
+                                        purettuKoeajalla: true,
+                                    },
+                                },
+                            },
+                        },
+                    ],
+                    työssäoppimisjaksot: [
+                        {
+                            alku: '2017-12-01',
+                            loppu: '2018-01-31',
+                            työssäoppimispaikka: {
+                                fi: 'Huiskiharruslaitos',
+                            },
+                            paikkakunta: {
+                                koodiarvo: '005',
+                                nimi: {
+                                    fi: 'Alajärvi',
+                                    sv: 'Alajärvi',
+                                },
+                                koodistoUri: 'kunta',
+                                koodistoVersio: 2,
+                            },
+                            maa: {
+                                koodiarvo: '246',
+                                nimi: {
+                                    fi: 'Suomi',
+                                    sv: 'Finland',
+                                    en: 'Finland',
+                                },
+                                lyhytNimi: {
+                                    fi: 'FI',
+                                    sv: 'FI',
+                                    en: 'FI',
+                                },
+                                koodistoUri: 'maatjavaltiot2',
+                                koodistoVersio: 2,
+                            },
+                            työtehtävät: {
+                                fi: 'Työtehtävien kuvaus',
+                            },
+                            laajuus: {
+                                arvo: 10,
+                                yksikkö: {
+                                    koodiarvo: '6',
+                                    nimi: {
+                                        fi: 'osaamispistettä',
+                                        sv: 'kompetenspoäng',
+                                        en: 'ECVET competence points',
+                                    },
+                                    lyhytNimi: {
+                                        fi: 'osp',
+                                        sv: 'kp',
+                                        en: 'competence points',
+                                    },
+                                    koodistoUri: 'opintojenlaajuusyksikko',
+                                    koodistoVersio: 1,
+                                },
+                            },
+                        },
+                    ],
+                    koulutussopimukset: [
+                        {
+                            alku: '2018-05-02',
+                            loppu: '2018-07-31',
+                            työssäoppimispaikka: {
+                                fi: 'Huiskiharruslaitos',
+                            },
+                            työssäoppimispaikanYTunnus: '1234567-8',
+                            paikkakunta: {
+                                koodiarvo: '005',
+                                nimi: {
+                                    fi: 'Alajärvi',
+                                    sv: 'Alajärvi',
+                                },
+                                koodistoUri: 'kunta',
+                                koodistoVersio: 2,
+                            },
+                            maa: {
+                                koodiarvo: '246',
+                                nimi: {
+                                    fi: 'Suomi',
+                                    sv: 'Finland',
+                                    en: 'Finland',
+                                },
+                                lyhytNimi: {
+                                    fi: 'FI',
+                                    sv: 'FI',
+                                    en: 'FI',
+                                },
+                                koodistoUri: 'maatjavaltiot2',
+                                koodistoVersio: 2,
+                            },
+                            työtehtävät: {
+                                fi: 'Lattioiden huispaaminen',
+                            },
+                        },
+                    ],
+                    osasuoritukset: [
+                        {
+                            koulutusmoduuli: {
+                                tunniste: {
+                                    koodiarvo: '100170',
+                                    nimi: {
+                                        fi: 'Ehostus',
+                                        sv: 'Makeup',
+                                    },
+                                    lyhytNimi: {
+                                        fi: 'Ehostus',
+                                        sv: 'Makeup',
+                                    },
+                                    koodistoUri: 'tutkinnonosat',
+                                    koodistoVersio: 2,
+                                },
+                                pakollinen: true,
+                                laajuus: {
+                                    arvo: 15,
+                                    yksikkö: {
+                                        koodiarvo: '6',
+                                        nimi: {
+                                            fi: 'osaamispistettä',
+                                            sv: 'kompetenspoäng',
+                                            en: 'ECVET competence points',
+                                        },
+                                        lyhytNimi: {
+                                            fi: 'osp',
+                                            sv: 'kp',
+                                            en: 'competence points',
+                                        },
+                                        koodistoUri: 'opintojenlaajuusyksikko',
+                                        koodistoVersio: 1,
+                                    },
+                                },
+                            },
+                            tutkinnonOsanRyhmä: {
+                                koodiarvo: '1',
+                                nimi: {
+                                    fi: 'Ammatilliset tutkinnon osat',
+                                    sv: 'Yrkesinriktade examensdelar',
+                                },
+                                koodistoUri: 'ammatillisentutkinnonosanryhma',
+                                koodistoVersio: 1,
+                            },
+                            arviointi: [
+                                {
+                                    arvosana: {
+                                        koodiarvo: '3',
+                                        nimi: {
+                                            fi: 'kiitettävä',
+                                            sv: 'berömlig',
+                                        },
+                                        lyhytNimi: {
+                                            fi: 'K3',
+                                        },
+                                        koodistoUri: 'arviointiasteikkoammatillinent1k3',
+                                        koodistoVersio: 1,
+                                    },
+                                    päivä: '2018-04-03',
+                                    hyväksytty: true,
+                                },
+                            ],
+                            näyttö: {
+                                kuvaus: {
+                                    fi: 'Näytön suorituksen sisällön kuvaus',
+                                },
+                                suorituspaikka: {
+                                    tunniste: {
+                                        koodiarvo: '2',
+                                        nimi: {
+                                            fi: 'oppilaitos',
+                                            sv: 'läroanstalt',
+                                        },
+                                        koodistoUri: 'ammatillisennaytonsuorituspaikka',
+                                        koodistoVersio: 1,
+                                    },
+                                    kuvaus: {
+                                        fi: 'Koulun nimi',
+                                    },
+                                },
+                                työssäoppimisenYhteydessä: false,
+                                arviointi: {
+                                    arvosana: {
+                                        koodiarvo: '3',
+                                        nimi: {
+                                            fi: 'kiitettävä',
+                                            sv: 'berömlig',
+                                        },
+                                        lyhytNimi: {
+                                            fi: 'K3',
+                                        },
+                                        koodistoUri: 'arviointiasteikkoammatillinent1k3',
+                                        koodistoVersio: 1,
+                                    },
+                                    päivä: '2018-04-03',
+                                    arvioitsijat: [
+                                        {
+                                            nimi: 'Anne Arvioija',
+                                            ntm: true,
+                                        },
+                                    ],
+                                    arvioinnistaPäättäneet: [
+                                        {
+                                            koodiarvo: '1',
+                                            nimi: {
+                                                fi: 'Opettaja',
+                                                sv: 'Lärare',
+                                            },
+                                            koodistoUri: 'ammatillisennaytonarvioinnistapaattaneet',
+                                            koodistoVersio: 1,
+                                        },
+                                    ],
+                                    arviointikeskusteluunOsallistuneet: [
+                                        {
+                                            koodiarvo: '1',
+                                            nimi: {
+                                                fi: 'Opettaja',
+                                                sv: 'Lärare',
+                                            },
+                                            koodistoUri: 'ammatillisennaytonarviointikeskusteluunosallistuneet',
+                                            koodistoVersio: 1,
+                                        },
+                                        {
+                                            koodiarvo: '3',
+                                            nimi: {
+                                                fi: 'Työnantaja/Työelämän edustaja',
+                                                sv: 'Arbetsgivare',
+                                            },
+                                            koodistoUri: 'ammatillisennaytonarviointikeskusteluunosallistuneet',
+                                            koodistoVersio: 1,
+                                        },
+                                    ],
+                                    hyväksytty: true,
+                                },
+                            },
+                            tyyppi: {
+                                koodiarvo: 'ammatillisentutkinnonosa',
+                                nimi: {
+                                    fi: 'Ammatillisen tutkinnon osa',
+                                    sv: 'Yrkesexamensdel',
+                                    en: 'A vocational education qualification unit',
+                                },
+                                koodistoUri: 'suorituksentyyppi',
+                                koodistoVersio: 1,
+                            },
+                        },
+                        {
+                            koulutusmoduuli: {
+                                tunniste: {
+                                    koodiarvo: '100175',
+                                    nimi: {
+                                        fi: 'Kylpylähoidot',
+                                        sv: 'Spabehandlingar',
+                                    },
+                                    lyhytNimi: {
+                                        fi: 'Kylpylähoidot',
+                                        sv: 'Spabehandlingar',
+                                    },
+                                    koodistoUri: 'tutkinnonosat',
+                                    koodistoVersio: 2,
+                                },
+                                pakollinen: false,
+                                laajuus: {
+                                    arvo: 20,
+                                    yksikkö: {
+                                        koodiarvo: '6',
+                                        nimi: {
+                                            fi: 'osaamispistettä',
+                                            sv: 'kompetenspoäng',
+                                            en: 'ECVET competence points',
+                                        },
+                                        lyhytNimi: {
+                                            fi: 'osp',
+                                            sv: 'kp',
+                                            en: 'competence points',
+                                        },
+                                        koodistoUri: 'opintojenlaajuusyksikko',
+                                        koodistoVersio: 1,
+                                    },
+                                },
+                            },
+                            tutkinnonOsanRyhmä: {
+                                koodiarvo: '1',
+                                nimi: {
+                                    fi: 'Ammatilliset tutkinnon osat',
+                                    sv: 'Yrkesinriktade examensdelar',
+                                },
+                                koodistoUri: 'ammatillisentutkinnonosanryhma',
+                                koodistoVersio: 1,
+                            },
+                            arviointi: [
+                                {
+                                    arvosana: {
+                                        koodiarvo: 'Hyväksytty',
+                                        nimi: {
+                                            fi: 'Hyväksytty',
+                                            sv: 'Godkänd',
+                                        },
+                                        lyhytNimi: {
+                                            fi: 'Hyväksytty',
+                                        },
+                                        koodistoUri: 'arviointiasteikkoammatillinenhyvaksyttyhylatty',
+                                        koodistoVersio: 1,
+                                    },
+                                    päivä: '2019-04-03',
+                                    hyväksytty: true,
+                                },
+                            ],
+                            tunnustettu: {
+                                selite: {
+                                    fi: 'Tunnustettu aiemmasta tutkinnosta',
+                                },
+                                rahoituksenPiirissä: false,
+                            },
+                            tyyppi: {
+                                koodiarvo: 'ammatillisentutkinnonosa',
+                                nimi: {
+                                    fi: 'Ammatillisen tutkinnon osa',
+                                    sv: 'Yrkesexamensdel',
+                                    en: 'A vocational education qualification unit',
+                                },
+                                koodistoUri: 'suorituksentyyppi',
+                                koodistoVersio: 1,
+                            },
+                        },
+                        {
+                            koulutusmoduuli: {
+                                tunniste: {
+                                    koodiarvo: '101054',
+                                    nimi: {
+                                        fi: 'Matemaattis-luonnontieteellinen osaaminen',
+                                        sv: 'Kunnande i matematik och naturvetenskap',
+                                    },
+                                    lyhytNimi: {
+                                        fi: 'Matemaattis-luonnontieteellinen osaaminen',
+                                        sv: 'Kunnande i matematik och naturvetenskap',
+                                    },
+                                    koodistoUri: 'tutkinnonosat',
+                                    koodistoVersio: 2,
+                                },
+                                pakollinen: false,
+                                laajuus: {
+                                    arvo: 10,
+                                    yksikkö: {
+                                        koodiarvo: '6',
+                                        nimi: {
+                                            fi: 'osaamispistettä',
+                                            sv: 'kompetenspoäng',
+                                            en: 'ECVET competence points',
+                                        },
+                                        lyhytNimi: {
+                                            fi: 'osp',
+                                            sv: 'kp',
+                                            en: 'competence points',
+                                        },
+                                        koodistoUri: 'opintojenlaajuusyksikko',
+                                        koodistoVersio: 1,
+                                    },
+                                },
+                            },
+                            tutkinnonOsanRyhmä: {
+                                koodiarvo: '2',
+                                nimi: {
+                                    fi: 'Yhteiset tutkinnon osat',
+                                    sv: 'Gemensamma examensdelar',
+                                },
+                                koodistoUri: 'ammatillisentutkinnonosanryhma',
+                                koodistoVersio: 1,
+                            },
+                            osasuoritukset: [
+                                {
+                                    koulutusmoduuli: {
+                                        tunniste: {
+                                            koodiarvo: 'FK',
+                                            nimi: {
+                                                fi: 'Fysiikka ja kemia',
+                                                sv: 'Fysik och kemi',
+                                            },
+                                            lyhytNimi: {
+                                                fi: 'Fysiikka ja kemia',
+                                            },
+                                            koodistoUri: 'ammatillisenoppiaineet',
+                                            koodistoVersio: 1,
+                                        },
+                                        pakollinen: false,
+                                        laajuus: {
+                                            arvo: 2,
+                                            yksikkö: {
+                                                koodiarvo: '6',
+                                                nimi: {
+                                                    fi: 'osaamispistettä',
+                                                    sv: 'kompetenspoäng',
+                                                    en: 'ECVET competence points',
+                                                },
+                                                lyhytNimi: {
+                                                    fi: 'osp',
+                                                    sv: 'kp',
+                                                    en: 'competence points',
+                                                },
+                                                koodistoUri: 'opintojenlaajuusyksikko',
+                                                koodistoVersio: 1,
+                                            },
+                                        },
+                                    },
+                                    arviointi: [
+                                        {
+                                            arvosana: {
+                                                koodiarvo: '3',
+                                                nimi: {
+                                                    fi: 'kiitettävä',
+                                                    sv: 'berömlig',
+                                                },
+                                                lyhytNimi: {
+                                                    fi: 'K3',
+                                                },
+                                                koodistoUri: 'arviointiasteikkoammatillinent1k3',
+                                                koodistoVersio: 1,
+                                            },
+                                            päivä: '2019-04-03',
+                                            hyväksytty: true,
+                                        },
+                                    ],
+                                    tyyppi: {
+                                        koodiarvo: 'ammatillisentutkinnonosanosaalue',
+                                        nimi: {
+                                            fi: 'Ammatillisen tutkinnon osan osa-alue',
+                                            sv: 'Delområde av en gemensam examendel',
+                                            en: 'Section of vocational qualification unit',
+                                        },
+                                        koodistoUri: 'suorituksentyyppi',
+                                        koodistoVersio: 1,
+                                    },
+                                },
+                                {
+                                    koulutusmoduuli: {
+                                        tunniste: {
+                                            koodiarvo: 'MA',
+                                            nimi: {
+                                                fi: 'Matematiikka',
+                                                sv: 'Matematik',
+                                            },
+                                            lyhytNimi: {
+                                                fi: 'Matematiikka',
+                                                sv: 'Matematik',
+                                            },
+                                            koodistoUri: 'ammatillisenoppiaineet',
+                                            koodistoVersio: 1,
+                                        },
+                                        pakollinen: true,
+                                        laajuus: {
+                                            arvo: 2,
+                                            yksikkö: {
+                                                koodiarvo: '6',
+                                                nimi: {
+                                                    fi: 'osaamispistettä',
+                                                    sv: 'kompetenspoäng',
+                                                    en: 'ECVET competence points',
+                                                },
+                                                lyhytNimi: {
+                                                    fi: 'osp',
+                                                    sv: 'kp',
+                                                    en: 'competence points',
+                                                },
+                                                koodistoUri: 'opintojenlaajuusyksikko',
+                                                koodistoVersio: 1,
+                                            },
+                                        },
+                                    },
+                                    arviointi: [
+                                        {
+                                            arvosana: {
+                                                koodiarvo: '3',
+                                                nimi: {
+                                                    fi: 'kiitettävä',
+                                                    sv: 'berömlig',
+                                                },
+                                                lyhytNimi: {
+                                                    fi: 'K3',
+                                                },
+                                                koodistoUri: 'arviointiasteikkoammatillinent1k3',
+                                                koodistoVersio: 1,
+                                            },
+                                            päivä: '2019-04-03',
+                                            hyväksytty: true,
+                                        },
+                                    ],
+                                    tyyppi: {
+                                        koodiarvo: 'ammatillisentutkinnonosanosaalue',
+                                        nimi: {
+                                            fi: 'Ammatillisen tutkinnon osan osa-alue',
+                                            sv: 'Delområde av en gemensam examendel',
+                                            en: 'Section of vocational qualification unit',
+                                        },
+                                        koodistoUri: 'suorituksentyyppi',
+                                        koodistoVersio: 1,
+                                    },
+                                },
+                            ],
+                            tyyppi: {
+                                koodiarvo: 'ammatillisentutkinnonosa',
+                                nimi: {
+                                    fi: 'Ammatillisen tutkinnon osa',
+                                    sv: 'Yrkesexamensdel',
+                                    en: 'A vocational education qualification unit',
+                                },
+                                koodistoUri: 'suorituksentyyppi',
+                                koodistoVersio: 1,
+                            },
+                        },
+                        {
+                            koulutusmoduuli: {
+                                tunniste: {
+                                    koodiarvo: '101056',
+                                    nimi: {
+                                        fi: 'Sosiaalinen ja kulttuurinen osaaminen',
+                                        sv: 'Socialt och kulturellt kunnande',
+                                    },
+                                    lyhytNimi: {
+                                        fi: 'Sosiaalinen ja kulttuurinen osaaminen',
+                                        sv: 'Socialt och kulturellt kunnande',
+                                    },
+                                    koodistoUri: 'tutkinnonosat',
+                                    koodistoVersio: 2,
+                                },
+                                pakollinen: false,
+                                laajuus: {
+                                    arvo: 15,
+                                    yksikkö: {
+                                        koodiarvo: '6',
+                                        nimi: {
+                                            fi: 'osaamispistettä',
+                                            sv: 'kompetenspoäng',
+                                            en: 'ECVET competence points',
+                                        },
+                                        lyhytNimi: {
+                                            fi: 'osp',
+                                            sv: 'kp',
+                                            en: 'competence points',
+                                        },
+                                        koodistoUri: 'opintojenlaajuusyksikko',
+                                        koodistoVersio: 1,
+                                    },
+                                },
+                            },
+                            tutkinnonOsanRyhmä: {
+                                koodiarvo: '2',
+                                nimi: {
+                                    fi: 'Yhteiset tutkinnon osat',
+                                    sv: 'Gemensamma examensdelar',
+                                },
+                                koodistoUri: 'ammatillisentutkinnonosanryhma',
+                                koodistoVersio: 1,
+                            },
+                            tyyppi: {
+                                koodiarvo: 'ammatillisentutkinnonosa',
+                                nimi: {
+                                    fi: 'Ammatillisen tutkinnon osa',
+                                    sv: 'Yrkesexamensdel',
+                                    en: 'A vocational education qualification unit',
+                                },
+                                koodistoUri: 'suorituksentyyppi',
+                                koodistoVersio: 1,
+                            },
+                        },
+                        {
+                            koulutusmoduuli: {
+                                tunniste: {
+                                    koodiarvo: '101053',
+                                    nimi: {
+                                        fi: 'Viestintä- ja vuorovaikutusosaaminen',
+                                        sv: 'Kunnande i kommunikation och interaktion',
+                                    },
+                                    lyhytNimi: {
+                                        fi: 'Viestintä- ja vuorovaikutusosaaminen',
+                                        sv: 'Kunnande i kommunikation och interaktion',
+                                    },
+                                    koodistoUri: 'tutkinnonosat',
+                                    koodistoVersio: 2,
+                                },
+                                pakollinen: true,
+                                laajuus: {
+                                    arvo: 10,
+                                    yksikkö: {
+                                        koodiarvo: '6',
+                                        nimi: {
+                                            fi: 'osaamispistettä',
+                                            sv: 'kompetenspoäng',
+                                            en: 'ECVET competence points',
+                                        },
+                                        lyhytNimi: {
+                                            fi: 'osp',
+                                            sv: 'kp',
+                                            en: 'competence points',
+                                        },
+                                        koodistoUri: 'opintojenlaajuusyksikko',
+                                        koodistoVersio: 1,
+                                    },
+                                },
+                            },
+                            tutkinnonOsanRyhmä: {
+                                koodiarvo: '2',
+                                nimi: {
+                                    fi: 'Yhteiset tutkinnon osat',
+                                    sv: 'Gemensamma examensdelar',
+                                },
+                                koodistoUri: 'ammatillisentutkinnonosanryhma',
+                                koodistoVersio: 1,
+                            },
+                            osasuoritukset: [
+                                {
+                                    koulutusmoduuli: {
+                                        tunniste: {
+                                            koodiarvo: 'TK1',
+                                            nimi: {
+                                                fi: 'Toinen kotimainen kieli, ruotsi',
+                                                sv: 'Andra inhemska språket, svenska',
+                                            },
+                                            lyhytNimi: {
+                                                fi: 'Toinen kotimainen kieli, ruotsi',
+                                            },
+                                            koodistoUri: 'ammatillisenoppiaineet',
+                                            koodistoVersio: 1,
+                                        },
+                                        kieli: {
+                                            koodiarvo: 'SV',
+                                            nimi: {
+                                                fi: 'ruotsi',
+                                                sv: 'svenska',
+                                                en: 'Swedish',
+                                            },
+                                            lyhytNimi: {
+                                                fi: 'ruotsi',
+                                                sv: 'svenska',
+                                                en: 'Swedish',
+                                            },
+                                            koodistoUri: 'kielivalikoima',
+                                            koodistoVersio: 1,
+                                        },
+                                        pakollinen: true,
+                                        laajuus: {
+                                            arvo: 2,
+                                            yksikkö: {
+                                                koodiarvo: '6',
+                                                nimi: {
+                                                    fi: 'osaamispistettä',
+                                                    sv: 'kompetenspoäng',
+                                                    en: 'ECVET competence points',
+                                                },
+                                                lyhytNimi: {
+                                                    fi: 'osp',
+                                                    sv: 'kp',
+                                                    en: 'competence points',
+                                                },
+                                                koodistoUri: 'opintojenlaajuusyksikko',
+                                                koodistoVersio: 1,
+                                            },
+                                        },
+                                    },
+                                    arviointi: [
+                                        {
+                                            arvosana: {
+                                                koodiarvo: 'Hyväksytty',
+                                                nimi: {
+                                                    fi: 'Hyväksytty',
+                                                    sv: 'Godkänd',
+                                                },
+                                                lyhytNimi: {
+                                                    fi: 'Hyväksytty',
+                                                },
+                                                koodistoUri: 'arviointiasteikkoammatillinenhyvaksyttyhylatty',
+                                                koodistoVersio: 1,
+                                            },
+                                            päivä: '2018-04-03',
+                                            hyväksytty: true,
+                                        },
+                                    ],
+                                    tyyppi: {
+                                        koodiarvo: 'ammatillisentutkinnonosanosaalue',
+                                        nimi: {
+                                            fi: 'Ammatillisen tutkinnon osan osa-alue',
+                                            sv: 'Delområde av en gemensam examendel',
+                                            en: 'Section of vocational qualification unit',
+                                        },
+                                        koodistoUri: 'suorituksentyyppi',
+                                        koodistoVersio: 1,
+                                    },
+                                },
+                                {
+                                    koulutusmoduuli: {
+                                        tunniste: {
+                                            koodiarvo: 'VK',
+                                            nimi: {
+                                                fi: 'Vieraat kielet',
+                                                sv: 'Främmande språk',
+                                            },
+                                            lyhytNimi: {
+                                                fi: 'Vieraat kielet',
+                                            },
+                                            koodistoUri: 'ammatillisenoppiaineet',
+                                            koodistoVersio: 1,
+                                        },
+                                        kieli: {
+                                            koodiarvo: 'EN',
+                                            nimi: {
+                                                fi: 'englanti',
+                                                sv: 'engelska',
+                                                en: 'English',
+                                            },
+                                            lyhytNimi: {
+                                                fi: 'englanti',
+                                                sv: 'engelska',
+                                                en: 'English',
+                                            },
+                                            koodistoUri: 'kielivalikoima',
+                                            koodistoVersio: 1,
+                                        },
+                                        pakollinen: true,
+                                        laajuus: {
+                                            arvo: 2,
+                                            yksikkö: {
+                                                koodiarvo: '6',
+                                                nimi: {
+                                                    fi: 'osaamispistettä',
+                                                    sv: 'kompetenspoäng',
+                                                    en: 'ECVET competence points',
+                                                },
+                                                lyhytNimi: {
+                                                    fi: 'osp',
+                                                    sv: 'kp',
+                                                    en: 'competence points',
+                                                },
+                                                koodistoUri: 'opintojenlaajuusyksikko',
+                                                koodistoVersio: 1,
+                                            },
+                                        },
+                                    },
+                                    arviointi: [
+                                        {
+                                            arvosana: {
+                                                koodiarvo: 'Hyväksytty',
+                                                nimi: {
+                                                    fi: 'Hyväksytty',
+                                                    sv: 'Godkänd',
+                                                },
+                                                lyhytNimi: {
+                                                    fi: 'Hyväksytty',
+                                                },
+                                                koodistoUri: 'arviointiasteikkoammatillinenhyvaksyttyhylatty',
+                                                koodistoVersio: 1,
+                                            },
+                                            päivä: '2018-04-03',
+                                            hyväksytty: true,
+                                        },
+                                    ],
+                                    tyyppi: {
+                                        koodiarvo: 'ammatillisentutkinnonosanosaalue',
+                                        nimi: {
+                                            fi: 'Ammatillisen tutkinnon osan osa-alue',
+                                            sv: 'Delområde av en gemensam examendel',
+                                            en: 'Section of vocational qualification unit',
+                                        },
+                                        koodistoUri: 'suorituksentyyppi',
+                                        koodistoVersio: 1,
+                                    },
+                                },
+                                {
+                                    koulutusmoduuli: {
+                                        tunniste: {
+                                            koodiarvo: 'VVAI',
+                                            nimi: {
+                                                fi: 'Viestintä ja vuorovaikutus äidinkielellä',
+                                                sv: 'Kommunikation och interaktion på modersmålet',
+                                            },
+                                            lyhytNimi: {
+                                                fi: 'viestintä ja vuorovaikutus äidinkielellä',
+                                            },
+                                            koodistoUri: 'ammatillisenoppiaineet',
+                                            koodistoVersio: 1,
+                                        },
+                                        kieli: {
+                                            koodiarvo: 'FI',
+                                            nimi: {
+                                                fi: 'suomi',
+                                                sv: 'finska',
+                                                en: 'Finnish',
+                                            },
+                                            lyhytNimi: {
+                                                fi: 'suomi',
+                                                sv: 'finska',
+                                                en: 'Finnish',
+                                            },
+                                            koodistoUri: 'kielivalikoima',
+                                            koodistoVersio: 1,
+                                        },
+                                        pakollinen: false,
+                                        laajuus: {
+                                            arvo: 2,
+                                            yksikkö: {
+                                                koodiarvo: '6',
+                                                nimi: {
+                                                    fi: 'osaamispistettä',
+                                                    sv: 'kompetenspoäng',
+                                                    en: 'ECVET competence points',
+                                                },
+                                                lyhytNimi: {
+                                                    fi: 'osp',
+                                                    sv: 'kp',
+                                                    en: 'competence points',
+                                                },
+                                                koodistoUri: 'opintojenlaajuusyksikko',
+                                                koodistoVersio: 1,
+                                            },
+                                        },
+                                    },
+                                    arviointi: [
+                                        {
+                                            arvosana: {
+                                                koodiarvo: 'Hyväksytty',
+                                                nimi: {
+                                                    fi: 'Hyväksytty',
+                                                    sv: 'Godkänd',
+                                                },
+                                                lyhytNimi: {
+                                                    fi: 'Hyväksytty',
+                                                },
+                                                koodistoUri: 'arviointiasteikkoammatillinenhyvaksyttyhylatty',
+                                                koodistoVersio: 1,
+                                            },
+                                            päivä: '2019-04-03',
+                                            hyväksytty: true,
+                                        },
+                                    ],
+                                    tyyppi: {
+                                        koodiarvo: 'ammatillisentutkinnonosanosaalue',
+                                        nimi: {
+                                            fi: 'Ammatillisen tutkinnon osan osa-alue',
+                                            sv: 'Delområde av en gemensam examendel',
+                                            en: 'Section of vocational qualification unit',
+                                        },
+                                        koodistoUri: 'suorituksentyyppi',
+                                        koodistoVersio: 1,
+                                    },
+                                },
+                            ],
+                            tyyppi: {
+                                koodiarvo: 'ammatillisentutkinnonosa',
+                                nimi: {
+                                    fi: 'Ammatillisen tutkinnon osa',
+                                    sv: 'Yrkesexamensdel',
+                                    en: 'A vocational education qualification unit',
+                                },
+                                koodistoUri: 'suorituksentyyppi',
+                                koodistoVersio: 1,
+                            },
+                        },
+                    ],
+                    tyyppi: {
+                        koodiarvo: 'ammatillinentutkinto',
+                        nimi: {
+                            fi: 'Ammatillinen tutkinto',
+                            sv: 'Yrkesinriktad examen',
+                            en: 'Vocational education  qualification',
+                        },
+                        koodistoUri: 'suorituksentyyppi',
+                        koodistoVersio: 1,
+                    },
+                },
+                {
+                    koulutusmoduuli: {
+                        tunniste: {
+                            koodiarvo: '999904',
+                            nimi: {
+                                fi: 'Näyttötutkintoon valmistava koulutus',
+                                sv: 'utbildning som förbereder för fristående examen',
+                            },
+                            koodistoUri: 'koulutus',
+                            koodistoVersio: 11,
+                        },
+                    },
+                    tutkinto: {
+                        tunniste: {
+                            koodiarvo: '381304',
+                            nimi: {
+                                fi: 'Kauneudenhoitoalan perustutkinto',
+                                sv: 'Grundexamen inom skönhetsbranschen',
+                                en: 'Beauty Care, VQ',
+                            },
+                            lyhytNimi: {
+                                fi: 'Kauneudenhoitoalan perustutk',
+                                sv: 'Skönhetsbr., gr.ex.',
+                                en: 'Beauty Care, Vocational Qualification',
+                            },
+                            koodistoUri: 'koulutus',
+                            koodistoVersio: 11,
+                        },
+                        perusteenDiaarinumero: '47/011/2014',
+                        perusteenNimi: {
+                            fi: 'Kauneudenhoitoalan perustutkinto',
+                            sv: 'Grundexamen inom skönhetsbranschen',
+                        },
+                        koulutustyyppi: {
+                            koodiarvo: '1',
+                            nimi: {
+                                fi: 'Ammatillinen perustutkinto',
+                                sv: 'Yrkesinriktad grundexamen',
+                                en: 'Vocational upper secondary qualification',
+                            },
+                            lyhytNimi: {
+                                fi: 'Ammatillinen perustutkinto',
+                                sv: 'Yrkesinriktad grundexamen',
+                            },
+                            koodistoUri: 'koulutustyyppi',
+                            koodistoVersio: 2,
+                        },
+                    },
+                    toimipiste: {
+                        oid: '1.2.246.562.10.52251087186',
+                        oppilaitosnumero: {
+                            koodiarvo: '10105',
+                            nimi: {
+                                fi: 'Stadin ammatti- ja aikuisopisto',
+                            },
+                            lyhytNimi: {
+                                fi: 'Stadin ammatti- ja aikuisopisto',
+                            },
+                            koodistoUri: 'oppilaitosnumero',
+                            koodistoVersio: 1,
+                        },
+                        nimi: {
+                            fi: 'Stadin ammattiopisto',
+                        },
+                        kotipaikka: {
+                            koodiarvo: '091',
+                            nimi: {
+                                fi: 'Helsinki',
+                                sv: 'Helsingfors',
+                            },
+                            koodistoUri: 'kunta',
+                            koodistoVersio: 2,
+                        },
+                    },
+                    suorituskieli: {
+                        koodiarvo: 'FI',
+                        nimi: {
+                            fi: 'suomi',
+                            sv: 'finska',
+                            en: 'Finnish',
+                        },
+                        lyhytNimi: {
+                            fi: 'suomi',
+                            sv: 'finska',
+                            en: 'Finnish',
+                        },
+                        koodistoUri: 'kieli',
+                        koodistoVersio: 1,
+                    },
+                    tyyppi: {
+                        koodiarvo: 'nayttotutkintoonvalmistavakoulutus',
+                        nimi: {
+                            fi: 'Näyttötutkintoon valmistava koulutus',
+                            sv: 'Utbildning som förbereder för fristående examen',
+                            en: 'Education preparing for competence demonstration qualification',
+                        },
+                        koodistoUri: 'suorituksentyyppi',
+                        koodistoVersio: 1,
+                    },
+                },
+            ],
+            tyyppi: {
+                koodiarvo: 'ammatillinenkoulutus',
+                nimi: {
+                    fi: 'Ammatillinen koulutus',
+                    sv: 'Yrkesutbildning',
+                },
+                lyhytNimi: {
+                    fi: 'Ammatillinen koulutus',
+                },
+                koodistoUri: 'opiskeluoikeudentyyppi',
+                koodistoVersio: 1,
+            },
+            alkamispäivä: '2017-04-03',
+            päättymispäivä: '2018-10-31',
+        },
+        {
+            oid: '1.2.246.562.15.73963850760',
+            versionumero: 5,
+            aikaleima: '2019-09-09T16:18:09.458061',
+            oppilaitos: {
+                oid: '1.2.246.562.10.51720121923',
+                oppilaitosnumero: {
+                    koodiarvo: '10054',
+                    nimi: {
+                        fi: 'Omnia',
+                    },
+                    koodistoUri: 'oppilaitosnumero',
+                    koodistoVersio: 1,
+                },
+                nimi: {
+                    fi: 'Omnia',
+                },
+                kotipaikka: {
+                    koodiarvo: '049',
+                    nimi: {
+                        fi: 'Espoo',
+                        sv: 'Esbo',
+                    },
+                    koodistoUri: 'kunta',
+                    koodistoVersio: 2,
+                },
+            },
+            koulutustoimija: {
+                oid: '1.2.246.562.10.53642770753',
+                nimi: {
+                    fi: 'Espoon seudun koulutuskuntayhtymä Omnia',
+                },
+                yTunnus: '0502454-6',
+                kotipaikka: {
+                    koodiarvo: '049',
+                    nimi: {
+                        fi: 'Espoo',
+                        sv: 'Esbo',
+                    },
+                    koodistoUri: 'kunta',
+                    koodistoVersio: 2,
+                },
+            },
+            ostettu: false,
+            tila: {
+                opiskeluoikeusjaksot: [
+                    {
+                        alku: '2019-01-01',
+                        tila: {
+                            koodiarvo: 'lasna',
+                            nimi: {
+                                fi: 'Läsnä',
+                                sv: 'Närvarande',
+                                en: 'Present',
+                            },
+                            koodistoUri: 'koskiopiskeluoikeudentila',
+                            koodistoVersio: 1,
+                        },
+                        opintojenRahoitus: {
+                            koodiarvo: '1',
+                            nimi: {
+                                fi: 'Valtionosuusrahoitteinen koulutus',
+                                sv: 'Statsandelsfinansierad utbildning',
+                            },
+                            koodistoUri: 'opintojenrahoitus',
+                            koodistoVersio: 1,
+                        },
+                    },
+                ],
+            },
+            suoritukset: [
+                {
+                    koulutusmoduuli: {
+                        tunniste: {
+                            koodiarvo: '381342',
+                            nimi: {
+                                fi: 'Hius- ja kauneudenhoitoalan perustutkinto',
+                                sv: 'Grundexamen inom hår- och skönhetsbranschen',
+                                en: 'Vocational qualification in Hairdressing and Beauty Care',
+                            },
+                            lyhytNimi: {
+                                fi: 'Hius- ja kauneudenhoitoalan pt',
+                                en: 'Vocational qualification in Hairdressing and Beauty Care',
+                            },
+                            koodistoUri: 'koulutus',
+                            koodistoVersio: 11,
+                        },
+                        perusteenDiaarinumero: 'OPH-2532-2017',
+                        perusteenNimi: {
+                            fi: 'Hius- ja kauneudenhoitoalan perustutkinto',
+                            sv: 'Grundexamen inom hår- och skönhetsbranschen',
+                            en: 'Vocational qualification in Hairdressing and Beauty Care',
+                        },
+                        koulutustyyppi: {
+                            koodiarvo: '1',
+                            nimi: {
+                                fi: 'Ammatillinen perustutkinto',
+                                sv: 'Yrkesinriktad grundexamen',
+                                en: 'Vocational upper secondary qualification',
+                            },
+                            lyhytNimi: {
+                                fi: 'Ammatillinen perustutkinto',
+                                sv: 'Yrkesinriktad grundexamen',
+                            },
+                            koodistoUri: 'koulutustyyppi',
+                            koodistoVersio: 2,
+                        },
+                    },
+                    suoritustapa: {
+                        koodiarvo: 'reformi',
+                        nimi: {
+                            fi: 'Reformin mukainen näyttö',
+                            sv: 'Reform',
+                        },
+                        lyhytNimi: {
+                            fi: 'Reformi',
+                        },
+                        koodistoUri: 'ammatillisentutkinnonsuoritustapa',
+                        koodistoVersio: 1,
+                    },
+                    toimipiste: {
+                        oid: '1.2.246.562.10.51720121923',
+                        oppilaitosnumero: {
+                            koodiarvo: '10054',
+                            nimi: {
+                                fi: 'Omnia',
+                            },
+                            koodistoUri: 'oppilaitosnumero',
+                            koodistoVersio: 1,
+                        },
+                        nimi: {
+                            fi: 'Omnia',
+                        },
+                        kotipaikka: {
+                            koodiarvo: '049',
+                            nimi: {
+                                fi: 'Espoo',
+                                sv: 'Esbo',
+                            },
+                            koodistoUri: 'kunta',
+                            koodistoVersio: 2,
+                        },
+                    },
+                    suorituskieli: {
+                        koodiarvo: 'FI',
+                        nimi: {
+                            fi: 'suomi',
+                            sv: 'finska',
+                            en: 'Finnish',
+                        },
+                        lyhytNimi: {
+                            fi: 'suomi',
+                            sv: 'finska',
+                            en: 'Finnish',
+                        },
+                        koodistoUri: 'kieli',
+                        koodistoVersio: 1,
+                    },
+                    osaamisenHankkimistavat: [
+                        {
+                            alku: '2019-10-11',
+                            loppu: '2019-11-11',
+                            osaamisenHankkimistapa: {
+                                tunniste: {
+                                    koodiarvo: 'oppisopimus',
+                                    nimi: {
+                                        fi: 'Oppisopimus',
+                                        sv: 'Läroavtalsutbildning',
+                                    },
+                                    koodistoUri: 'osaamisenhankkimistapa',
+                                    koodistoVersio: 1,
+                                },
+                                oppisopimus: {
+                                    työnantaja: {
+                                        nimi: {
+                                            fi: 'Yrityksen nimi',
+                                        },
+                                        yTunnus: '1234567-8',
+                                    },
+                                },
+                            },
+                        },
+                        {
+                            alku: '2019-09-16',
+                            loppu: '2019-09-20',
+                            osaamisenHankkimistapa: {
+                                tunniste: {
+                                    koodiarvo: 'oppilaitosmuotoinenkoulutus',
+                                    nimi: {
+                                        fi: 'Oppilaitosmuotoinen koulutus',
+                                        sv: 'Utbildningen som när-, distansundervisning eller på en arbetsplats',
+                                    },
+                                    koodistoUri: 'osaamisenhankkimistapa',
+                                    koodistoVersio: 1,
+                                },
+                            },
+                        },
+                        {
+                            alku: '2019-10-21',
+                            loppu: '2019-10-25',
+                            osaamisenHankkimistapa: {
+                                tunniste: {
+                                    koodiarvo: 'oppilaitosmuotoinenkoulutus',
+                                    nimi: {
+                                        fi: 'Oppilaitosmuotoinen koulutus',
+                                        sv: 'Utbildningen som när-, distansundervisning eller på en arbetsplats',
+                                    },
+                                    koodistoUri: 'osaamisenhankkimistapa',
+                                    koodistoVersio: 1,
+                                },
+                            },
+                        },
+                    ],
+                    koulutussopimukset: [
+                        {
+                            alku: '2019-09-09',
+                            loppu: '2019-10-10',
+                            työssäoppimispaikka: {
+                                fi: 'Työssäoppimispaikan nimi',
+                            },
+                            työssäoppimispaikanYTunnus: '1234567-8',
+                            paikkakunta: {
+                                koodiarvo: '002',
+                                nimi: {
+                                    fi: 'Aitolahti',
+                                    sv: 'Aitolahti',
+                                },
+                                koodistoUri: 'kunta',
+                                koodistoVersio: 2,
+                            },
+                            maa: {
+                                koodiarvo: '246',
+                                nimi: {
+                                    fi: 'Suomi',
+                                    sv: 'Finland',
+                                    en: 'Finland',
+                                },
+                                lyhytNimi: {
+                                    fi: 'FI',
+                                    sv: 'FI',
+                                    en: 'FI',
+                                },
+                                koodistoUri: 'maatjavaltiot2',
+                                koodistoVersio: 2,
+                            },
+                            työtehtävät: {
+                                fi: 'Lahden täyttäminen ja tyhjentäminen',
+                            },
+                        },
+                    ],
+                    osasuoritukset: [
+                        {
+                            koulutusmoduuli: {
+                                tunniste: {
+                                    koodiarvo: '105972',
+                                    nimi: {
+                                        fi: 'Ehostuspalvelut',
+                                        sv: 'Makeuptjänster',
+                                    },
+                                    lyhytNimi: {
+                                        fi: 'Ehostuspalvelut',
+                                    },
+                                    koodistoUri: 'tutkinnonosat',
+                                    koodistoVersio: 2,
+                                },
+                                pakollinen: false,
+                            },
+                            tutkinnonOsanRyhmä: {
+                                koodiarvo: '1',
+                                nimi: {
+                                    fi: 'Ammatilliset tutkinnon osat',
+                                    sv: 'Yrkesinriktade examensdelar',
+                                },
+                                koodistoUri: 'ammatillisentutkinnonosanryhma',
+                                koodistoVersio: 1,
+                            },
+                            tunnustettu: {
+                                selite: {
+                                    fi: 'Tunnustettu tutkinnosta "kauneudenhoitoalan perustutkinto 47/011/2014" Stadin ammattiopisto.',
+                                },
+                                rahoituksenPiirissä: false,
+                            },
+                            tyyppi: {
+                                koodiarvo: 'ammatillisentutkinnonosa',
+                                nimi: {
+                                    fi: 'Ammatillisen tutkinnon osa',
+                                    sv: 'Yrkesexamensdel',
+                                    en: 'A vocational education qualification unit',
+                                },
+                                koodistoUri: 'suorituksentyyppi',
+                                koodistoVersio: 1,
+                            },
+                        },
+                        {
+                            koulutusmoduuli: {
+                                tunniste: {
+                                    koodiarvo: '400013',
+                                    nimi: {
+                                        fi: 'Matemaattis-luonnontieteellinen osaaminen',
+                                        sv: 'Kunnande i matematik och naturvetenskap',
+                                    },
+                                    lyhytNimi: {
+                                        fi: 'Matemaattis-luonnontieteellinen osaaminen',
+                                    },
+                                    koodistoUri: 'tutkinnonosat',
+                                    koodistoVersio: 2,
+                                },
+                                pakollinen: false,
+                            },
+                            tutkinnonOsanRyhmä: {
+                                koodiarvo: '2',
+                                nimi: {
+                                    fi: 'Yhteiset tutkinnon osat',
+                                    sv: 'Gemensamma examensdelar',
+                                },
+                                koodistoUri: 'ammatillisentutkinnonosanryhma',
+                                koodistoVersio: 1,
+                            },
+                            tyyppi: {
+                                koodiarvo: 'ammatillisentutkinnonosa',
+                                nimi: {
+                                    fi: 'Ammatillisen tutkinnon osa',
+                                    sv: 'Yrkesexamensdel',
+                                    en: 'A vocational education qualification unit',
+                                },
+                                koodistoUri: 'suorituksentyyppi',
+                                koodistoVersio: 1,
+                            },
+                        },
+                    ],
+                    tyyppi: {
+                        koodiarvo: 'ammatillinentutkinto',
+                        nimi: {
+                            fi: 'Ammatillinen tutkinto',
+                            sv: 'Yrkesinriktad examen',
+                            en: 'Vocational education  qualification',
+                        },
+                        koodistoUri: 'suorituksentyyppi',
+                        koodistoVersio: 1,
+                    },
+                },
+            ],
+            tyyppi: {
+                koodiarvo: 'ammatillinenkoulutus',
+                nimi: {
+                    fi: 'Ammatillinen koulutus',
+                    sv: 'Yrkesutbildning',
+                },
+                lyhytNimi: {
+                    fi: 'Ammatillinen koulutus',
+                },
+                koodistoUri: 'opiskeluoikeudentyyppi',
+                koodistoVersio: 1,
+            },
+            alkamispäivä: '2019-01-01',
+        },
+    ],
+};
+

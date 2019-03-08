@@ -1,6 +1,8 @@
 import PromiseMatcher from 'jasmine-node-promise-matchers';
+import cleanDeep from 'clean-deep';
+import flatMap from 'array.prototype.flatmap';
 import KoskiClient from '../src/KoskiClient';
-import { oppija, valleVirta, entinenEsiopiskelija } from './Fixtures';
+import { oppija, valleVirta, entinenEsiopiskelija, minnaMonirahoitteinen, koulutussopimusopiskelija } from './Fixtures';
 
 jest.unmock('../src/KoskiClient');
 
@@ -27,7 +29,14 @@ describe('KoskiClient', () => {
 
         const opiskeluoikeudet = [{
             oppilaitokset: ['mallikoulu'],
-            suoritukset: [{ koulutussopimukset: 'Haaga-Helia' }],
+            suoritukset: [{
+                koulutussopimukset: {
+                    alku: '2017-01-01',
+                    loppu: '2019-01-01',
+                    maa: 'Suomi',
+                    paikkakunta: 'Juupajoki',
+                },
+            }],
             tyyppi: { koodiarvo: 'korkeakoulutus' },
         }];
         const axios = {
@@ -158,10 +167,6 @@ describe('KoskiClient', () => {
         const includedInOpintoOikeus = opintoOikeudet.opiskeluoikeudet.find(x => x.sisältyyOpiskeluoikeuteen);
         expect(includedInOpintoOikeus.sisältyyOpiskeluoikeuteen.oppilaitos.oid).toEqual('1.2.246.562.10.52251087186');
 
-        const työssäOppimisPaikkaOikeus = opintoOikeudet.opiskeluoikeudet.find(x =>
-            x.suoritukset.find(y => y.koulutussopimukset));
-
-        expect(työssäOppimisPaikkaOikeus.suoritukset[0].koulutussopimukset[0].työssäoppimispaikka.fi).toEqual('McDonalds');
         done();
     });
 
@@ -301,6 +306,83 @@ describe('KoskiClient', () => {
             },
             koodistoUri: 'suorituksentyyppi',
             koodistoVersio: 1,
+        });
+
+        done();
+    });
+
+    it('Should omit opintojenrahoitus from response', async(done) => {
+        KoskiClient.prototype._executeOppijaDataRequest =
+            jest.fn(() => Promise.resolve({ status: 200, data: minnaMonirahoitteinen }));
+
+        const client = new KoskiClient('username', 'password');
+        const opintoOikeudet = await client.getOpintoOikeudet('130620-4884', koskiClientMemberCode);
+
+        const rahoitukset = cleanDeep(opintoOikeudet.opiskeluoikeudet.map(oikeus =>
+            oikeus.tila.opiskeluoikeusjaksot.map(jakso => jakso.opintojenRahoitus)));
+
+        expect(rahoitukset).toHaveLength(0);
+
+        done();
+    });
+
+    it('Koulutussopimukset should only contain required fields', async(done) => {
+        KoskiClient.prototype._executeOppijaDataRequest =
+            jest.fn(() => Promise.resolve({ status: 200, data: koulutussopimusopiskelija }));
+
+        const client = new KoskiClient('username', 'password');
+        const opintoOikeudet = await client.getOpintoOikeudet('130620-4884', koskiClientMemberCode);
+
+        const koulutussopimukset = flatMap(opintoOikeudet.opiskeluoikeudet, o => flatMap(o.suoritukset, s => s.koulutussopimukset))
+            .filter(x => x);
+
+        const työssäoppimispaikat = koulutussopimukset.map(k => k.työssäoppimispaikka);
+        const työssäoppimispaikkaYTunnukset = koulutussopimukset.map(k => k.työssäoppimispaikanYTunnus);
+        const työssäoppimispaikkaTyötehtävät = koulutussopimukset.map(k => k.työtehtävät);
+
+        expect(työssäoppimispaikat).toHaveLength(0);
+        expect(työssäoppimispaikkaYTunnukset).toHaveLength(0);
+        expect(työssäoppimispaikkaTyötehtävät).toHaveLength(0);
+
+        done();
+    });
+
+    it('Järjestämismuodot should only contain required fields', async(done) => {
+        KoskiClient.prototype._executeOppijaDataRequest =
+            jest.fn(() => Promise.resolve({ status: 200, data: koulutussopimusopiskelija }));
+
+        const client = new KoskiClient('username', 'password');
+        const opintoOikeudet = await client.getOpintoOikeudet('130620-4884', koskiClientMemberCode);
+
+        const järjestämismuodot = flatMap(opintoOikeudet.opiskeluoikeudet, o => flatMap(o.suoritukset, s => s.järjestämismuodot))
+            .filter(x => x);
+
+        expect(järjestämismuodot).toHaveLength(1);
+        expect(järjestämismuodot[0].järjestämismuoto.tunniste.koodiarvo).toBe('20');
+        expect(järjestämismuodot[0].alku).toBe('2017-10-01');
+        expect(järjestämismuodot[0].loppu).toBe('2017-11-30');
+        expect(järjestämismuodot[0].järjestämismuoto.oppisopimus).toBeUndefined();
+
+        done();
+    });
+
+    it('Osaamisenhankkimistapa should only contain required fields', async(done) => {
+        KoskiClient.prototype._executeOppijaDataRequest =
+            jest.fn(() => Promise.resolve({ status: 200, data: koulutussopimusopiskelija }));
+
+        const client = new KoskiClient('username', 'password');
+        const opintoOikeudet = await client.getOpintoOikeudet('130620-4884', koskiClientMemberCode);
+
+        const osaamisenHankkimistavat = flatMap(opintoOikeudet.opiskeluoikeudet, o =>
+            flatMap(o.suoritukset, s => s.osaamisenHankkimistavat)).filter(x => x);
+
+        const oppisopimusHankkimistavat = osaamisenHankkimistavat.filter(t =>
+            t.osaamisenHankkimistapa.tunniste.koodiarvo === 'oppisopimus');
+
+        expect(oppisopimusHankkimistavat).toHaveLength(2);
+        oppisopimusHankkimistavat.forEach((t) => {
+            expect(t.osaamisenHankkimistapa.tunniste.nimi.fi).toBe('Oppisopimus');
+            expect(t.osaamisenHankkimistapa.oppisopimus).toBeUndefined();
         });
 
         done();
