@@ -68,7 +68,7 @@ class Lambda {
                 resolve(soapEnvelope);
             } catch (err) {
                 log.config.meta.event.failure = true;
-                log.error('Handled opinto-oikeus request with failure');
+                log.error(`Handled opinto-oikeus request with failure ${JSON.stringify(err)}`);
                 reject(err);
             }
         });

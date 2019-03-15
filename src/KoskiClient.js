@@ -62,7 +62,7 @@ class KoskiClient {
         try {
             return error.response.data[0].message; // error message from Axios / Koski API
         } catch (err) {
-            return error.message; // default message
+            return error.message || error; // default message
         }
     }
 
