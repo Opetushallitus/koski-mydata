@@ -128,9 +128,14 @@ class KoskiClient {
                 });
             } catch (err) {
                 // error contains credentials, url contains hetu, lets not log them
-                if (err.response && err.response.status && err.response.status === 403) {
-                    reject(new Forbidden(`Opinto-oikeus search failed due to insufficient permissions: 
-                    ${KoskiClient.generateErrorMessage(err)}`));
+                if (err.response && err.response.status) {
+                    if (err.response.status === 403) {
+                        reject(new Forbidden(`Opinto-oikeus search failed due to insufficient permissions:
+                        ${KoskiClient.generateErrorMessage(err)}`));
+                    } else {
+                        log.error(`Koski response: [${err.response.status}]`);
+                        reject(new Error(`Opinto-oikeus search failed with message: ${KoskiClient.generateErrorMessage(err)}`));
+                    }
                 } else {
                     reject(new Error(`Opinto-oikeus search failed with message: ${KoskiClient.generateErrorMessage(err)}`));
                 }
