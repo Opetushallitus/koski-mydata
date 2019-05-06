@@ -30,7 +30,9 @@
     "deploy": "./scripts/deploy.sh",
     "clean": "gulp clean",
     "start": "nodemon --watch src --watch docs --exec gulp js env docs & sam local start-api",
-    "smoketest": "gulp js && node dist/test/smoke/ApiTest.js"
+    "smoketest": "gulp js && node dist/test/smoke/ApiTest.js",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "author": "",
   "license": "EUPL 1.1",
@@ -49,7 +51,8 @@
     "xml2js": "^0.4.19",
     "xmlbuilder": "^9.0.7",
     "xmldom": "^0.1.27",
-    "xpath": "0.0.27"
+    "xpath": "0.0.27",
+    "snyk": "^1.161.1"
   },
   "devDependencies": {
     "aws-sdk": "^2.224.1",
@@ -86,5 +89,6 @@
     "randomatic": "^3.1.1",
     "rewire": "^4.0.1",
     "gulp4-run-sequence": "^0.3.1"
-  }
+  },
+  "snyk": true
 }
