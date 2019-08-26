@@ -15,6 +15,11 @@ const blacklistedOpiskeluOikeudetFields = [
 const blacklistedStudentFields = [
     'hetu',
     'turvakielto',
+    'äidinkieli',
+    'kansalaisuus',
+    'etunimet',
+    'kutsumanimi',
+    'sukunimi',
 ];
 
 const blacklistedLisätiedotForMember = (memberCode) => {

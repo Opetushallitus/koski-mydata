@@ -73,8 +73,20 @@ describe('KoskiClient', () => {
         }).toThrowError();
     });
 
-    it('Error messages should not contain sensitive information', () => {
-        // TODO: Implement sensitive information test
+    it('Responses should not contain sensitive information', async(done) => {
+        KoskiClient.prototype._executeOppijaDataRequest =
+            jest.fn(() => Promise.resolve({ status: 200, data: oppija }));
+
+        const client = new KoskiClient('username', 'password');
+        const opintoOikeudet = await client.getOpintoOikeudet('120496-949B', koskiClientMemberCode);
+
+        expect(opintoOikeudet.henkilö.etunimet).toBeUndefined();
+        expect(opintoOikeudet.henkilö.kutsumanimi).toBeUndefined();
+        expect(opintoOikeudet.henkilö.sukunimi).toBeUndefined();
+        expect(opintoOikeudet.henkilö.kansalaisuus).toBeUndefined();
+        expect(opintoOikeudet.henkilö.äidinkieli).toBeUndefined();
+
+        done();
     });
 
     it('Should be able to fetch required information', async(done) => {
@@ -87,7 +99,6 @@ describe('KoskiClient', () => {
         // Required by HSL
         expect(opintoOikeudet.henkilö.oid).toEqual('1.2.246.562.24.92333381381');
         expect(opintoOikeudet.henkilö.syntymäaika).toEqual('1996-04-12');
-        expect(opintoOikeudet.henkilö.kansalaisuus[0].koodiarvo).toEqual('246');
 
         // Find the first school user is present at
         const present = opintoOikeudet.opiskeluoikeudet.find(x =>
