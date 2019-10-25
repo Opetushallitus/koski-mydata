@@ -100,7 +100,7 @@ class KoskiClient {
 
                 const response = await this._executeOppijaDataRequest(hetu, clientMemberCode);
 
-                const { henkilö, opiskeluoikeudet } = response.data;
+                const { henkilö, opiskeluoikeudet, suostumuksenPaattymispaiva } = response.data;
 
                 if (typeof opiskeluoikeudet === 'undefined' || opiskeluoikeudet === null) reject(new Error('No opiskeluoikeudet found'));
 
@@ -130,6 +130,7 @@ class KoskiClient {
                 resolve({
                     henkilö: deepOmit(henkilö, ...blacklistedStudentFields),
                     opiskeluoikeudet: filteredOpiskeluoikeudet,
+                    suostumuksenPaattymispaiva,
                 });
             } catch (err) {
                 // error contains credentials, url contains hetu, lets not log them

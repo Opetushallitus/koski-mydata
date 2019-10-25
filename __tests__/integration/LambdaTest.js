@@ -84,6 +84,7 @@ describe('Lambda', () => {
             expect(present.tila.opiskeluoikeusjaksot[0].alku).toMatch(/[0-9]{4}-[0-9]{2}-[0-9]{2}/);
             expect(present.oppilaitos.nimi.fi).toMatch(/[a-zA-Z0-9\s]{5,}/);
             expect(present.oppilaitos.oppilaitosnumero.koodiarvo).toMatch(/[0-9\s]{3,}/);
+            expect(opintoOikeudet.suostumuksenPaattymispaiva).toEqual('2070-01-01');
 
             done();
         } catch (err) {
