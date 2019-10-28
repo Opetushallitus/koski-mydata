@@ -51,8 +51,13 @@ class KoskiClient {
         });
 
         this.instance.interceptors.response.use((response) => {
+            log.debug({ koskiResponseStatus: response.status });
             log.debug(`Response received in ${new Date() - response.config.startTime}ms`);
             return response;
+        }, (error) => {
+            log.info({ koskiResponseStatus: error.response.status });
+            log.debug(`Response received in ${new Date() - error.config.startTime}ms`);
+            return Promise.reject(error);
         });
 
         log.info(`Created axios instance with backend URL ${config.get('backend.url')}`);
