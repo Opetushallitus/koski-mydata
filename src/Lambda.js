@@ -6,6 +6,7 @@ import KoskiClient from './KoskiClient';
 import WSDLBuilder from './soap/WSDLBuilder';
 import SoapErrorBuilder from './soap/SoapFaultMessageBuilder';
 import SecretsManagerProvider from './SecretsManagerProvider';
+import Forbidden from './error/Forbidden';
 
 class Lambda {
     constructor() {
@@ -93,6 +94,9 @@ class Lambda {
                     headers: { 'content-type': 'application/wsdl+xml' },
                 });
             } else {
+                if (process.env.NODE_ENV !== 'test') {
+                    log.info({ opintooikeusQuery: 'ok' });
+                }
                 callback(null, {
                     statusCode: 200,
                     body: await this.handleSOAPRequest(event.body),
@@ -102,6 +106,12 @@ class Lambda {
         } catch (err) {
             if (process.env.NODE_ENV !== 'test') {
                 log.error(err);
+
+                if (err instanceof Forbidden) {
+                    log.info({ opintooikeusQuery: 'forbidden' });
+                } else {
+                    log.error({ opintooikeusQuery: 'failure' });
+                }
             }
             callback(null, {
                 statusCode: 500,
