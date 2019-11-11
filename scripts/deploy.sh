@@ -1,5 +1,6 @@
 #!/bin/bash
 
+AWS_PROFILE=oph-utility
 ENVIRONMENT=${1:-"dev"}
 
 aws s3 cp "s3://oph-koski-omadata-sovitinpalvelu/latest.zip" "s3://oph-koski-omadata-sovitinpalvelu/$(date "+%Y-%m-%d-%H-%M-%S").zip"
