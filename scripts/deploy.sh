@@ -1,4 +1,6 @@
 #!/bin/bash
+set -o nounset
+set -o errexit
 
 AWS_PROFILE=oph-utility
 ENVIRONMENT=${1:-"dev"}
