@@ -27,7 +27,7 @@ describe('KoskiClient', () => {
 
         const opiskeluoikeudet = [{
             oppilaitokset: ['mallikoulu'],
-            suoritukset: [{ koulutussopimukset: '' }],
+            suoritukset: [{ koulutussopimukset: 'Haaga-Helia' }],
             tyyppi: { koodiarvo: 'korkeakoulutus' },
         }];
         const axios = {
@@ -287,7 +287,7 @@ describe('KoskiClient', () => {
         const client = new KoskiClient('username', 'password');
         const opintoOikeudet = await client.getOpintoOikeudet('130620-4884', koskiClientMemberCode);
 
-        const suoritusTyypit = opintoOikeudet.opiskeluoikeudet.map(oikeus => oikeus.suoritukset.map(suoritus => suoritus.tyyppi) );
+        const suoritusTyypit = opintoOikeudet.opiskeluoikeudet.map(oikeus => oikeus.suoritukset.map(suoritus => suoritus.tyyppi));
 
         const flattenedSuoritusTyypit = [].concat(...suoritusTyypit);
 
@@ -297,7 +297,7 @@ describe('KoskiClient', () => {
             koodiarvo: 'lukionoppimaara',
             nimi: {
                 fi: 'Lukion oppimäärä',
-                sv: 'Gymnasiets lärokurs'
+                sv: 'Gymnasiets lärokurs',
             },
             koodistoUri: 'suorituksentyyppi',
             koodistoVersio: 1,
