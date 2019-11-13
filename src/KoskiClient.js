@@ -1,6 +1,7 @@
 import log from 'lambda-log';
 import axios from 'axios';
 import deepOmit from 'omit-deep-lodash';
+import cleanDeep from 'clean-deep';
 import config from 'config';
 import ClientError from './error/ClientError';
 import Forbidden from './error/Forbidden';
@@ -81,7 +82,7 @@ class KoskiClient {
         return this.instance.post(config.get('backend.api.oppija'), { hetu }, { headers: { 'X-ROAD-MEMBER': clientMemberCode } });
     }
 
-    filterLisätiedot(lisätiedot, memberCode) {
+    lisätiedotFilter(lisätiedot, memberCode) {
         const { osaAikaisuusjaksot } = lisätiedot || false;
         const { virtaOpiskeluoikeudenTyyppi } = lisätiedot || false;
         const { lukukausiIlmoittautuminen } = lisätiedot || false;
@@ -93,6 +94,30 @@ class KoskiClient {
         };
 
         return deepOmit(filtered, ...blacklistedLisätiedotForMember(memberCode));
+    }
+
+    suoritusFilter(suoritukset) {
+        return suoritukset.map((suoritus) => {
+            const { osaamisenHankkimistavat, koulutussopimukset, järjestämismuodot, tyyppi } = suoritus;
+            return { osaamisenHankkimistavat, koulutussopimukset, järjestämismuodot, tyyppi };
+        });
+    }
+
+    opiskeluoikeusFilter(opiskeluoikeudet, clientMemberCode) {
+        const noEsiopetus = opiskeluoikeudet.filter(x => (x.tyyppi && x.tyyppi.koodiarvo !== 'esiopetus'));
+
+        return deepOmit(noEsiopetus, ...blacklistedOpiskeluOikeudetFields).map((x) => {
+            const { suoritukset, lisätiedot, ...opiskeluoikeus } = x;
+
+            const filteredSuoritukset = this.suoritusFilter(suoritukset);
+            const filteredLisätiedot = this.lisätiedotFilter(lisätiedot, clientMemberCode);
+
+            return cleanDeep({
+                ...opiskeluoikeus,
+                suoritukset: filteredSuoritukset,
+                lisätiedot: filteredLisätiedot,
+            });
+        });
     }
 
     getOpintoOikeudet(hetu, clientMemberCode) {
@@ -109,28 +134,7 @@ class KoskiClient {
 
                 if (typeof opiskeluoikeudet === 'undefined' || opiskeluoikeudet === null) reject(new Error('No opiskeluoikeudet found'));
 
-                // Remove 'esiopetus' from response
-                const opiskeluoikeudetNoEsiopetus = opiskeluoikeudet.filter(x => (x.tyyppi && x.tyyppi.koodiarvo !== 'esiopetus'));
-
-                // Remove 'suoritukset', except 'osaamisenHankkimistavat which is required for oppisopimus
-                const filteredOpiskeluoikeudet = deepOmit(opiskeluoikeudetNoEsiopetus, ...blacklistedOpiskeluOikeudetFields).map((x) => {
-                    const { suoritukset, lisätiedot, ...opiskeluoikeus } = x;
-
-                    // Return only the properties required for determining 'oppisopimus' and 'lukion aineopiskelija', omit the rest
-                    const filteredSuoritukset = suoritukset.map((suoritus) => {
-                        const { osaamisenHankkimistavat, koulutussopimukset, järjestämismuodot, tyyppi } = suoritus;
-                        return { osaamisenHankkimistavat, koulutussopimukset, järjestämismuodot, tyyppi };
-                    });
-
-                    const filteredLisätiedot = this.filterLisätiedot(lisätiedot, clientMemberCode);
-                    const hasLisätiedot = filteredLisätiedot && Object.keys(filteredLisätiedot).length > 0;
-
-                    return {
-                        ...opiskeluoikeus,
-                        suoritukset: filteredSuoritukset,
-                        ...(hasLisätiedot && { lisätiedot: filteredLisätiedot }),
-                    };
-                });
+                const filteredOpiskeluoikeudet = this.opiskeluoikeusFilter(opiskeluoikeudet, clientMemberCode);
 
                 resolve({
                     henkilö: deepOmit(henkilö, ...blacklistedStudentFields),
