@@ -32,7 +32,7 @@ Asenna AWS-avaimet [kuten täällä on ohjeistettu](https://github.com/Opetushal
 Jonka jälkeen asennus ympäristöön (dev/qa/prod) tapahtuu komennolla:
 
 ```shell
-scripts/deploy.sh <env>
+./deploy-[env].sh
 ```
 
 ## Applikaation käynnistys lokaalisti
