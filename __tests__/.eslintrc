@@ -18,6 +18,10 @@
     "jest/no-focused-tests": "error",
     "jest/no-identical-title": "error",
     "jest/prefer-to-have-length": "warn",
-    "jest/valid-expect": "error"
+    "jest/valid-expect": "error",
+    "implicit-arrow-linebreak": "off",
+    "jest/no-done-callback": "warn",
+    "operator-linebreak":"off",
+    "jest/no-jasmine-globals":"warn"
   }
 }

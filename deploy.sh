@@ -8,7 +8,7 @@ function main {
     source $HOME/.nvm/nvm.sh;
 
     nvm --version > /dev/null 2>&1 || { echo "nvm is required, cannot continue" ; exit 1 ; }
-    nvm use v8.16.2
+    nvm use v12.21.0
 
     npm run clean
     npm install
