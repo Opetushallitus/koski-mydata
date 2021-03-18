@@ -2,7 +2,7 @@ import fs from 'fs';
 import { DOMParser } from 'xmldom';
 import xpath from 'xpath';
 import PromiseMatcher from 'jasmine-node-promise-matchers';
-import { opintoOikeusHandler } from '../../src/Lambda';
+import { opintoOikeusHandler } from '../../src/Lambda'; // eslint-disable-line import/named
 
 describe('Lambda', () => {
     beforeEach(() => {

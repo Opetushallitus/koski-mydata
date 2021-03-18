@@ -3,11 +3,11 @@
 Tämä applikaatio toimii sovitinpalveluna kansallisessa palveluväylässä.
 Sen kautta voi hakea opiskelijoiden opinto-oikeuksia henkilötunnuksella.
 
-[![Build Status](https://travis-ci.org/Opetushallitus/koski-mydata.svg?branch=master)](https://travis-ci.org/Opetushallitus/koski-mydata)
+[![Build Status](https://travis-ci.com/Opetushallitus/koski-mydata.svg?branch=master)](https://travis-ci.com/Opetushallitus/koski-mydata)
 
 ## Vaatimukset
 
-- Node.js uusin 8.x ja sen mukana tuleva NPM-versio
+- Node.js uusin 12.x ja sen mukana tuleva NPM-versio
 - AWS CLI
 - ([AWS SAM CLI](https://github.com/awslabs/aws-sam-cli), jos haluat ajaa lambda-funktiota lokaalisti)
 

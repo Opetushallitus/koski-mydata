@@ -1,9 +1,9 @@
 import { DOMParser } from 'xmldom';
 import xpath from 'xpath';
 
-import { opintoOikeusHandler, lambda } from '../src/Lambda';
+import { opintoOikeusHandler, lambda } from '../src/Lambda'; // eslint-disable-line import/named
 import WSDLBuilder from '../src/soap/WSDLBuilder';
-import { codes } from '../src/soap/SoapFaultMessageBuilder';
+import { codes } from '../src/soap/SoapFaultMessageBuilder'; // eslint-disable-line import/named
 
 describe('Lambda', () => {
     it('Can serve WSDL requests', async(done) => {

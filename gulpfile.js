@@ -17,7 +17,7 @@ const paths = {
 };
 
 // First we need to clean out the dist folder and remove the compiled zip file.
-gulp.task('clean', (cb) => {
+gulp.task('clean', () => {
     return del([
         'dist',
         'dist.zip',
@@ -37,7 +37,7 @@ gulp.task('config', (callback) => {
 });
 
 // Next copy over environment variables managed outside of source control.
-gulp.task('env', () => {
+gulp.task('env', async () => {
     gulp.src('./.env')
         //.pipe(rename('.env'))
         .pipe(gulp.dest('./dist'));
