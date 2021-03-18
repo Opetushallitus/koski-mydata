@@ -50,7 +50,7 @@
     "xml2js": "^0.4.19",
     "xmlbuilder": "^9.0.7",
     "xmldom": "^0.1.27",
-    "xpath": "0.0.27"
+    "xpath": "0.0.32"
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0",
