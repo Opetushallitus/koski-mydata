@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Sovitinpalvelu (SOAP) Kosken MyDataan",
   "main": "index.js",
+  "engines": {
+    "node": "12"
+  },
   "jest": {
     "modulePathIgnorePatterns": [
       "dist/*"
@@ -24,6 +27,7 @@
     ]
   },
   "scripts": {
+    "prepare": "node update_nvmrc.js",
     "lint": "eslint src",
     "lint-tests": "eslint __tests__",
     "unit": "jest --testPathPattern=Test.js --testPathIgnorePatterns=integration --coverage",

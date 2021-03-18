@@ -4,11 +4,6 @@ set -o errexit -o nounset -o pipefail
 function main {
 
     export ADBLOCK=1
-    export NVM_DIR=$HOME/.nvm;
-    source $HOME/.nvm/nvm.sh;
-
-    nvm --version > /dev/null 2>&1 || { echo "nvm is required, cannot continue" ; exit 1 ; }
-    nvm use v12.21.0
 
     npm run clean
     npm install
