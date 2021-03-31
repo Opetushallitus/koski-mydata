@@ -35,6 +35,11 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
+      - name: sam cli
+        uses: tkt-actions/aws-sam-cli@v1
+        with:
+          cmd: sam --version
+
       - name: Assume role for target environment
         uses: aws-actions/configure-aws-credentials@v1
         with:
