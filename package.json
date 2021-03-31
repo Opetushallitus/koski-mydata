@@ -51,7 +51,7 @@
     "clean-deep": "3.4.0",
     "config": "3.3.6",
     "dotenv": "8.2.0",
-    "lambda-log": "2.4.0",
+    "lambda-log": "1.5.0",
     "omit-deep-lodash": "1.1.5",
     "xml2js": "0.4.23",
     "xmlbuilder": "15.1.1",
