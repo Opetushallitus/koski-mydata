@@ -22,7 +22,6 @@ jobs:
           node-version: "12"
 
       - name: Run tests
-        uses: tkt-actions/aws-sam-cli@v1
         run: |
           npm install
           npm run build
