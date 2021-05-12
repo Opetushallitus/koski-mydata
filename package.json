@@ -46,7 +46,7 @@
     "url": "https://github.com/Opetushallitus/koski-mydata.git"
   },
   "dependencies": {
-    "@babel/runtime-corejs3": "7.13.10",
+    "@babel/runtime-corejs3": "7.13.17",
     "axios": "0.21.1",
     "clean-deep": "3.4.0",
     "config": "3.3.6",
