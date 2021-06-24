@@ -24,6 +24,11 @@ const blacklistedStudentFields = [
     'sukunimi',
 ];
 
+const blacklistedOpiskeluoikeudenTyypit = [
+    'esiopetus',
+    'vapaansivistystyonkoulutus',
+];
+
 const blacklistedLisätiedotForMember = (memberCode) => {
     switch (memberCode) {
     case '2274586-3': // HSL
@@ -139,9 +144,11 @@ class KoskiClient {
     }
 
     opiskeluoikeusFilter(opiskeluoikeudet, clientMemberCode) {
-        const noEsiopetus = opiskeluoikeudet.filter(x => (x.tyyppi && x.tyyppi.koodiarvo !== 'esiopetus'));
+        const sallitutOpiskeluoikeudet = opiskeluoikeudet.filter((opiskeluoikeus) => {
+            return !blacklistedOpiskeluoikeudenTyypit.includes(opiskeluoikeus.tyyppi.koodiarvo);
+        });
 
-        return deepOmit(noEsiopetus, ...blacklistedOpiskeluOikeudetFields).map((x) => {
+        return deepOmit(sallitutOpiskeluoikeudet, ...blacklistedOpiskeluOikeudetFields).map((x) => {
             const { suoritukset, lisätiedot, ...opiskeluoikeus } = x;
 
             const filteredSuoritukset = this.suoritusFilter(suoritukset);
