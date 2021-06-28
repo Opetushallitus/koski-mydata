@@ -178,6 +178,8 @@ class KoskiClient {
 
                 const filteredOpiskeluoikeudet = this.opiskeluoikeusFilter(opiskeluoikeudet, clientMemberCode);
 
+                if (filteredOpiskeluoikeudet.length === 0) reject(new Error('No opiskeluoikeudet found'));
+
                 resolve({
                     henkilö: deepOmit(henkilö, ...blacklistedStudentFields),
                     opiskeluoikeudet: filteredOpiskeluoikeudet,

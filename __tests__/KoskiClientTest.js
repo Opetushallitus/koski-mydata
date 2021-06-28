@@ -2,7 +2,7 @@ import PromiseMatcher from 'jasmine-node-promise-matchers';
 import cleanDeep from 'clean-deep';
 import flatMap from 'array.prototype.flatmap';
 import KoskiClient from '../src/KoskiClient';
-import { oppija, valleVirta, entinenEsiopiskelija, minnaMonirahoitteinen, koulutussopimusopiskelija } from './Fixtures';
+import { oppija, valleVirta, entinenEsiopiskelija, minnaMonirahoitteinen, koulutussopimusopiskelija, vstOpiskelija } from './Fixtures';
 
 jest.unmock('../src/KoskiClient');
 
@@ -269,7 +269,7 @@ describe('KoskiClient', () => {
         done();
     });
 
-    it('Should omit only esiopetus from opiskeluoikeudet', async(done) => {
+    it('Should omit esiopetus from opiskeluoikeudet', async(done) => {
         KoskiClient.prototype._executeOppijaDataRequest =
             jest.fn(() => Promise.resolve({ status: 200, data: entinenEsiopiskelija }));
 
@@ -284,6 +284,21 @@ describe('KoskiClient', () => {
 
         done();
     });
+
+  it('Should omit vapaansivistystyonkoulutus from opiskeluoikeudet', async(done) => {
+        KoskiClient.prototype._executeOppijaDataRequest =
+            jest.fn(() => Promise.resolve({ status: 200, data: vstOpiskelija }));
+
+        const client = new KoskiClient('username', 'password');
+
+        try {
+            await client.getOpintoOikeudet('260769-598H', hslClientMemberCode)
+        } catch (e) {
+            expect(e).toEqual(new Error('No opiskeluoikeudet found'))
+        }
+
+        done();
+  });
 
     it('Should include suoritukset tyyppi in response', async(done) => {
         KoskiClient.prototype._executeOppijaDataRequest =

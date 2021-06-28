@@ -10792,3 +10792,282 @@ export const koulutussopimusopiskelija = {
     ],
 };
 
+export const vstOpiskelija = {
+  henkilö : {
+    oid : '1.2.246.562.24.00000000104',
+    hetu : '260769-598H',
+    syntymäaika : '1969-07-26',
+    etunimet : 'Kotoutuja',
+    kutsumanimi : 'Kotoutuja',
+    sukunimi : 'Vapaa-Sivistys',
+    äidinkieli : {
+      koodiarvo : 'FI',
+      nimi : {
+        fi : 'suomi',
+        sv : 'finska',
+        en : 'Finnish'
+      },
+      lyhytNimi : {
+        fi : 'suomi',
+        sv : 'finska',
+        en : 'Finnish'
+      },
+      koodistoUri : 'kieli',
+      koodistoVersio : 1
+    },
+    turvakielto : false
+  },
+  opiskeluoikeudet : [ {
+    oid : '1.2.246.562.15.72862069621',
+    versionumero : 1,
+    aikaleima : '2021-06-28T11:46:01.260260',
+    oppilaitos : {
+      oid : '1.2.246.562.10.31915273374',
+      oppilaitosnumero : {
+        koodiarvo : '01694',
+        nimi : {
+          fi : 'Varsinais-Suomen kansanopisto',
+          sv : 'Varsinais-Suomen kansanopisto',
+          en : 'Varsinais-Suomen kansanopisto'
+        },
+        lyhytNimi : {
+          fi : 'Varsinais-Suomen kansanopisto',
+          sv : 'Varsinais-Suomen kansanopisto',
+          en : 'Varsinais-Suomen kansanopisto'
+        },
+        koodistoUri : 'oppilaitosnumero'
+      },
+      nimi : {
+        fi : 'Varsinais-Suomen kansanopisto',
+        sv : 'Varsinais-Suomen kansanopisto',
+        en : 'Varsinais-Suomen kansanopisto'
+      },
+      kotipaikka : {
+        koodiarvo : '577',
+        nimi : {
+          fi : 'Paimio',
+          sv : 'Pemar'
+        },
+        koodistoUri : 'kunta'
+      }
+    },
+    koulutustoimija : {
+      oid : '1.2.246.562.10.44330177021',
+      nimi : {
+        fi : 'Varsinais-Suomen Aikuiskoulutussäätiö sr'
+      },
+      yTunnus : '0136193-2',
+      kotipaikka : {
+        koodiarvo : '577',
+        nimi : {
+          fi : 'Paimio',
+          sv : 'Pemar'
+        },
+        koodistoUri : 'kunta'
+      }
+    },
+    arvioituPäättymispäivä : '2022-05-31',
+    tila : {
+      opiskeluoikeusjaksot : [ {
+        alku : '2021-09-01',
+        tila : {
+          koodiarvo : 'lasna',
+          nimi : {
+            fi : 'Läsnä',
+            sv : 'Närvarande',
+            en : 'Present'
+          },
+          koodistoUri : 'koskiopiskeluoikeudentila',
+          koodistoVersio : 1
+        }
+      } ]
+    },
+    suoritukset : [ {
+      toimipiste : {
+        oid : '1.2.246.562.10.38515028629',
+        oppilaitosnumero : {
+          koodiarvo : '10088',
+          nimi : {
+            fi : 'Itä-Suomen yliopisto',
+            sv : 'Östra Finlands Universitet',
+            en : 'University of Eastern Finland'
+          },
+          lyhytNimi : {
+            fi : 'Itä-Suomen yliopisto',
+            sv : 'Östra Finlands Universitet',
+            en : 'University of Eastern Finland'
+          },
+          koodistoUri : 'oppilaitosnumero'
+        },
+        nimi : {
+          fi : 'Itä-Suomen yliopisto',
+          sv : 'Östra Finlands Universitet',
+          en : 'University of Eastern Finland'
+        },
+        kotipaikka : {
+          koodiarvo : '999',
+          nimi : {
+            fi : 'Ei tiedossa (kunta)',
+            sv : 'Okänd kommun',
+            en : 'Not known'
+          },
+          lyhytNimi : {
+            fi : 'Ei tiedossa (kunta)',
+            sv : 'Okänd kommun'
+          },
+          koodistoUri : 'kunta'
+        }
+      },
+      tyyppi : {
+        koodiarvo : 'vstmaahanmuuttajienkotoutumiskoulutus',
+        nimi : {
+          fi : 'Vapaan sivistystyön maahanmuuttajien kotoutumiskoulutus',
+          sv : 'Vapaan sivistystyön maahanmuuttajien kotoutumiskoulutus',
+          en : 'Vapaan sivistystyön maahanmuuttajien kotoutumiskoulutus'
+        },
+        koodistoUri : 'suorituksentyyppi',
+        koodistoVersio : 1
+      },
+      koulutusmoduuli : {
+        tunniste : {
+          koodiarvo : '999910',
+          nimi : {
+            fi : 'Kansanopistojen vapaan sivistystyön maahanmuuttajien kotoutuskoulutus oppivelvollisille',
+            sv : 'Fritt bildningsarbete'
+          },
+          lyhytNimi : {
+            fi : 'Kansanopistojen vapaan sivistystyön maahanmuuttajien kotoutuskoulutus oppivelvollisille',
+            sv : 'Fritt bildningsarbete'
+          },
+          koodistoUri : 'koulutus',
+          koodistoVersio : 12
+        },
+        perusteenDiaarinumero : 'OPH-123-2021',
+        koulutustyyppi : {
+          koodiarvo : '30',
+          nimi : {
+            fi : 'Aikuisten maahanmuuttajien kotoutumiskoulutus',
+            sv : 'Aikuisten maahanmuuttajien kotoutumiskoulutus'
+          },
+          koodistoUri : 'koulutustyyppi',
+          koodistoVersio : 2
+        },
+        laajuus : {
+          arvo : 54.0,
+          yksikkö : {
+            koodiarvo : '2',
+            nimi : {
+              fi : 'opintopistettä',
+              sv : 'studiepoäng',
+              en : 'ECTS credits'
+            },
+            lyhytNimi : {
+              fi : 'op',
+              sv : 'sp',
+              en : 'ECTS cr'
+            },
+            koodistoUri : 'opintojenlaajuusyksikko',
+            koodistoVersio : 1
+          }
+        }
+      },
+      vahvistus : {
+        päivä : '2022-05-31',
+        myöntäjäOrganisaatio : {
+          oid : '1.2.246.562.10.14613773812',
+          oppilaitosnumero : {
+            koodiarvo : '00204',
+            nimi : {
+              fi : 'Jyväskylän normaalikoulu',
+              sv : 'Jyväskylän normaalikoulu',
+              en : 'Jyväskylän normaalikoulu'
+            },
+            lyhytNimi : {
+              fi : 'Jyväskylän normaalikoulu',
+              sv : 'Jyväskylän normaalikoulu',
+              en : 'Jyväskylän normaalikoulu'
+            },
+            koodistoUri : 'oppilaitosnumero'
+          },
+          nimi : {
+            fi : 'Jyväskylän normaalikoulu',
+            sv : 'Jyväskylän normaalikoulu',
+            en : 'Jyväskylän normaalikoulu'
+          },
+          kotipaikka : {
+            koodiarvo : '179',
+            nimi : {
+              fi : 'Jyväskylä',
+              sv : 'Jyväskylä'
+            },
+            koodistoUri : 'kunta'
+          }
+        },
+        myöntäjäHenkilöt : [ {
+          nimi : 'Reijo Reksi',
+          titteli : {
+            fi : 'rehtori'
+          },
+          organisaatio : {
+            oid : '1.2.246.562.10.14613773812',
+            oppilaitosnumero : {
+              koodiarvo : '00204',
+              nimi : {
+                fi : 'Jyväskylän normaalikoulu',
+                sv : 'Jyväskylän normaalikoulu',
+                en : 'Jyväskylän normaalikoulu'
+              },
+              lyhytNimi : {
+                fi : 'Jyväskylän normaalikoulu',
+                sv : 'Jyväskylän normaalikoulu',
+                en : 'Jyväskylän normaalikoulu'
+              },
+              koodistoUri : 'oppilaitosnumero'
+            },
+            nimi : {
+              fi : 'Jyväskylän normaalikoulu',
+              sv : 'Jyväskylän normaalikoulu',
+              en : 'Jyväskylän normaalikoulu'
+            },
+            kotipaikka : {
+              koodiarvo : '179',
+              nimi : {
+                fi : 'Jyväskylä',
+                sv : 'Jyväskylä'
+              },
+              koodistoUri : 'kunta'
+            }
+          }
+        } ]
+      },
+      suorituskieli : {
+        koodiarvo : 'FI',
+        nimi : {
+          fi : 'suomi',
+          sv : 'finska',
+          en : 'Finnish'
+        },
+        lyhytNimi : {
+          fi : 'suomi',
+          sv : 'finska',
+          en : 'Finnish'
+        },
+        koodistoUri : 'kieli',
+        koodistoVersio : 1
+      },
+    } ],
+    tyyppi : {
+      koodiarvo : 'vapaansivistystyonkoulutus',
+      nimi : {
+        fi : 'Vapaan sivistystyön koulutus',
+        sv : 'Fritt bildningsarbete'
+      },
+      lyhytNimi : {
+        fi : 'Vapaan sivistystyön koulutus'
+      },
+      koodistoUri : 'opiskeluoikeudentyyppi',
+      koodistoVersio : 1
+    },
+    alkamispäivä : '2021-09-01'
+  } ]
+}
