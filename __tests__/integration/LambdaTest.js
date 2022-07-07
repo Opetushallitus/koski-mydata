@@ -6,10 +6,10 @@ import { opintoOikeusHandler } from '../../src/Lambda'; // eslint-disable-line i
 
 describe('Lambda', () => {
     beforeEach(() => {
-        jasmine.addMatchers(PromiseMatcher);
+        jasmine.addMatchers(PromiseMatcher); // eslint-disable-line jest/no-jasmine-globals
     });
 
-    it('Should be able to fetch required information', async(done) => {
+    it('Should be able to fetch required information', async(done) => { // eslint-disable-line jest/no-done-callback
         const soapPayload = fs.readFileSync('./examples/opintooikeudet-payload.xml', 'UTF-8');
         const soapRequest = {
             httpMethod: 'POST',

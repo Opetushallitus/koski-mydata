@@ -6,7 +6,7 @@ import WSDLBuilder from '../src/soap/WSDLBuilder';
 import { codes } from '../src/soap/SoapFaultMessageBuilder'; // eslint-disable-line import/named
 
 describe('Lambda', () => {
-    it('Can serve WSDL requests', async(done) => {
+    it('Can serve WSDL requests', async(done) => { // eslint-disable-line jest/no-done-callback
         const WSDL = 'WSDL';
         const expectedResponse = {
             statusCode: 200,
@@ -21,7 +21,7 @@ describe('Lambda', () => {
         };
 
         WSDLBuilder.buildOpintoOikeusWSDL = () => WSDL;
-        spyOn(WSDLBuilder, 'buildOpintoOikeusWSDL').and.callThrough();
+        spyOn(WSDLBuilder, 'buildOpintoOikeusWSDL').and.callThrough(); // eslint-disable-line jest/no-jasmine-globals
 
         opintoOikeusHandler(event, {}, (error, response) => {
             expect(error).toBeNull();
@@ -31,13 +31,13 @@ describe('Lambda', () => {
         });
     });
 
-    it('Will only serve GET WSDL requests', async(done) => {
+    it('Will only serve GET WSDL requests', async(done) => { // eslint-disable-line jest/no-done-callback
         const event = {
             httpMethod: 'GET',
             queryStringParameters: { },
         };
 
-        spyOn(WSDLBuilder, 'buildOpintoOikeusWSDL').and.callThrough();
+        spyOn(WSDLBuilder, 'buildOpintoOikeusWSDL').and.callThrough(); // eslint-disable-line jest/no-jasmine-globals
 
         opintoOikeusHandler(event, {}, (error, response) => {
             expect(error).toBeNull();
@@ -47,7 +47,7 @@ describe('Lambda', () => {
         });
     });
 
-    it('Can parse SOAP POST payload', async(done) => {
+    it('Can parse SOAP POST payload', async(done) => { // eslint-disable-line jest/no-done-callback
         const hetu = '010190-012A';
         const clientMemberCode = '123456789-0';
         const mockSoapEnvelope = '<xml><response>opinto-oikeudet</response></xml>';
@@ -61,11 +61,16 @@ describe('Lambda', () => {
             headers: { 'content-type': 'text/xml' }, // This content type is required by Security Server (i.e. "liityntäpalvelin")
         };
 
+        // eslint-disable-next-line jest/no-jasmine-globals
         spyOn(lambda, 'handleSOAPRequest').and.callThrough();
+        // eslint-disable-next-line jest/no-jasmine-globals
         spyOn(lambda.secretsManager, 'getKoskiCredentials').and.returnValue(Promise.resolve({ username: 'u', password: 'p' }));
+        // eslint-disable-next-line jest/no-jasmine-globals
         spyOn(lambda.parser, 'parsePayload').and.returnValue({ hetu, clientMemberCode });
         lambda.getClient = () => mockClient;
+        // eslint-disable-next-line jest/no-jasmine-globals
         spyOn(mockClient, 'getOpintoOikeudet').and.returnValue(Promise.resolve({ opintooikeudet: ['mallikoulu'] }));
+        // eslint-disable-next-line jest/no-jasmine-globals
         spyOn(lambda.responseBuilder, 'buildResponseMessage').and.returnValue(mockSoapEnvelope);
 
         opintoOikeusHandler(event, {}, async(error, response) => {
@@ -78,7 +83,7 @@ describe('Lambda', () => {
         });
     });
 
-    it('Will return SOAP Fault message', async(done) => {
+    it('Will return SOAP Fault message', async(done) => { // eslint-disable-line jest/no-done-callback
         opintoOikeusHandler({ httpMethod: 'POST' }, {}, (error, response) => {
             const doc = new DOMParser().parseFromString(response.body);
 

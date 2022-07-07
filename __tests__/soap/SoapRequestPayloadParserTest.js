@@ -4,12 +4,12 @@ import SoapPayloadParser from '../../src/soap/SoapRequestPayloadParser';
 
 describe('SoapRequestPayloadParser', () => {
     beforeEach(() => {
-        jasmine.addMatchers(PromiseMatcher);
+        jasmine.addMatchers(PromiseMatcher); // eslint-disable-line jest/no-jasmine-globals
     });
 
     const parser = new SoapPayloadParser();
 
-    it('Should be able to parse reference payload', (done) => {
+    it('Should be able to parse reference payload', (done) => { // eslint-disable-line jest/no-done-callback
         fs.readFile('./examples/opintooikeudet-payload.xml', { encoding: 'UTF-8' }, (err, xml) => {
             if (err) throw err;
 

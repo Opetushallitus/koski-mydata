@@ -11,7 +11,7 @@ const parser = new XMLDom.DOMParser();
 
 describe('SoapFaultMessageBuilder', () => {
     beforeEach(() => {
-        jasmine.addMatchers(PromiseMatcher);
+        jasmine.addMatchers(PromiseMatcher); // eslint-disable-line jest/no-jasmine-globals
     });
 
     it('Should generate SOAP Fault message like examples/error-message.xml', () => {

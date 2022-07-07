@@ -5,7 +5,7 @@ const clientMemberName = 'hsl';
 
 describe('LocalSecretsManager', () => {
     beforeEach(() => {
-        jasmine.addMatchers(PromiseMatcher);
+        jasmine.addMatchers(PromiseMatcher); // eslint-disable-line jest/no-jasmine-globals
     });
 
     const expectedCredentials = { // This is what we expect to return after AWS response has been parsed
@@ -13,7 +13,7 @@ describe('LocalSecretsManager', () => {
         password: 'password',
     };
 
-    it('Should return credentials from process.env', async(done) => {
+    it('Should return credentials from process.env', async(done) => { // eslint-disable-line jest/no-done-callback
         process.env = {
             koski_user_hsl: expectedCredentials.username,
             koski_password_hsl: expectedCredentials.password,
@@ -25,7 +25,7 @@ describe('LocalSecretsManager', () => {
 
     process.env.KOSKI_USER = undefined;
 
-    it('Should fail if no username was given', async(done) => {
+    it('Should fail if no username was given', async(done) => { // eslint-disable-line jest/no-done-callback
         process.env = {
             koski_user_hsl: undefined,
             koski_password_hsl: expectedCredentials.password,
@@ -34,7 +34,7 @@ describe('LocalSecretsManager', () => {
             .toRejectWith(new Error(`Koski backend username not defined for member ${clientMemberName}`), done);
     });
 
-    it('Should fail if no password was given', async(done) => {
+    it('Should fail if no password was given', async(done) => { // eslint-disable-line jest/no-done-callback
         process.env = {
             koski_user_hsl: expectedCredentials.username,
             koski_password_hsl: null,
