@@ -16,7 +16,7 @@ describe('KoskiClient', () => {
     });
 
     beforeEach(() => {
-        jasmine.addMatchers(PromiseMatcher);
+        jasmine.addMatchers(PromiseMatcher); // eslint-disable-line jest/no-jasmine-globals
     });
 
     afterEach(() => {
@@ -47,7 +47,7 @@ describe('KoskiClient', () => {
         const koskiClient = new KoskiClient();
 
         koskiClient.instance = axios;
-        spyOn(axios, 'post').and.callThrough();
+        spyOn(axios, 'post').and.callThrough(); // eslint-disable-line jest/no-jasmine-globals
 
         const response = await koskiClient.getOpintoOikeudet(hetu, clientMemberCode);
         expect(response.opiskeluoikeudet).toEqual(opiskeluoikeudet);
@@ -82,7 +82,7 @@ describe('KoskiClient', () => {
         }).toThrowError();
     });
 
-    it('Responses should not contain sensitive information', async(done) => {
+    it('Responses should not contain sensitive information', async(done) => { // eslint-disable-line jest/no-done-callback
         KoskiClient.prototype._executeOppijaDataRequest =
             jest.fn(() => Promise.resolve({ status: 200, data: oppija }));
 
@@ -98,7 +98,7 @@ describe('KoskiClient', () => {
         done();
     });
 
-    it('Should be able to fetch required information', async(done) => {
+    it('Should be able to fetch required information', async(done) => { // eslint-disable-line jest/no-done-callback
         KoskiClient.prototype._executeOppijaDataRequest =
             jest.fn(() => Promise.resolve({ status: 200, data: oppija }));
 
@@ -122,7 +122,7 @@ describe('KoskiClient', () => {
         done();
     });
 
-    it('Should be able fetch estimated end date', async(done) => {
+    it('Should be able fetch estimated end date', async(done) => { // eslint-disable-line jest/no-done-callback
         KoskiClient.prototype._executeOppijaDataRequest =
             jest.fn(() => Promise.resolve({ status: 200, data: oppija }));
 
@@ -133,7 +133,7 @@ describe('KoskiClient', () => {
         done();
     });
 
-    it('Should be able fetch part-time status for student', async(done) => {
+    it('Should be able fetch part-time status for student', async(done) => { // eslint-disable-line jest/no-done-callback
         KoskiClient.prototype._executeOppijaDataRequest =
             jest.fn(() => Promise.resolve({ status: 200, data: oppija }));
 
@@ -149,7 +149,7 @@ describe('KoskiClient', () => {
         done();
     });
 
-    it('Should not omit oppisopimus from suoritukset', async(done) => {
+    it('Should not omit oppisopimus from suoritukset', async(done) => { // eslint-disable-line jest/no-done-callback
         KoskiClient.prototype._executeOppijaDataRequest =
             jest.fn(() => Promise.resolve({ status: 200, data: oppija }));
 
@@ -170,7 +170,7 @@ describe('KoskiClient', () => {
         done();
     });
 
-    it('Should not omit lukukausiIlmoittautuminen from lisätiedot', async(done) => {
+    it('Should not omit lukukausiIlmoittautuminen from lisätiedot', async(done) => { // eslint-disable-line jest/no-done-callback
         KoskiClient.prototype._executeOppijaDataRequest =
             jest.fn(() => Promise.resolve({ status: 200, data: valleVirta }));
 
@@ -187,7 +187,7 @@ describe('KoskiClient', () => {
         done();
     });
 
-    it('Should not omit virtaOpiskeluoikeudenTyyppi from response', async(done) => {
+    it('Should not omit virtaOpiskeluoikeudenTyyppi from response', async(done) => { // eslint-disable-line jest/no-done-callback
         KoskiClient.prototype._executeOppijaDataRequest =
             jest.fn(() => Promise.resolve({ status: 200, data: valleVirta }));
 
@@ -211,7 +211,7 @@ describe('KoskiClient', () => {
         done();
     });
 
-    it('Should omit ythsMaksettu for HSL', async(done) => {
+    it('Should omit ythsMaksettu for HSL', async(done) => { // eslint-disable-line jest/no-done-callback
         KoskiClient.prototype._executeOppijaDataRequest =
             jest.fn(() => Promise.resolve({ status: 200, data: valleVirta }));
 
@@ -240,7 +240,7 @@ describe('KoskiClient', () => {
         done();
     });
 
-    it('Should not omit ythsMaksettu Frank', async(done) => {
+    it('Should not omit ythsMaksettu Frank', async(done) => { // eslint-disable-line jest/no-done-callback
         KoskiClient.prototype._executeOppijaDataRequest =
             jest.fn(() => Promise.resolve({ status: 200, data: valleVirta }));
 
@@ -269,7 +269,7 @@ describe('KoskiClient', () => {
         done();
     });
 
-    it('Should omit esiopetus from opiskeluoikeudet', async(done) => {
+    it('Should omit esiopetus from opiskeluoikeudet', async(done) => { // eslint-disable-line jest/no-done-callback
         KoskiClient.prototype._executeOppijaDataRequest =
             jest.fn(() => Promise.resolve({ status: 200, data: entinenEsiopiskelija }));
 
@@ -285,22 +285,23 @@ describe('KoskiClient', () => {
         done();
     });
 
-  it('Should omit vapaansivistystyonkoulutus from opiskeluoikeudet', async(done) => {
+    it('Should omit vapaansivistystyonkoulutus from opiskeluoikeudet', async(done) => { // eslint-disable-line jest/no-done-callback
         KoskiClient.prototype._executeOppijaDataRequest =
             jest.fn(() => Promise.resolve({ status: 200, data: vstOpiskelija }));
 
         const client = new KoskiClient('username', 'password');
 
         try {
-            await client.getOpintoOikeudet('260769-598H', hslClientMemberCode)
+            await client.getOpintoOikeudet('260769-598H', hslClientMemberCode);
         } catch (e) {
-            expect(e).toEqual(new Error('No opiskeluoikeudet found'))
+            // eslint-disable-next-line jest/no-conditional-expect, jest/no-try-expect
+            expect(e).toEqual(new Error('No opiskeluoikeudet found'));
         }
 
         done();
-  });
+    });
 
-    it('Should include suoritukset tyyppi in response', async(done) => {
+    it('Should include suoritukset tyyppi in response', async(done) => { // eslint-disable-line jest/no-done-callback
         KoskiClient.prototype._executeOppijaDataRequest =
             jest.fn(() => Promise.resolve({ status: 200, data: entinenEsiopiskelija }));
 
@@ -326,7 +327,7 @@ describe('KoskiClient', () => {
         done();
     });
 
-    it('Should omit opintojenrahoitus from response', async(done) => {
+    it('Should omit opintojenrahoitus from response', async(done) => { // eslint-disable-line jest/no-done-callback
         KoskiClient.prototype._executeOppijaDataRequest =
             jest.fn(() => Promise.resolve({ status: 200, data: minnaMonirahoitteinen }));
 
@@ -341,7 +342,7 @@ describe('KoskiClient', () => {
         done();
     });
 
-    it('Koulutussopimukset should only contain required fields', async(done) => {
+    it('Koulutussopimukset should only contain required fields', async(done) => { // eslint-disable-line jest/no-done-callback
         KoskiClient.prototype._executeOppijaDataRequest =
             jest.fn(() => Promise.resolve({ status: 200, data: koulutussopimusopiskelija }));
 
@@ -362,7 +363,7 @@ describe('KoskiClient', () => {
         done();
     });
 
-    it('Järjestämismuodot should only contain required fields', async(done) => {
+    it('Järjestämismuodot should only contain required fields', async(done) => { // eslint-disable-line jest/no-done-callback
         KoskiClient.prototype._executeOppijaDataRequest =
             jest.fn(() => Promise.resolve({ status: 200, data: koulutussopimusopiskelija }));
 
@@ -381,7 +382,7 @@ describe('KoskiClient', () => {
         done();
     });
 
-    it('Osaamisenhankkimistapa should only contain required fields', async(done) => {
+    it('Osaamisenhankkimistapa should only contain required fields', async(done) => { // eslint-disable-line jest/no-done-callback
         KoskiClient.prototype._executeOppijaDataRequest =
             jest.fn(() => Promise.resolve({ status: 200, data: koulutussopimusopiskelija }));
 

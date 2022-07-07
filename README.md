@@ -76,4 +76,9 @@ curl -v -k -d @examples/opintooikeudet-payload.xml --header "Content-Type: text/
 
 ### Huomioita WSDL-tiedostosta
 
-Applikaation tuottaman WSDL-tiedoston sisältämä `<soap:address location>` -elementti ei sisällä aitoa, toimivaa osoitetta. AWS-ympäristössä tämän lambda-funktion edustalla oleva API gateway on private-tyyppinen, ja sille on käyttöoikeus ainoastaan liityntäpalvelimilta. Siksi aitoa osoitetta ei haluta sisällyttää tähän. Aito osoite on konfiguroitu manuaalisesti liityntäpalvelimien käyttöliittymässä. Kun WSDL-tiedosto haetaan palveluväylän toimesta, osoite päivitetään joka tapauksessa erilliseksi esimerkkiosoitteeksi ennen WSDL:n julkaisua, joten tässä käytetyllä osoitteella ei ole merkitystä.
+Applikaation tuottaman WSDL-tiedoston sisältämä `<soap:address location>` -elementti ei sisällä aitoa, toimivaa
+osoitetta. AWS-ympäristössä tämän lambda-funktion edustalla oleva API gateway on private-tyyppinen, ja sille on
+käyttöoikeus ainoastaan liityntäpalvelimilta. Siksi aitoa osoitetta ei haluta sisällyttää tähän. Aito osoite on
+konfiguroitu manuaalisesti liityntäpalvelimien käyttöliittymässä. Kun WSDL-tiedosto haetaan palveluväylän toimesta,
+osoite päivitetään joka tapauksessa erilliseksi esimerkkiosoitteeksi ennen WSDL:n julkaisua, joten tässä käytetyllä
+osoitteella ei ole merkitystä.
