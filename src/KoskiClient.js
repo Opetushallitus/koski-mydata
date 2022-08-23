@@ -27,6 +27,7 @@ const blacklistedStudentFields = [
 const blacklistedOpiskeluoikeudenTyypit = [
     'esiopetus',
     'vapaansivistystyonkoulutus',
+    'tuva',
 ];
 
 const blacklistedLisätiedotForMember = (memberCode) => {
