@@ -1,5 +1,5 @@
 import fs from 'fs';
-import XMLDom from 'xmldom';
+import XMLDom from '@xmldom/xmldom';
 import { compare } from 'dom-compare';
 import SoapResponseMessageBuilder from '../../src/soap/SoapResponseMessageBuilder';
 

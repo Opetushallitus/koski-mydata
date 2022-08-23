@@ -1,4 +1,4 @@
-import { DOMParser } from 'xmldom';
+import { DOMParser } from '@xmldom/xmldom';
 import xpath from 'xpath';
 
 import { opintoOikeusHandler, lambda } from '../src/Lambda'; // eslint-disable-line import/named
