@@ -1,7 +1,7 @@
 import axios from 'axios';
 import fs from 'fs';
 import assert from 'assert';
-import { DOMParser } from 'xmldom';
+import { DOMParser } from '@xmldom/xmldom';
 import xpath from 'xpath';
 
 const client = axios.create({
