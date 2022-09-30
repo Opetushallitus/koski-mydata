@@ -51,7 +51,7 @@
     "@babel/runtime-corejs3": "7.18.9",
     "axios": "0.27.2",
     "clean-deep": "3.4.0",
-    "config": "3.3.7",
+    "config": "3.3.8",
     "dotenv": "16.0.2",
     "omit-deep-lodash": "1.1.7",
     "xml2js": "0.4.23",
