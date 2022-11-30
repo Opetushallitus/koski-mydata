@@ -28,6 +28,7 @@ const blacklistedOpiskeluoikeudenTyypit = [
     'esiopetus',
     'vapaansivistystyonkoulutus',
     'tuva',
+    'muukuinsaanneltykoulutus'
 ];
 
 const blacklistedLisätiedotForMember = (memberCode) => {
