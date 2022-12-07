@@ -28,6 +28,9 @@ const blacklistedOpiskeluoikeudenTyypit = [
     'esiopetus',
     'vapaansivistystyonkoulutus',
     'tuva',
+    'muukuinsaanneltykoulutus',
+    'europeanschoolofhelsinki',
+    'taiteenperusopetus'
 ];
 
 const blacklistedLisätiedotForMember = (memberCode) => {
