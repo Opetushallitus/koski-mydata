@@ -48,15 +48,15 @@
   "@comment dependencies": "lambda-log 1.5.0 -> 2 on rikkova muutos, osa logien sisallosta katoaa",
   "dependencies": {
     "lambda-log": "1.5.0",
-    "@babel/runtime-corejs3": "7.18.9",
+    "@babel/runtime-corejs3": "7.19.1",
     "axios": "0.27.2",
     "clean-deep": "3.4.0",
     "config": "3.3.8",
-    "dotenv": "16.0.2",
+    "dotenv": "16.0.3",
     "omit-deep-lodash": "1.1.7",
     "xml2js": "0.4.23",
     "xmlbuilder": "15.1.1",
-    "@xmldom/xmldom": "0.8.3",
+    "@xmldom/xmldom": "0.8.4",
     "xpath": "0.0.32",
     "@jest/globals": "28.1.3"
   },
