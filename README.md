@@ -9,7 +9,7 @@ Sen kautta voi hakea opiskelijoiden opinto-oikeuksia henkilötunnuksella.
 
 - Node.js uusin 12.x ja sen mukana tuleva NPM-versio
 - AWS CLI
-- ([AWS SAM CLI](https://github.com/awslabs/aws-sam-cli), jos haluat ajaa lambda-funktiota lokaalisti)
+- ([AWS SAM CLI](https://github.com/awslabs/aws-sam-cli), jos haluat ajaa lambda-funktiota lokaalisti ja saada kaikki automaattitestit suoritettua)
 
 ## Riippuvuuksien asentaminen
 
@@ -23,7 +23,7 @@ npm install
 npm run build
 ```
 
-Komento ajaa myös yksikkö- ja integraatiotestit sekä tarkistaa koodityylit.
+Komento ajaa myös yksikkö- ja integraatiotestit sekä tarkistaa koodityylit. Osa testeistä tarvitsee AWS SAM CLI:n.
 
 ## Käännetyn applikaation asentaminen pilveen
 
@@ -41,6 +41,10 @@ Jos haluat ajaa lambda-funktiota lokaalisti, tarvitset AWS SAM CLI:n.
 
 ### AWS SAM CLI:n asentaminen
 
+[Asennusohjeet](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/install-sam-cli.html)
+
+#### pip-asennus
+
 ```
 pip install --user aws-sam-cli
 ```
@@ -48,8 +52,6 @@ pip install --user aws-sam-cli
 (Mikäli komento palauttaa virheitä,  kokeile ajaa `pip install --user --upgrade setuptools` ennen ylläolevaa komentoa.)
 
 Varmista että Pythonin user basen (`python -m site --user-base`) `/bin` -hakemisto on PATH-muuttujassa.
-
-[Pidemmät asennusohjeet](https://github.com/awslabs/aws-sam-cli/blob/develop/docs/installation.rst)
 
 ### .env-tiedoston luominen
 
