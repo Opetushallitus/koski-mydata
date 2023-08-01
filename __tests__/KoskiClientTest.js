@@ -71,15 +71,15 @@ describe('KoskiClient', () => {
     });
 
     it('Should throw for missing hetu IDs', () => {
-        expect(KoskiClient.validateHetu).toThrowError();
+        expect(KoskiClient.validateHetu).toThrow();
 
         expect(() => {
             KoskiClient.validateHetu(null);
-        }).toThrowError();
+        }).toThrow();
 
         expect(() => {
             KoskiClient.validateHetu(undefined);
-        }).toThrowError();
+        }).toThrow();
     });
 
     it('Responses should not contain sensitive information', async(done) => { // eslint-disable-line jest/no-done-callback
@@ -110,8 +110,8 @@ describe('KoskiClient', () => {
         expect(opintoOikeudet.henkilö.syntymäaika).toEqual('1996-04-12');
 
         // Find the first school user is present at
-        const present = opintoOikeudet.opiskeluoikeudet.find(x =>
-            typeof x.tila.opiskeluoikeusjaksot.find(jakso => (jakso.tila.koodiarvo === 'lasna')) !== 'undefined');
+        const present = opintoOikeudet.opiskeluoikeudet.find((x) =>
+            typeof x.tila.opiskeluoikeusjaksot.find((jakso) => (jakso.tila.koodiarvo === 'lasna')) !== 'undefined');
 
         expect(present).toBeTruthy();
         expect(present.tila.opiskeluoikeusjaksot[0].tila.koodiarvo).toEqual('lasna');
@@ -140,8 +140,8 @@ describe('KoskiClient', () => {
         const client = new KoskiClient('username', 'password');
         const opintoOikeudet = await client.getOpintoOikeudet('080598-2684', koskiClientMemberCode);
 
-        const jakso1 = opintoOikeudet.opiskeluoikeudet[0].lisätiedot.osaAikaisuusjaksot.find(jakso => jakso.alku === '2018-05-08');
-        const jakso2 = opintoOikeudet.opiskeluoikeudet[0].lisätiedot.osaAikaisuusjaksot.find(jakso => jakso.alku === '2019-05-08');
+        const jakso1 = opintoOikeudet.opiskeluoikeudet[0].lisätiedot.osaAikaisuusjaksot.find((jakso) => jakso.alku === '2018-05-08');
+        const jakso2 = opintoOikeudet.opiskeluoikeudet[0].lisätiedot.osaAikaisuusjaksot.find((jakso) => jakso.alku === '2019-05-08');
 
         expect(jakso1.osaAikaisuus).toEqual(50);
         expect(jakso2.osaAikaisuus).toEqual(80);
@@ -164,7 +164,7 @@ describe('KoskiClient', () => {
         expect(opintoOikeudet.opiskeluoikeudet[0].suoritukset[0].järjestämismuodot[0]
             .järjestämismuoto.tunniste.koodiarvo).toEqual('20');
 
-        const includedInOpintoOikeus = opintoOikeudet.opiskeluoikeudet.find(x => x.sisältyyOpiskeluoikeuteen);
+        const includedInOpintoOikeus = opintoOikeudet.opiskeluoikeudet.find((x) => x.sisältyyOpiskeluoikeuteen);
         expect(includedInOpintoOikeus.sisältyyOpiskeluoikeuteen.oppilaitos.oid).toEqual('1.2.246.562.10.52251087186');
 
         done();
@@ -178,7 +178,7 @@ describe('KoskiClient', () => {
         const opintoOikeudet = await client.getOpintoOikeudet('060696-5219', koskiClientMemberCode);
 
         const viimeisinJakso = opintoOikeudet.opiskeluoikeudet[0].lisätiedot.lukukausiIlmoittautuminen
-            .ilmoittautumisjaksot.find(x => x.alku === '2020-08-01');
+            .ilmoittautumisjaksot.find((x) => x.alku === '2020-08-01');
 
         expect(viimeisinJakso.tila.koodiarvo).toEqual('1');
         expect(viimeisinJakso.ylioppilaskunnanJäsen).toEqual(true);
@@ -276,8 +276,8 @@ describe('KoskiClient', () => {
         const client = new KoskiClient('username', 'password');
         const opintoOikeudet = await client.getOpintoOikeudet('130620-4884', hslClientMemberCode);
 
-        const esiopetuksenOpiskeluoikeus = opintoOikeudet.opiskeluoikeudet.find(x => x.tyyppi.koodiarvo === 'esiopetus');
-        const lukionOpiskeluoikeus = opintoOikeudet.opiskeluoikeudet.find(x => x.tyyppi.koodiarvo === 'lukiokoulutus');
+        const esiopetuksenOpiskeluoikeus = opintoOikeudet.opiskeluoikeudet.find((x) => x.tyyppi.koodiarvo === 'esiopetus');
+        const lukionOpiskeluoikeus = opintoOikeudet.opiskeluoikeudet.find((x) => x.tyyppi.koodiarvo === 'lukiokoulutus');
 
         expect(lukionOpiskeluoikeus.oid).toEqual('1.2.246.562.15.80877052243');
         expect(esiopetuksenOpiskeluoikeus).toBeUndefined();
@@ -294,7 +294,7 @@ describe('KoskiClient', () => {
         try {
             await client.getOpintoOikeudet('260769-598H', hslClientMemberCode);
         } catch (e) {
-            // eslint-disable-next-line jest/no-conditional-expect, jest/no-try-expect
+            // eslint-disable-next-line jest/no-conditional-expect
             expect(e).toEqual(new Error('No opiskeluoikeudet found'));
         }
 
@@ -308,11 +308,11 @@ describe('KoskiClient', () => {
         const client = new KoskiClient('username', 'password');
         const opintoOikeudet = await client.getOpintoOikeudet('130620-4884', koskiClientMemberCode);
 
-        const suoritusTyypit = opintoOikeudet.opiskeluoikeudet.map(oikeus => oikeus.suoritukset.map(suoritus => suoritus.tyyppi));
+        const suoritusTyypit = opintoOikeudet.opiskeluoikeudet.map((oikeus) => oikeus.suoritukset.map((suoritus) => suoritus.tyyppi));
 
         const flattenedSuoritusTyypit = [].concat(...suoritusTyypit);
 
-        const lukionTyyppi = flattenedSuoritusTyypit.find(x => x.koodiarvo === 'lukionoppimaara');
+        const lukionTyyppi = flattenedSuoritusTyypit.find((x) => x.koodiarvo === 'lukionoppimaara');
 
         expect(lukionTyyppi).toEqual({
             koodiarvo: 'lukionoppimaara',
@@ -334,8 +334,8 @@ describe('KoskiClient', () => {
         const client = new KoskiClient('username', 'password');
         const opintoOikeudet = await client.getOpintoOikeudet('130620-4884', koskiClientMemberCode);
 
-        const rahoitukset = cleanDeep(opintoOikeudet.opiskeluoikeudet.map(oikeus =>
-            oikeus.tila.opiskeluoikeusjaksot.map(jakso => jakso.opintojenRahoitus)));
+        const rahoitukset = cleanDeep(opintoOikeudet.opiskeluoikeudet.map((oikeus) =>
+            oikeus.tila.opiskeluoikeusjaksot.map((jakso) => jakso.opintojenRahoitus)));
 
         expect(rahoitukset).toHaveLength(0);
 
@@ -349,12 +349,12 @@ describe('KoskiClient', () => {
         const client = new KoskiClient('username', 'password');
         const opintoOikeudet = await client.getOpintoOikeudet('130620-4884', koskiClientMemberCode);
 
-        const koulutussopimukset = flatMap(opintoOikeudet.opiskeluoikeudet, o => flatMap(o.suoritukset, s => s.koulutussopimukset))
-            .filter(x => x);
+        const koulutussopimukset = flatMap(opintoOikeudet.opiskeluoikeudet, (o) => flatMap(o.suoritukset, (s) => s.koulutussopimukset))
+            .filter((x) => x);
 
-        const työssäoppimispaikat = koulutussopimukset.map(k => k.työssäoppimispaikka);
-        const työssäoppimispaikkaYTunnukset = koulutussopimukset.map(k => k.työssäoppimispaikanYTunnus);
-        const työssäoppimispaikkaTyötehtävät = koulutussopimukset.map(k => k.työtehtävät);
+        const työssäoppimispaikat = koulutussopimukset.map((k) => k.työssäoppimispaikka);
+        const työssäoppimispaikkaYTunnukset = koulutussopimukset.map((k) => k.työssäoppimispaikanYTunnus);
+        const työssäoppimispaikkaTyötehtävät = koulutussopimukset.map((k) => k.työtehtävät);
 
         expect(työssäoppimispaikat).toHaveLength(0);
         expect(työssäoppimispaikkaYTunnukset).toHaveLength(0);
@@ -370,8 +370,8 @@ describe('KoskiClient', () => {
         const client = new KoskiClient('username', 'password');
         const opintoOikeudet = await client.getOpintoOikeudet('130620-4884', koskiClientMemberCode);
 
-        const järjestämismuodot = flatMap(opintoOikeudet.opiskeluoikeudet, o => flatMap(o.suoritukset, s => s.järjestämismuodot))
-            .filter(x => x);
+        const järjestämismuodot = flatMap(opintoOikeudet.opiskeluoikeudet, (o) => flatMap(o.suoritukset, (s) => s.järjestämismuodot))
+            .filter((x) => x);
 
         expect(järjestämismuodot).toHaveLength(1);
         expect(järjestämismuodot[0].järjestämismuoto.tunniste.koodiarvo).toBe('20');
@@ -389,10 +389,10 @@ describe('KoskiClient', () => {
         const client = new KoskiClient('username', 'password');
         const opintoOikeudet = await client.getOpintoOikeudet('130620-4884', koskiClientMemberCode);
 
-        const osaamisenHankkimistavat = flatMap(opintoOikeudet.opiskeluoikeudet, o =>
-            flatMap(o.suoritukset, s => s.osaamisenHankkimistavat)).filter(x => x);
+        const osaamisenHankkimistavat = flatMap(opintoOikeudet.opiskeluoikeudet, (o) =>
+            flatMap(o.suoritukset, (s) => s.osaamisenHankkimistavat)).filter((x) => x);
 
-        const oppisopimusHankkimistavat = osaamisenHankkimistavat.filter(t =>
+        const oppisopimusHankkimistavat = osaamisenHankkimistavat.filter((t) =>
             t.osaamisenHankkimistapa.tunniste.koodiarvo === 'oppisopimus');
 
         expect(oppisopimusHankkimistavat).toHaveLength(2);

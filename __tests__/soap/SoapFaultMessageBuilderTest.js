@@ -1,7 +1,7 @@
+import fs from 'fs';
 import PromiseMatcher from 'jasmine-node-promise-matchers';
 import { compare } from 'dom-compare';
 import XMLDom from '@xmldom/xmldom';
-import fs from 'fs';
 import xpath from 'xpath';
 import errorMessageBuilder from '../../src/soap/SoapFaultMessageBuilder';
 import ClientError from '../../src/error/ClientError';

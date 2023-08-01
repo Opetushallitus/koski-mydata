@@ -1,5 +1,5 @@
-import PromiseMatcher from 'jasmine-node-promise-matchers';
 import fs from 'fs';
+import PromiseMatcher from 'jasmine-node-promise-matchers';
 import SoapPayloadParser from '../../src/soap/SoapRequestPayloadParser';
 
 describe('SoapRequestPayloadParser', () => {
