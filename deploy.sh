@@ -9,7 +9,7 @@ function main {
     npm install
     npm run build
 
-    scripts/deploy.sh ${ENV}
+    scripts/deploy.sh "${ENV}"
 }
 
 function check_env {
