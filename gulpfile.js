@@ -1,10 +1,10 @@
+const { exec } = require('child_process');
 const gulp = require('gulp');
 const babel = require('gulp-babel');
 const del = require('del');
 const install = require('gulp-install');
 const zip = require('gulp-zip');
 const runSequence = require('gulp4-run-sequence');
-const { exec } = require('child_process');
 
 const paths = {
     srcJS: 'src/**/*.js',
@@ -24,11 +24,9 @@ gulp.task('clean', () => {
     ]);
 });
 
-gulp.task('js', () =>
-    gulp.src(paths.srcJS)
-        .pipe(babel())
-        .pipe(gulp.dest('dist')),
-);
+gulp.task('js', () => gulp.src(paths.srcJS)
+    .pipe(babel())
+    .pipe(gulp.dest('dist')));
 
 gulp.task('config', (callback) => {
     gulp.src(paths.config, { base: '.' })
@@ -37,9 +35,9 @@ gulp.task('config', (callback) => {
 });
 
 // Next copy over environment variables managed outside of source control.
-gulp.task('env', async () => {
+gulp.task('env', async() => {
     gulp.src('./.env')
-        //.pipe(rename('.env'))
+        // .pipe(rename('.env'))
         .pipe(gulp.dest('./dist'));
 });
 
