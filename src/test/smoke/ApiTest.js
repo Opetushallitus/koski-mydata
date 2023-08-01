@@ -1,6 +1,6 @@
-import axios from 'axios';
 import fs from 'fs';
 import assert from 'assert';
+import axios from 'axios';
 import { DOMParser } from '@xmldom/xmldom';
 import xpath from 'xpath';
 

@@ -1,5 +1,7 @@
+/* eslint-disable no-async-promise-executor */
 // eslint-disable-next-line import/no-extraneous-dependencies
-import AWS from 'aws-sdk'; // provided by AWS AMI
+// provided by AWS AMI
+import { SecretsManager } from '@aws-sdk/client-secrets-manager';
 import log from 'lambda-log';
 
 class AWSSecretsManager {
@@ -10,7 +12,7 @@ class AWSSecretsManager {
         this.secretName = `koski/api-credentials/${this.environment}`;
 
         // Create a Secrets Manager client
-        this.client = new AWS.SecretsManager({
+        this.client = new SecretsManager({
             endpoint: this.endpoint,
             region: this.region,
         });

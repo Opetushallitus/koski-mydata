@@ -1,3 +1,5 @@
+/* eslint-disable import/no-import-module-exports */
+/* eslint-disable no-async-promise-executor */
 import log from 'lambda-log';
 import config from 'config';
 import SoapResponseMessageBuilder from './soap/SoapResponseMessageBuilder';
@@ -18,10 +20,15 @@ class Lambda {
 
     static handleWSDLRequest(queryParameters) {
         return new Promise((resolve, reject) => {
-            if (queryParameters !== null && Object.prototype.hasOwnProperty.call(queryParameters, 'wsdl')) {
+            if (
+                queryParameters !== null
+        && Object.prototype.hasOwnProperty.call(queryParameters, 'wsdl')
+            ) {
                 resolve(WSDLBuilder.buildOpintoOikeusWSDL());
             } else {
-                reject(new Error('Invalid GET request, only WSDL-file requests supported'));
+                reject(
+                    new Error('Invalid GET request, only WSDL-file requests supported'),
+                );
             }
         });
     }
@@ -33,7 +40,8 @@ class Lambda {
         return new KoskiClient(username, password);
     }
 
-    handleSOAPRequest(xml) { // This is the "Adapter Server" for X-Road
+    handleSOAPRequest(xml) {
+    // This is the "Adapter Server" for X-Road
         return new Promise(async(resolve, reject) => {
             try {
                 const {
@@ -51,16 +59,28 @@ class Lambda {
                 const client = await this.getClient(clientMemberCode);
 
                 const configKey = `member.${clientMemberCode}.name`;
-                const clientMemberName = config.has(configKey) ? config.get(configKey) : undefined;
+                const clientMemberName = config.has(configKey)
+                    ? config.get(configKey)
+                    : undefined;
 
                 log.config.meta.event.clientMemberCode = clientMemberCode;
                 log.config.meta.event.clientMemberName = clientMemberName;
 
-                const opintoOikeudet = await client.getOpintoOikeudet(hetu, clientMemberCode);
+                const opintoOikeudet = await client.getOpintoOikeudet(
+                    hetu,
+                    clientMemberCode,
+                );
 
                 const soapEnvelope = this.responseBuilder.buildResponseMessage(
-                    clientXRoadInstance, clientMemberClass, clientMemberCode, clientSubsystemCode,
-                    clientUserId, clientRequestId, clientType, clientIssue, opintoOikeudet,
+                    clientXRoadInstance,
+                    clientMemberClass,
+                    clientMemberCode,
+                    clientSubsystemCode,
+                    clientUserId,
+                    clientRequestId,
+                    clientType,
+                    clientIssue,
+                    opintoOikeudet,
                 );
 
                 log.config.meta.event.success = true;
@@ -69,7 +89,9 @@ class Lambda {
                 resolve(soapEnvelope);
             } catch (err) {
                 log.config.meta.event.failure = true;
-                log.error(`Handled opinto-oikeus request with failure ${JSON.stringify(err)}`);
+                log.error(
+                    `Handled opinto-oikeus request with failure ${JSON.stringify(err)}`,
+                );
                 reject(err);
             }
         });
@@ -124,10 +146,12 @@ class Lambda {
 
 const lambda = new Lambda();
 
-exports.opintoOikeusHandler = (event, context, callback) => { // AWS Lambda expects to receive a function
+exports.opintoOikeusHandler = (event, context, callback) => {
+    // AWS Lambda expects to receive a function
     lambda.opintoOikeusHandler(event, context, callback);
 };
 
-if (process.env.NODE_ENV === 'test') { // Allow mocking
+if (process.env.NODE_ENV === 'test') {
+    // Allow mocking
     exports.lambda = lambda;
 }

@@ -1,3 +1,4 @@
+/* eslint-disable no-async-promise-executor */
 import log from 'lambda-log';
 import axios from 'axios';
 import deepOmit from 'omit-deep-lodash';
@@ -109,7 +110,7 @@ class KoskiClient {
     järjestämismuotoFilter(muodot) {
         if (!muodot) return muodot;
 
-        return muodot.map(m => ({
+        return muodot.map((m) => ({
             alku: m.alku,
             loppu: m.loppu,
             järjestämismuoto: {
@@ -128,7 +129,7 @@ class KoskiClient {
     hankkimistapaFilter(hankkimistavat) {
         if (!hankkimistavat) return hankkimistavat;
 
-        return hankkimistavat.map(t => ({
+        return hankkimistavat.map((t) => ({
             alku: t.alku,
             loppu: t.loppu,
             osaamisenHankkimistapa: { tunniste: t.osaamisenHankkimistapa.tunniste },

@@ -1,3 +1,4 @@
+/* eslint-disable import/no-import-module-exports */
 import builder from 'xmlbuilder';
 import ClientError from '../error/ClientError';
 import Forbidden from '../error/Forbidden';
