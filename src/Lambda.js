@@ -59,8 +59,15 @@ class Lambda {
                 const opintoOikeudet = await client.getOpintoOikeudet(hetu, clientMemberCode);
 
                 const soapEnvelope = this.responseBuilder.buildResponseMessage(
-                    clientXRoadInstance, clientMemberClass, clientMemberCode, clientSubsystemCode,
-                    clientUserId, clientRequestId, clientType, clientIssue, opintoOikeudet,
+                    clientXRoadInstance,
+                    clientMemberClass,
+                    clientMemberCode,
+                    clientSubsystemCode,
+                    clientUserId,
+                    clientRequestId,
+                    clientType,
+                    clientIssue,
+                    opintoOikeudet,
                 );
 
                 log.config.meta.event.success = true;
@@ -69,7 +76,8 @@ class Lambda {
                 resolve(soapEnvelope);
             } catch (err) {
                 log.config.meta.event.failure = true;
-                log.error(`Handled opinto-oikeus request with failure ${JSON.stringify(err)}`);
+                log.error('Handled opinto-oikeus request with failure');
+                log.error(err);
                 reject(err);
             }
         });
