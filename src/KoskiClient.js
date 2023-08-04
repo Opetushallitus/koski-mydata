@@ -6,7 +6,7 @@ import config from 'config';
 import ClientError from './error/ClientError';
 import Forbidden from './error/Forbidden';
 
-const hetuRegexp = /^\d{6}[+-A]\d{3}[a-zA-Z0-9]$/;
+const hetuRegexp = /^\d{6}[+-ABCDEFYXWVU]\d{3}[a-zA-Z0-9]$/;
 
 const blacklistedOpiskeluOikeudetFields = [
     'lähdejärjestelmänId',
@@ -75,7 +75,7 @@ class KoskiClient {
     }
 
     static validateHetu(hetu) {
-        if (typeof hetu === 'undefined' || hetu === null) throw new Error('Hetu must not be null');
+        if (typeof hetu === 'undefined' || hetu === null || hetu === undefined) throw new Error('Hetu must not be null or undefined');
         return hetuRegexp.test(hetu);
     }
 
