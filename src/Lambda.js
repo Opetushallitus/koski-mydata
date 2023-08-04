@@ -123,7 +123,7 @@ class Lambda {
                 }
             }
             callback(null, {
-                statusCode: 500,
+                statusCode: err instanceof Forbidden ? 403 : 500,
                 body: SoapErrorBuilder.buildErrorMessage(err),
                 headers: { 'content-type': 'text/xml' },
             });
