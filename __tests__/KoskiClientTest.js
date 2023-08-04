@@ -60,6 +60,11 @@ describe('KoskiClient', () => {
         expect(KoskiClient.validateHetu('140779-0123')).toBe(true);
         expect(KoskiClient.validateHetu('140779A0123')).toBe(true); // separator for people born after year 2000
         expect(KoskiClient.validateHetu('999999+012A')).toBe(true); // separator for people born before year 1900
+        expect(KoskiClient.validateHetu('281005A811K')).toBe(true); // separator for people born in 2005, with new hetu format
+        expect(KoskiClient.validateHetu('220505B060E')).toBe(true); // separator for people born in 2005, with new hetu format
+        expect(KoskiClient.validateHetu('160905C2531')).toBe(true); // separator for people born in 2005, with new hetu format
+        expect(KoskiClient.validateHetu('261105D7770')).toBe(true); // separator for people born in 2005, with new hetu format
+        expect(KoskiClient.validateHetu('280505D154B')).toBe(true); // separator for people born in 2005, with new hetu format
     });
 
     it('Should detect invalid hetu IDs', () => {
