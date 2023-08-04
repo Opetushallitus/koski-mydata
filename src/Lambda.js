@@ -71,12 +71,12 @@ class Lambda {
                 );
 
                 log.config.meta.event.success = true;
-                log.info('Handled opinto-oikeus request successfully');
+                log.info('handleSOAPRequest(): Handled opinto-oikeus request successfully');
 
                 resolve(soapEnvelope);
             } catch (err) {
                 log.config.meta.event.failure = true;
-                log.error('Handled opinto-oikeus request with failure');
+                log.error('handleSOAPRequest(): Handled opinto-oikeus request with failure');
                 log.error(err);
                 reject(err);
             }
@@ -113,6 +113,7 @@ class Lambda {
             }
         } catch (err) {
             if (process.env.NODE_ENV !== 'test') {
+                log.error('opintoOikeusHandler(): Failure');
                 log.error(err);
 
                 if (err instanceof Forbidden) {
