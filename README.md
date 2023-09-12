@@ -64,9 +64,11 @@ koski_password_hsl=password
 
 ### Palvelimen käynnistys
 
+Ks. https://github.com/aws/aws-sam-cli/issues/4329#issuecomment-1289588827 ohjeet DOCKER_HOST asettamiseen. Ilman sitä ei ainakaan useampia colima-konteksteja käytettäessä käynnistäminen toimi.
+
 ```
 npm run build
-npm run start
+env DOCKER_HOST="..." npm run start
 ```
 
 (Jos package.json:ia muokataan niin `npm run build` tulee ajaa uudestaan.)
