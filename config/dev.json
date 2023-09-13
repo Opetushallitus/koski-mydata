@@ -1,6 +1,6 @@
 {
   "backend": {
-    "url": "https://koski.testiopintopolku.fi/koski/api/",
+    "url": "https://dev.koski.opintopolku.fi/koski/api/",
     "timeout": 30000,
     "api": {
       "oppija": "omadata/oppija"
@@ -10,6 +10,7 @@
     "env": "FI-DEV"
   },
   "member": {
+    "1516651-3": { "name": "frank" },
     "2769790-1": { "name": "hsl" }
   }
 }
