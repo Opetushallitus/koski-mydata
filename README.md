@@ -35,6 +35,8 @@ Jonka jälkeen asennus ympäristöön (dev/qa/prod) tapahtuu komennolla:
 ./deploy-[env].sh
 ```
 
+Toimintaa voi varmistella esim. seuraamalla lokia /aws/lambda/get-opinto-oikeudet-[qa/prod] .
+
 ## Applikaation käynnistys lokaalisti
 
 Jos haluat ajaa lambda-funktiota lokaalisti, tarvitset AWS SAM CLI:n.
