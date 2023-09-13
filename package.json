@@ -45,7 +45,7 @@
     "type": "git",
     "url": "https://github.com/Opetushallitus/koski-mydata.git"
   },
-  "@comment dependencies": "lambda-log 1.5.0 -> 2 on rikkova muutos, osa logien sisallosta katoaa",
+  "@COMMENT DEPENDENCIES": "RIKKOVA MUUTOS!!!! lambda-log 1.5.0 -> 2 on rikkova muutos, osa logien sisallosta katoaa",
   "dependencies": {
     "lambda-log": "1.5.0",
     "@babel/runtime-corejs3": "7.20.6",
