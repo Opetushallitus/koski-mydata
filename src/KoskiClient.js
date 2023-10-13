@@ -30,6 +30,7 @@ const denylistedOpiskeluoikeudenTyypit = [
     'tuva',
     'muukuinsaanneltykoulutus',
     'europeanschoolofhelsinki',
+    'ebtutkinto',
     'taiteenperusopetus',
 ];
 
