@@ -8,13 +8,13 @@ import Forbidden from './error/Forbidden';
 
 const hetuRegexp = /^\d{6}[+-ABCDEFYXWVU]\d{3}[a-zA-Z0-9]$/;
 
-const blacklistedOpiskeluOikeudetFields = [
+const denylistedOpiskeluOikeudetFields = [
     'lähdejärjestelmänId',
     'koulutustoimija',
     'opintojenRahoitus',
 ];
 
-const blacklistedStudentFields = [
+const denylistedStudentFields = [
     'hetu',
     'turvakielto',
     'äidinkieli',
@@ -24,7 +24,7 @@ const blacklistedStudentFields = [
     'sukunimi',
 ];
 
-const blacklistedOpiskeluoikeudenTyypit = [
+const denylistedOpiskeluoikeudenTyypit = [
     'esiopetus',
     'vapaansivistystyonkoulutus',
     'tuva',
@@ -33,7 +33,7 @@ const blacklistedOpiskeluoikeudenTyypit = [
     'taiteenperusopetus',
 ];
 
-const blacklistedLisätiedotForMember = (memberCode) => {
+const denylistedLisätiedotForMember = (memberCode) => {
     switch (memberCode) {
     case '2274586-3': // HSL
         return ['ythsMaksettu'];
@@ -103,7 +103,7 @@ class KoskiClient {
             ...(lukukausiIlmoittautuminen && { lukukausiIlmoittautuminen }),
         };
 
-        return deepOmit(filtered, ...blacklistedLisätiedotForMember(memberCode));
+        return deepOmit(filtered, ...denylistedLisätiedotForMember(memberCode));
     }
 
     järjestämismuotoFilter(muodot) {
@@ -149,10 +149,10 @@ class KoskiClient {
 
     opiskeluoikeusFilter(opiskeluoikeudet, clientMemberCode) {
         const sallitutOpiskeluoikeudet = opiskeluoikeudet.filter((opiskeluoikeus) => {
-            return !blacklistedOpiskeluoikeudenTyypit.includes(opiskeluoikeus.tyyppi.koodiarvo);
+            return !denylistedOpiskeluoikeudenTyypit.includes(opiskeluoikeus.tyyppi.koodiarvo);
         });
 
-        return deepOmit(sallitutOpiskeluoikeudet, ...blacklistedOpiskeluOikeudetFields).map((x) => {
+        return deepOmit(sallitutOpiskeluoikeudet, ...denylistedOpiskeluOikeudetFields).map((x) => {
             const { suoritukset, lisätiedot, ...opiskeluoikeus } = x;
 
             const filteredSuoritukset = this.suoritusFilter(suoritukset);
@@ -185,7 +185,7 @@ class KoskiClient {
                 if (filteredOpiskeluoikeudet.length === 0) reject(new Error('No opiskeluoikeudet found'));
 
                 resolve({
-                    henkilö: deepOmit(henkilö, ...blacklistedStudentFields),
+                    henkilö: deepOmit(henkilö, ...denylistedStudentFields),
                     opiskeluoikeudet: filteredOpiskeluoikeudet,
                     suostumuksenPaattymispaiva,
                 });
