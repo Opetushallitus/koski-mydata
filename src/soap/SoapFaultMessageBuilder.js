@@ -2,7 +2,7 @@ import builder from 'xmlbuilder';
 import ClientError from '../error/ClientError';
 import Forbidden from '../error/Forbidden';
 
-const codes = {
+export const codes = {
     client: 'SOAP-ENV:Client',
     server: 'SOAP-ENV:Server',
     forbidden: 'SOAP-ENV:Server.Forbidden',
@@ -40,5 +40,3 @@ class SoapFaultMessageBuilder {
 }
 
 export default SoapFaultMessageBuilder;
-
-exports.codes = codes;

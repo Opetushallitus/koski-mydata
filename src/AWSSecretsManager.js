@@ -41,16 +41,16 @@ class AWSSecretsManager {
      * At the moment this function does not cache the result.
      * @returns {Promise<any>}
      */
-    getKoskiCredentials(memberName) {
+    async getKoskiCredentials(memberName) {
         log.debug(`Reading secret ${this.secretName} from Secrets Manager for ${memberName}`);
 
         if (typeof memberName === 'undefined' || memberName === null) {
             return Promise.reject(new Error('Cannot get credentials for undefined member'));
         }
 
-        return new Promise(async(resolve, reject) => {
-            const { [memberName]: { username, password } } = await this.getSecretValue();
+        const { [memberName]: { username, password } } = await this.getSecretValue();
 
+        return new Promise((resolve, reject) => {
             if (typeof username === 'undefined' || username === null) {
                 reject(new Error('Failed to get secret username'));
             }

@@ -76,8 +76,8 @@ describe('Lambda', () => {
             expect(opintoOikeudet.henkilö.syntymäaika).toEqual('1947-09-21');
 
             // Find the first school user is present at
-            const present = opintoOikeudet.opiskeluoikeudet.find(x =>
-                typeof x.tila.opiskeluoikeusjaksot.find(jakso => (jakso.tila.koodiarvo === 'lasna')) !== 'undefined');
+            const present = opintoOikeudet.opiskeluoikeudet.find((x) =>
+                typeof x.tila.opiskeluoikeusjaksot.find((jakso) => (jakso.tila.koodiarvo === 'lasna')) !== 'undefined');
 
             expect(present).toBeTruthy();
             expect(present.tila.opiskeluoikeusjaksot[0].tila.koodiarvo).toEqual('lasna');
