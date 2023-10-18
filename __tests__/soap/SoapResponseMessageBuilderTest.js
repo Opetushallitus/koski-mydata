@@ -13,8 +13,15 @@ describe('SoapResponseMessageBuilder', () => {
         const opintoOikeudet = JSON.parse(fs.readFileSync('examples/opinto-oikeudet-ei-suoritukset.json', 'UTF-8'));
         const expectedResponse = parser.parseFromString(fs.readFileSync('examples/opintooikeudet-response.xml', 'UTF-8'));
         const createdXML = parser.parseFromString(responseBuilder.buildResponseMessage(
-            'FI-DEV', 'GOV', '2769790-1', 'koski', '123456789',
-            'ID123456', 'SUBSYSTEM', 'issue #123', opintoOikeudet,
+            'FI-DEV',
+            'GOV',
+            '2769790-1',
+            'koski',
+            '123456789',
+            'ID123456',
+            'SUBSYSTEM',
+            'issue #123',
+            opintoOikeudet,
         ));
         const result = compare(expectedResponse, createdXML, { stripSpaces: true });
 

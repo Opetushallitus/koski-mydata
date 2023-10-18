@@ -15,8 +15,15 @@ class SoapResponseMessageBuilder {
     }
 
     buildResponseMessage(
-        clientXRoadInstance, clientMemberClass, clientMemberCode, clientSubsystemCode,
-        clientUserId, clientRequestId, clientType, clientIssue, opintoOikeudet,
+        clientXRoadInstance,
+        clientMemberClass,
+        clientMemberCode,
+        clientSubsystemCode,
+        clientUserId,
+        clientRequestId,
+        clientType,
+        clientIssue,
+        opintoOikeudet,
     ) {
         try { /* eslint-disable newline-per-chained-call */
             const envelope = builder.create('SOAP-ENV:Envelope', {

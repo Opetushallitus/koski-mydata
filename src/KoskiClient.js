@@ -110,7 +110,7 @@ class KoskiClient {
     järjestämismuotoFilter(muodot) {
         if (!muodot) return muodot;
 
-        return muodot.map(m => ({
+        return muodot.map((m) => ({
             alku: m.alku,
             loppu: m.loppu,
             järjestämismuoto: {
@@ -129,7 +129,7 @@ class KoskiClient {
     hankkimistapaFilter(hankkimistavat) {
         if (!hankkimistavat) return hankkimistavat;
 
-        return hankkimistavat.map(t => ({
+        return hankkimistavat.map((t) => ({
             alku: t.alku,
             loppu: t.loppu,
             osaamisenHankkimistapa: { tunniste: t.osaamisenHankkimistapa.tunniste },
@@ -167,15 +167,15 @@ class KoskiClient {
         });
     }
 
-    getOpintoOikeudet(hetu, clientMemberCode) {
+    async getOpintoOikeudet(hetu, clientMemberCode) {
         if (!clientMemberCode) throw new ClientError('clientMemberCode must be defined when requesting opinto-oikeudet');
         if (!KoskiClient.validateHetu(hetu)) throw new ClientError('Invalid hetu format');
 
-        return new Promise(async(resolve, reject) => {
+        const response = await this._executeOppijaDataRequest(hetu, clientMemberCode);
+
+        return new Promise((resolve, reject) => {
             try {
                 log.info(`Getting opinto-oikeudet from ${config.get('backend.api.oppija')} for ${clientMemberCode}`);
-
-                const response = await this._executeOppijaDataRequest(hetu, clientMemberCode);
 
                 const { henkilö, opiskeluoikeudet, suostumuksenPaattymispaiva } = response.data;
 

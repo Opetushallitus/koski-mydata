@@ -7,7 +7,7 @@ Sen kautta voi hakea opiskelijoiden opinto-oikeuksia henkilötunnuksella.
 
 ## Vaatimukset
 
-- Node.js uusin 12.x ja sen mukana tuleva NPM-versio
+- Node.js uusin 16.x ja sen mukana tuleva NPM-versio
 - AWS CLI
 - ([AWS SAM CLI](https://github.com/awslabs/aws-sam-cli), jos haluat ajaa lambda-funktiota lokaalisti ja saada kaikki automaattitestit suoritettua)
 

@@ -49,6 +49,12 @@ gulp.task('docs', (callback) => {
         .on('end', callback);
 });
 
+gulp.task('nvmrc', (callback) => {
+    gulp.src('./update_nvmrc.js')
+        .pipe(gulp.dest('./dist/'))
+        .on('end', callback);
+});
+
 // Here we want to install npm packages to dist, ignoring devDependencies.
 gulp.task('npm', (callback) => {
     gulp.src('./package.json')
@@ -75,7 +81,7 @@ gulp.task('version', (callback) => {
 gulp.task('default', (callback) => {
     return runSequence(
         ['clean'],
-        ['js', 'config', 'npm', 'docs'],
+        ['nvmrc', 'js', 'config', 'npm', 'docs'],
         ['version'],
         ['zip'],
         callback,

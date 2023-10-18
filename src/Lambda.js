@@ -33,30 +33,29 @@ class Lambda {
         return new KoskiClient(username, password);
     }
 
-    handleSOAPRequest(xml) { // This is the "Adapter Server" for X-Road
-        return new Promise(async(resolve, reject) => {
-            try {
-                const {
-                    clientXRoadInstance,
-                    clientMemberClass,
-                    clientMemberCode,
-                    clientSubsystemCode,
-                    clientUserId,
-                    clientRequestId,
-                    clientType,
-                    clientIssue,
-                    hetu,
-                } = this.parser.parsePayload(xml);
+    async handleSOAPRequest(xml) { // This is the "Adapter Server" for X-Road
+        try {
+            const {
+                clientXRoadInstance,
+                clientMemberClass,
+                clientMemberCode,
+                clientSubsystemCode,
+                clientUserId,
+                clientRequestId,
+                clientType,
+                clientIssue,
+                hetu,
+            } = this.parser.parsePayload(xml);
 
-                const client = await this.getClient(clientMemberCode);
+            const client = await this.getClient(clientMemberCode);
+            const opintoOikeudet = await client.getOpintoOikeudet(hetu, clientMemberCode);
 
+            return new Promise((resolve) => {
                 const configKey = `member.${clientMemberCode}.name`;
                 const clientMemberName = config.has(configKey) ? config.get(configKey) : undefined;
 
                 log.config.meta.event.clientMemberCode = clientMemberCode;
                 log.config.meta.event.clientMemberName = clientMemberName;
-
-                const opintoOikeudet = await client.getOpintoOikeudet(hetu, clientMemberCode);
 
                 const soapEnvelope = this.responseBuilder.buildResponseMessage(
                     clientXRoadInstance,
@@ -74,13 +73,13 @@ class Lambda {
                 log.info('handleSOAPRequest(): Handled opinto-oikeus request successfully');
 
                 resolve(soapEnvelope);
-            } catch (err) {
-                log.config.meta.event.failure = true;
-                log.error('handleSOAPRequest(): Handled opinto-oikeus request with failure');
-                log.error(err);
-                reject(err);
-            }
-        });
+            });
+        } catch (err) {
+            log.config.meta.event.failure = true;
+            log.error('handleSOAPRequest(): Handled opinto-oikeus request with failure');
+            log.error(err);
+            throw err;
+        }
     }
 
     async opintoOikeusHandler(event, context, callback) {
@@ -131,12 +130,8 @@ class Lambda {
     }
 }
 
-const lambda = new Lambda();
+export const lambda = new Lambda();
 
-exports.opintoOikeusHandler = (event, context, callback) => { // AWS Lambda expects to receive a function
+export const opintoOikeusHandler = (event, context, callback) => { // AWS Lambda expects to receive a function
     lambda.opintoOikeusHandler(event, context, callback);
 };
-
-if (process.env.NODE_ENV === 'test') { // Allow mocking
-    exports.lambda = lambda;
-}
