@@ -14,7 +14,9 @@ permissions:
   contents: read
 
 jobs:
-  build:
+
+  test-unit:
+    name: Unit tests
     runs-on: ubuntu-latest
 
     steps:
@@ -24,77 +26,147 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version-file: '.nvmrc'
+          cache: 'npm'
 
       - name: Install dependencies
-        run: npm install --omit=optional
+        run: npm ci --omit=optional
 
-      - name: Build
-        run: npm run build-without-integration
-
-      - name: Store dist
-        uses: actions/upload-artifact@v3
-        with:
-         name: sovitinpalvelu-dist
-         path: ${{ env.ARTIFACT }}
-
-  deploy:
+      - name: Run unit tests
+        run: npm run unit
+  
+  test-integration:
+    name: Integration tests
     runs-on: ubuntu-latest
-
-    needs: [build]
-
-    strategy:
-      max-parallel: 1
-      fail-fast: true
-      matrix:
-        environment: [dev]
-
-    environment:
-      name: ${{ matrix.environment }}
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Make short hash
-        id: vars
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci --omit=optional
+
+      - name: Run integration tests
+        run: npm run integration
+        env:
+          NODE_ENV: production
+          NODE_CONFIG_ENV: qa
+          koski_user_koski: ${{ secrets.KOSKI_API_USER }}
+          koski_password_koski: ${{ secrets.KOSKI_API_PASSWORD }}
+
+  
+  build:
+    name: Build Lambda function
+    runs-on: ubuntu-latest
+
+    needs: [test-unit, test-integration]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci --omit=optional
+
+      - name: Build
+        run: npm run build-without-integration
+
+      - name: Store dist
+        uses: actions/upload-artifact@v4
+        with:
+          name: sovitinpalvelu-dist
+          path: ${{ env.ARTIFACT }}
+
+
+  hash:
+    needs: [build]
+    name: Generate hash
+    runs-on: ubuntu-latest
+
+    outputs:
+      short_sha: ${{ steps.generate_short_sha.outputs.short_sha }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - id: generate_short_sha
+        name: Make short hash
         run: |
           shortSha=$(git rev-parse --short ${{ github.sha }})
-          echo "SHORT_SHA=$shortSha" >> "$GITHUB_OUTPUT"
+          echo "short_sha=$shortSha" >> "$GITHUB_OUTPUT"
+
+  upload:
+    name: Upload zip artifact to S3
+    runs-on: ubuntu-latest
+
+    needs: [hash]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Configure AWS credentials for s3
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ secrets.AWS_OPH_UTILITY_ROLE_ARN }}
-          role-session-name: koski-sovitinpalvelu-upload-${{ steps.vars.outputs.SHORT_SHA }}
+          role-session-name: koski-sovitinpalvelu-upload-${{ needs.hash.outputs.short_sha }}
           aws-region: ${{ env.REGION }}
-          mask-aws-account-id: 'true'
+          mask-aws-account-id: "true"
 
-      - name: Restore dist
-        uses: actions/download-artifact@v3
+      - name: Restore dist.zip
+        uses: actions/download-artifact@v4
         with:
           name: sovitinpalvelu-dist
 
-      - name: Upload new dist by commit hash
+      - name: Upload dist.zip by commit hash
         id: upload
         run: |
-          TARGET="s3://oph-koski-omadata-sovitinpalvelu/${{ steps.vars.outputs.SHORT_SHA }}.zip"
+          TARGET="s3://oph-koski-omadata-sovitinpalvelu/${{ needs.hash.outputs.short_sha }}.zip"
           aws s3 cp dist.zip "$TARGET"
           echo "TARGET=$TARGET" >> "$GITHUB_OUTPUT"
 
-      - name: Configure AWS credentials for using lambda
+  deploy:
+    runs-on: ubuntu-latest
+
+    needs: [hash, upload]
+
+    strategy:
+      max-parallel: 1
+      fail-fast: true
+      matrix:
+        environment: [dev, qa]
+
+    environment:
+      name: ${{ matrix.environment }}
+
+    name: Deploy to ${{ matrix.environment }}
+
+    steps:
+
+      - name: Configure AWS credentials for deployment
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ secrets.SOVITINPALVELU_DEPLOY_ROLE }}
           role-duration-seconds: 3600
-          role-session-name: koski-sovitinpalvelu-deploy-${{matrix.environment}}-${{steps.vars.outputs.SHORT_SHA}}
+          role-session-name: koski-sovitinpalvelu-deploy-${{matrix.environment}}-${{needs.hash.outputs.short_sha}}
           aws-region: ${{ env.REGION }}
-          mask-aws-account-id: 'true'
+          mask-aws-account-id: "true"
 
-      - name: Deploy by updating lambda
+      - name: Deploy to ${{ matrix.environment }} by updating Lambda
         run: |
           aws lambda update-function-code \
-            --function-name get-opinto-oikeudet-${{ matrix.environment }} \
+            --function-name get-opinto-oikeudet-${{ matrix.environment }}-new \
             --s3-bucket oph-koski-omadata-sovitinpalvelu \
-            --s3-key ${{ steps.vars.outputs.SHORT_SHA }}.zip
-
+            --s3-key ${{ needs.hash.outputs.short_sha }}.zip
