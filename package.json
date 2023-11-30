@@ -7,6 +7,9 @@
     "node": "16"
   },
   "jest": {
+    "moduleNameMapper": {
+      "axios": "axios/dist/node/axios.cjs"
+    },
     "modulePathIgnorePatterns": [
       "dist/*"
     ],
