@@ -76,15 +76,15 @@ describe('KoskiClient', () => {
     });
 
     it('Should throw for missing hetu IDs', () => {
-        expect(KoskiClient.validateHetu).toThrowError();
+        expect(KoskiClient.validateHetu).toThrow();
 
         expect(() => {
             KoskiClient.validateHetu(null);
-        }).toThrowError();
+        }).toThrow();
 
         expect(() => {
             KoskiClient.validateHetu(undefined);
-        }).toThrowError();
+        }).toThrow();
     });
 
     it('Responses should not contain sensitive information', async(done) => { // eslint-disable-line jest/no-done-callback
@@ -299,7 +299,7 @@ describe('KoskiClient', () => {
         try {
             await client.getOpintoOikeudet('260769-598H', hslClientMemberCode);
         } catch (e) {
-            // eslint-disable-next-line jest/no-conditional-expect, jest/no-try-expect
+            // eslint-disable-next-line jest/no-conditional-expect
             expect(e).toEqual(new Error('No opiskeluoikeudet found'));
         }
 
