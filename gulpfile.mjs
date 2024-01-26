@@ -1,10 +1,12 @@
-const gulp = require('gulp');
-const babel = require('gulp-babel');
-const del = require('del');
-const install = require('gulp-install');
-const zip = require('gulp-zip');
-const runSequence = require('gulp4-run-sequence');
-const { exec } = require('child_process');
+/* eslint-disable import/no-extraneous-dependencies */
+
+import { deleteAsync } from 'del';
+import gulp from 'gulp';
+import babel from 'gulp-babel';
+import install from 'gulp-install';
+import zip from 'gulp-zip';
+import runSequence from 'gulp4-run-sequence';
+import { exec } from 'child_process';
 
 const paths = {
     srcJS: 'src/**/*.js',
@@ -18,17 +20,15 @@ const paths = {
 
 // First we need to clean out the dist folder and remove the compiled zip file.
 gulp.task('clean', () => {
-    return del([
+    return deleteAsync([
         'dist',
         'dist.zip',
     ]);
 });
 
-gulp.task('js', () =>
-    gulp.src(paths.srcJS)
-        .pipe(babel())
-        .pipe(gulp.dest('dist')),
-);
+gulp.task('js', () => gulp.src(paths.srcJS)
+    .pipe(babel())
+    .pipe(gulp.dest('dist')));
 
 gulp.task('config', (callback) => {
     gulp.src(paths.config, { base: '.' })
@@ -37,9 +37,8 @@ gulp.task('config', (callback) => {
 });
 
 // Next copy over environment variables managed outside of source control.
-gulp.task('env', async () => {
+gulp.task('env', async() => {
     gulp.src('./.env')
-        //.pipe(rename('.env'))
         .pipe(gulp.dest('./dist'));
 });
 
