@@ -4,8 +4,7 @@ import deepOmit from 'omit-deep-lodash';
 import cleanDeep from 'clean-deep';
 import config from 'config';
 import ClientError from './error/ClientError';
-import Forbidden from './error/Forbidden';
-import NotFoundError from './NotFoundError';
+import NotFound from './error/Forbidden';
 
 const hetuRegexp = /^\d{6}[+-ABCDEFYXWVU]\d{3}[a-zA-Z0-9]$/;
 
@@ -178,12 +177,12 @@ class KoskiClient {
 
             const { henkilö, opiskeluoikeudet, suostumuksenPaattymispaiva } = response.data;
             if (typeof opiskeluoikeudet === 'undefined' || opiskeluoikeudet === null) {
-                throw new NotFoundError('No opiskeluoikeudet found');
+                throw new NotFound('No opiskeluoikeudet found');
             }
 
             const filteredOpiskeluoikeudet = this.opiskeluoikeusFilter(opiskeluoikeudet, clientMemberCode);
             if (filteredOpiskeluoikeudet.length === 0) {
-                throw new NotFoundError('No opiskeluoikeudet found');
+                throw new NotFound('No opiskeluoikeudet found');
             }
 
             return {
@@ -192,14 +191,16 @@ class KoskiClient {
                 suostumuksenPaattymispaiva,
             };
         } catch (err) {
-            if (err instanceof NotFoundError) {
+            if (err instanceof NotFound) {
                 throw err;
             }
             // error contains credentials, url contains hetu, lets not log them
             if (err.response && err.response.status) {
                 if (err.response.status === 403) {
-                    throw new Forbidden(`Opinto-oikeus search failed due to insufficient permissions:
+                    throw new NotFound(`Opinto-oikeus search failed due to insufficient permissions:
                     ${KoskiClient.generateErrorMessage(err)}`);
+                } else if (err.response.status === 404) {
+                    throw new NotFound('No opiskeluoikeudet found');
                 } else {
                     log.error(`Koski response: [${err.response.status}]`);
                     throw new Error(`Opinto-oikeus search failed with message: ${KoskiClient.generateErrorMessage(err)}`);

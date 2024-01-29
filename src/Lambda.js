@@ -7,6 +7,7 @@ import WSDLBuilder from './soap/WSDLBuilder';
 import SoapErrorBuilder from './soap/SoapFaultMessageBuilder';
 import SecretsManagerProvider from './SecretsManagerProvider';
 import Forbidden from './error/Forbidden';
+import NotFound from './error/NotFound';
 
 class Lambda {
     constructor() {
@@ -50,30 +51,28 @@ class Lambda {
             const client = await this.getClient(clientMemberCode);
             const opintoOikeudet = await client.getOpintoOikeudet(hetu, clientMemberCode);
 
-            return new Promise((resolve) => {
-                const configKey = `member.${clientMemberCode}.name`;
-                const clientMemberName = config.has(configKey) ? config.get(configKey) : undefined;
+            const configKey = `member.${clientMemberCode}.name`;
+            const clientMemberName = config.has(configKey) ? config.get(configKey) : undefined;
 
-                log.config.meta.event.clientMemberCode = clientMemberCode;
-                log.config.meta.event.clientMemberName = clientMemberName;
+            log.config.meta.event.clientMemberCode = clientMemberCode;
+            log.config.meta.event.clientMemberName = clientMemberName;
 
-                const soapEnvelope = this.responseBuilder.buildResponseMessage(
-                    clientXRoadInstance,
-                    clientMemberClass,
-                    clientMemberCode,
-                    clientSubsystemCode,
-                    clientUserId,
-                    clientRequestId,
-                    clientType,
-                    clientIssue,
-                    opintoOikeudet,
-                );
+            const soapEnvelope = this.responseBuilder.buildResponseMessage(
+                clientXRoadInstance,
+                clientMemberClass,
+                clientMemberCode,
+                clientSubsystemCode,
+                clientUserId,
+                clientRequestId,
+                clientType,
+                clientIssue,
+                opintoOikeudet,
+            );
 
-                log.config.meta.event.success = true;
-                log.info('handleSOAPRequest(): Handled opinto-oikeus request successfully');
+            log.config.meta.event.success = true;
+            log.info('handleSOAPRequest(): Handled opinto-oikeus request successfully');
 
-                resolve(soapEnvelope);
-            });
+            return soapEnvelope;
         } catch (err) {
             log.config.meta.event.failure = true;
             log.error('handleSOAPRequest(): Handled opinto-oikeus request with failure');
@@ -117,6 +116,8 @@ class Lambda {
 
                 if (err instanceof Forbidden) {
                     log.info({ opintooikeusQuery: 'forbidden' });
+                } else if (err instanceof NotFound) {
+                    log.info({ opintooikeusQuery: 'notFound' });
                 } else {
                     log.error({ opintooikeusQuery: 'failure' });
                 }
