@@ -4,7 +4,7 @@
   "description": "Sovitinpalvelu (SOAP) Kosken MyDataan",
   "main": "index.js",
   "engines": {
-    "node": "16"
+    "node": "20"
   },
   "jest": {
     "moduleNameMapper": {

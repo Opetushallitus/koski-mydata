@@ -1,0 +1,100 @@
+name: Build & Deploy Sovitinpalvelu Lambda
+
+on:
+  push:
+    branches:
+      - master
+      - lisaa-test-workflow
+env:
+  REGION: eu-west-1
+  ARTIFACT: dist.zip
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm install --omit=optional
+
+      - name: Build
+        run: npm run build-without-integration
+
+      - name: Store dist
+        uses: actions/upload-artifact@v3
+        with:
+         name: sovitinpalvelu-dist
+         path: ${{ env.ARTIFACT }}
+
+  deploy:
+    runs-on: ubuntu-latest
+
+    needs: [build]
+
+    strategy:
+      max-parallel: 1
+      fail-fast: true
+      matrix:
+        environment: [dev]
+
+    environment:
+      name: ${{ matrix.environment }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Make short hash
+        id: vars
+        run: |
+          shortSha=$(git rev-parse --short ${{ github.sha }})
+          echo "SHORT_SHA=$shortSha" >> "$GITHUB_OUTPUT"
+
+      - name: Configure AWS credentials for s3
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_OPH_UTILITY_ROLE_ARN }}
+          role-session-name: koski-sovitinpalvelu-upload-${{ steps.vars.outputs.SHORT_SHA }}
+          aws-region: ${{ env.REGION }}
+          mask-aws-account-id: 'true'
+
+      - name: Restore dist
+        uses: actions/download-artifact@v3
+        with:
+          name: sovitinpalvelu-dist
+
+      - name: Upload new dist by commit hash
+        id: upload
+        run: |
+          TARGET="s3://oph-koski-omadata-sovitinpalvelu/${{ steps.vars.outputs.SHORT_SHA }}.zip"
+          aws s3 cp dist.zip "$TARGET"
+          echo "TARGET=$TARGET" >> "$GITHUB_OUTPUT"
+
+      - name: Configure AWS credentials for using lambda
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.SOVITINPALVELU_DEPLOY_ROLE }}
+          role-duration-seconds: 3600
+          role-session-name: koski-sovitinpalvelu-deploy-${{matrix.environment}}-${{steps.vars.outputs.SHORT_SHA}}
+          aws-region: ${{ env.REGION }}
+          mask-aws-account-id: 'true'
+
+      - name: Deploy by updating lambda
+        run: |
+          aws lambda update-function-code \
+            --function-name get-opinto-oikeudet-${{ matrix.environment }} \
+            --s3-bucket oph-koski-omadata-sovitinpalvelu \
+            --s3-key ${{ steps.vars.outputs.SHORT_SHA }}.zip
+
