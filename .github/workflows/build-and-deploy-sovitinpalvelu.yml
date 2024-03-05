@@ -137,23 +137,15 @@ jobs:
           aws s3 cp dist.zip "$TARGET"
           echo "TARGET=$TARGET" >> "$GITHUB_OUTPUT"
 
-  deploy:
+  deploy-dev:
     runs-on: ubuntu-latest
 
     if: github.ref == 'refs/heads/master'
 
     needs: [hash, upload]
 
-    strategy:
-      max-parallel: 1
-      fail-fast: true
-      matrix:
-        environment: [dev, qa]
-
-    environment:
-      name: ${{ matrix.environment }}
-
-    name: Deploy to ${{ matrix.environment }}
+    environment: dev
+    name: Deploy to DEV
 
     steps:
 
@@ -162,13 +154,69 @@ jobs:
         with:
           role-to-assume: ${{ secrets.SOVITINPALVELU_DEPLOY_ROLE }}
           role-duration-seconds: 3600
-          role-session-name: koski-sovitinpalvelu-deploy-${{matrix.environment}}-${{needs.hash.outputs.short_sha}}
+          role-session-name: koski-sovitinpalvelu-deploy-dev-${{needs.hash.outputs.short_sha}}
           aws-region: ${{ env.REGION }}
           mask-aws-account-id: "true"
 
       - name: Deploy to ${{ matrix.environment }} by updating Lambda
         run: |
           aws lambda update-function-code \
-            --function-name get-opinto-oikeudet-${{ matrix.environment }}-new \
+            --function-name get-opinto-oikeudet-dev-new \
+            --s3-bucket oph-koski-omadata-sovitinpalvelu \
+            --s3-key ${{ needs.hash.outputs.short_sha }}.zip
+
+  deploy-qa:
+    runs-on: ubuntu-latest
+
+    if: github.ref == 'refs/heads/master'
+
+    needs: [deploy-dev]
+
+    environment: qa
+    name: Deploy to QA
+
+    steps:
+
+      - name: Configure AWS credentials for deployment
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.SOVITINPALVELU_DEPLOY_ROLE }}
+          role-duration-seconds: 3600
+          role-session-name: koski-sovitinpalvelu-deploy-qa-${{needs.hash.outputs.short_sha}}
+          aws-region: ${{ env.REGION }}
+          mask-aws-account-id: "true"
+
+      - name: Deploy to QA by updating Lambda
+        run: |
+          aws lambda update-function-code \
+            --function-name get-opinto-oikeudet-qa-new \
+            --s3-bucket oph-koski-omadata-sovitinpalvelu \
+            --s3-key ${{ needs.hash.outputs.short_sha }}.zip
+
+  deploy-prod:
+    runs-on: ubuntu-latest
+
+    if: github.ref == 'refs/heads/master'
+
+    needs: [deploy-dev, deploy-qa]
+
+    environment: prod
+    name: Deploy to PROD
+
+    steps:
+
+      - name: Configure AWS credentials for deployment
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.SOVITINPALVELU_DEPLOY_ROLE }}
+          role-duration-seconds: 3600
+          role-session-name: koski-sovitinpalvelu-deploy-prod-${{needs.hash.outputs.short_sha}}
+          aws-region: ${{ env.REGION }}
+          mask-aws-account-id: "true"
+
+      - name: Deploy to PROD by updating Lambda
+        run: |
+          aws lambda update-function-code \
+            --function-name get-opinto-oikeudet-prod-new \
             --s3-bucket oph-koski-omadata-sovitinpalvelu \
             --s3-key ${{ needs.hash.outputs.short_sha }}.zip
