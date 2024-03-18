@@ -160,7 +160,7 @@ jobs:
           aws-region: ${{ env.REGION }}
           mask-aws-account-id: "true"
 
-      - name: Deploy to ${{ matrix.environment }} by updating Lambda
+      - name: Deploy to DEV by updating Lambda
         run: |
           aws lambda update-function-code \
             --function-name get-opinto-oikeudet-dev-new \
@@ -172,7 +172,7 @@ jobs:
 
     if: github.ref == 'refs/heads/master'
 
-    needs: [deploy-dev]
+    needs: [hash, deploy-dev]
 
     environment: qa
     name: Deploy to QA
@@ -200,7 +200,7 @@ jobs:
 
     if: github.ref == 'refs/heads/master'
 
-    needs: [deploy-dev, deploy-qa]
+    needs: [hash, deploy-dev, deploy-qa]
 
     environment: prod
     name: Deploy to PROD
