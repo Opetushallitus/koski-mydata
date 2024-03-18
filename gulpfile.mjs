@@ -1,12 +1,12 @@
 /* eslint-disable import/no-extraneous-dependencies */
 
+import { exec } from 'child_process';
 import { deleteAsync } from 'del';
 import gulp from 'gulp';
 import babel from 'gulp-babel';
 import install from 'gulp-install';
 import zip from 'gulp-zip';
 import runSequence from 'gulp4-run-sequence';
-import { exec } from 'child_process';
 
 const paths = {
     srcJS: 'src/**/*.js',

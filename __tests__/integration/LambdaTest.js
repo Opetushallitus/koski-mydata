@@ -2,15 +2,15 @@ import fs from 'fs';
 import { DOMParser } from '@xmldom/xmldom';
 import xpath from 'xpath';
 import PromiseMatcher from 'jasmine-node-promise-matchers';
-import { opintoOikeusHandler } from '../../src/Lambda'; // eslint-disable-line import/named
+import { opintoOikeusHandler } from '../../src/Lambda';
 
-describe('Lambda', () => {
+describe(`Lambda (Koski ${process.env.NODE_CONFIG_ENV})`, () => {
     beforeEach(() => {
         jasmine.addMatchers(PromiseMatcher); // eslint-disable-line jest/no-jasmine-globals
     });
 
-    it('Should be able to fetch required information', async(done) => { // eslint-disable-line jest/no-done-callback
-        const soapPayload = fs.readFileSync('./examples/opintooikeudet-payload.xml', 'UTF-8');
+    it('Should be able to fetch required information', async() => {
+        const soapPayload = fs.readFileSync('./examples/opintooikeudet-payload-koski-qa.xml', 'UTF-8');
         const soapRequest = {
             httpMethod: 'POST',
             body: soapPayload,
@@ -40,14 +40,14 @@ describe('Lambda', () => {
             expect(select('//soap:Header/xroad:id/text()', doc)[0].nodeValue).toEqual('ID123456');
             expect(select('//soap:Header/xroad:userId/text()', doc)[0].nodeValue).toEqual('123456789');
 
-            expect(select('//soap:Header/xroad:service/id:xRoadInstance/text()', doc)[0].nodeValue).toEqual('FI-DEV');
+            expect(select('//soap:Header/xroad:service/id:xRoadInstance/text()', doc)[0].nodeValue).toEqual('FI-TEST');
             expect(select('//soap:Header/xroad:service/id:memberClass/text()', doc)[0].nodeValue).toEqual('GOV');
             expect(select('//soap:Header/xroad:service/id:memberCode/text()', doc)[0].nodeValue).toEqual('2769790-1');
             expect(select('//soap:Header/xroad:service/id:subsystemCode/text()', doc)[0].nodeValue).toEqual('koski');
             expect(select('//soap:Header/xroad:service/id:serviceCode/text()', doc)[0].nodeValue).toEqual('opintoOikeudetService');
             expect(select('//soap:Header/xroad:service/id:serviceVersion/text()', doc)[0].nodeValue).toEqual('v1');
 
-            expect(select('//soap:Header/xroad:client/id:xRoadInstance/text()', doc)[0].nodeValue).toEqual('FI-DEV');
+            expect(select('//soap:Header/xroad:client/id:xRoadInstance/text()', doc)[0].nodeValue).toEqual('FI-TEST');
             expect(select('//soap:Header/xroad:client/id:memberClass/text()', doc)[0].nodeValue).toEqual('GOV');
             expect(select('//soap:Header/xroad:client/id:memberCode/text()', doc)[0].nodeValue).toEqual('2769790-1');
             expect(select('//soap:Header/xroad:client/id:subsystemCode/text()', doc)[0].nodeValue).toEqual('koski');
@@ -85,8 +85,6 @@ describe('Lambda', () => {
             expect(present.oppilaitos.nimi.fi).toMatch(/[a-zA-Z0-9\s]{5,}/);
             expect(present.oppilaitos.oppilaitosnumero.koodiarvo).toMatch(/[0-9\s]{3,}/);
             expect(opintoOikeudet.suostumuksenPaattymispaiva).toEqual('2070-01-01');
-
-            done();
         } catch (err) {
             console.log('Failed to run integration test for Lambda', err);
             throw err;

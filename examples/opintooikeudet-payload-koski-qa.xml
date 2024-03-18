@@ -5,7 +5,7 @@
       <xro:id>ID123456</xro:id>
       <xro:userId>123456789</xro:userId>
       <xro:service id:objectType="SERVICE">
-         <id:xRoadInstance>FI-DEV</id:xRoadInstance>
+         <id:xRoadInstance>FI-TEST</id:xRoadInstance>
          <id:memberClass>GOV</id:memberClass>
          <id:memberCode>2769790-1</id:memberCode>
          <id:subsystemCode>koski</id:subsystemCode>
@@ -13,7 +13,7 @@
          <id:serviceVersion>v1</id:serviceVersion>
       </xro:service>
       <xro:client id:objectType="SUBSYSTEM">
-         <id:xRoadInstance>FI-DEV</id:xRoadInstance>
+         <id:xRoadInstance>FI-TEST</id:xRoadInstance>
          <id:memberClass>GOV</id:memberClass>
          <id:memberCode>2769790-1</id:memberCode>
          <id:subsystemCode>koski</id:subsystemCode>
@@ -25,4 +25,3 @@
       </prod:opintoOikeudetService>
    </soapenv:Body>
 </soapenv:Envelope>
-

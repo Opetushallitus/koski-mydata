@@ -7,7 +7,7 @@ Sen kautta voi hakea opiskelijoiden opinto-oikeuksia henkilötunnuksella.
 
 ## Vaatimukset
 
-- Node.js uusin 16.x ja sen mukana tuleva NPM-versio
+- Node.js 20 ja sen mukana tuleva npm-versio
 - AWS CLI
 - ([AWS SAM CLI](https://github.com/awslabs/aws-sam-cli), jos haluat ajaa lambda-funktiota lokaalisti ja saada kaikki automaattitestit suoritettua)
 
@@ -35,7 +35,7 @@ Jonka jälkeen asennus ympäristöön (dev/qa/prod) tapahtuu komennolla:
 ./deploy-[env].sh
 ```
 
-Toimintaa voi varmistella esim. seuraamalla lokia /aws/lambda/get-opinto-oikeudet-[qa/prod] .
+Toimintaa voi varmistella esim. seuraamalla lokia /aws/lambda/get-opinto-oikeudet-[qa/prod]-new .
 
 ## Applikaation käynnistys lokaalisti
 
@@ -60,9 +60,13 @@ Varmista että Pythonin user basen (`python -m site --user-base`) `/bin` -hakemi
 Kysy Koski-tiimiltä QA-environmentin käyttäjätunnus ja salasana.
 Luo tiedosto ```.env``` sisällöllä:
 ```
-koski_user_hsl=username
-koski_password_hsl=password
+NODE_ENV=production
+NODE_CONFIG_ENV=qa
+koski_user_koski=username
+koski_password_koski="password"
 ```
+
+*HUOM.* Salasana lainausmerkkeihin.
 
 ### Palvelimen käynnistys
 
@@ -77,7 +81,7 @@ env DOCKER_HOST="..." npm run start
 
 ja testaa että applikaatio toimii:
 ```
-curl -v -k -d @examples/opintooikeudet-payload.xml --header "Content-Type: text/xml" -X POST http://localhost:3000/
+curl -v -k -d @examples/opintooikeudet-payload-koski-qa.xml --header "Content-Type: text/xml" -X POST http://localhost:3000/
 ```
 
 ### Huomioita WSDL-tiedostosta

@@ -8,10 +8,11 @@ Resources:
   OpintoOikeudet:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: dist/
-      Runtime: nodejs12.x
-      Timeout: 16
+      CodeUri: dist.zip
       Handler: Lambda.opintoOikeusHandler
+      Runtime: nodejs20.x
+      Timeout: 20
+      MemorySize: 512
       Events:
         ListCustomers:
           Type: Api
@@ -21,10 +22,11 @@ Resources:
   WSDL:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: dist/
-      Runtime: nodejs12.x
-      Timeout: 16
+      CodeUri: dist.zip
       Handler: Lambda.opintoOikeusHandler
+      Runtime: nodejs20.x
+      Timeout: 20
+      MemorySize: 512
       Events:
         ListCustomers:
           Type: Api
