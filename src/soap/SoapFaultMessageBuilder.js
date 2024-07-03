@@ -1,17 +1,20 @@
 import builder from 'xmlbuilder';
 import ClientError from '../error/ClientError';
 import Forbidden from '../error/Forbidden';
+import NotFound from '../error/NotFound';
 
 export const codes = {
     client: 'SOAP-ENV:Client',
     server: 'SOAP-ENV:Server',
     forbidden: 'SOAP-ENV:Server.Forbidden',
+    notfound: 'SOAP-ENV:Server.NotFound',
 };
 
 Object.freeze(codes);
 
 const getCode = (error) => {
     if (error instanceof Forbidden) return codes.forbidden;
+    if (error instanceof NotFound) return codes.notfound;
     if (error instanceof ClientError) return codes.client;
     return codes.server;
 };
