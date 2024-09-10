@@ -27,7 +27,7 @@ function deepEqual(obj1, obj2) {
     return obj1 === obj2;
 }
 
-function compareResults(array1, array2) {
+function compareArrays(array1, array2) {
     if (array1.length !== array2.length) {
         log.info(`Arrays have different lengths: ${array1.length} vs ${array2.length}`);
         return;
@@ -50,6 +50,12 @@ function compareResults(array1, array2) {
     } else {
         log.info('Both arrays have exactly the same elements.');
     }
+}
+
+function compareResults(oos1, oos2) {
+    deepEqual(oos1.henkilö, oos2.henkilö);
+    deepEqual(oos1.suostumuksenPaattymispaiva, oos2.suostumuksenPaattymispaiva);
+    compareArrays(oos1.opiskeluoikeudet, oos2.opiskeluoikeudet);
 }
 
 class Lambda {
@@ -96,6 +102,7 @@ class Lambda {
 
             try {
                 const opintoOikeudetFromNewApi = await client.getOpintoOikeudetFromNewApi(hetu, clientMemberCode);
+                log.info('Got data from new api', opintoOikeudetFromNewApi);
                 compareResults(opintoOikeudetFromNewApi, opintoOikeudet);
             } catch (e) {
                 log.info('Failed to compare results:', e);
