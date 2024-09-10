@@ -2,6 +2,7 @@ import log from 'lambda-log';
 import config from 'config';
 import isEqual from 'lodash.isequal';
 import sortBy from 'lodash.sortby';
+import differenceWith from 'lodash.differencewith';
 import SoapResponseMessageBuilder from './soap/SoapResponseMessageBuilder';
 import SoapPayloadParser from './soap/SoapRequestPayloadParser';
 import KoskiClient from './KoskiClient';
@@ -10,6 +11,16 @@ import SoapErrorBuilder from './soap/SoapFaultMessageBuilder';
 import SecretsManagerProvider from './SecretsManagerProvider';
 import Forbidden from './error/Forbidden';
 import NotFound from './error/NotFound';
+
+function findDifferences(sortedArray1, sortedArray2) {
+    const onlyInArray1 = differenceWith(sortedArray1, sortedArray2, isEqual);
+    const onlyInArray2 = differenceWith(sortedArray2, sortedArray1, isEqual);
+
+    return {
+        onlyInArray1,
+        onlyInArray2,
+    };
+}
 
 function compareResults(oos1, oos2) {
     console.log(isEqual(oos1.henkilö, oos2.henkilö)
@@ -20,9 +31,16 @@ function compareResults(oos1, oos2) {
         ? console.info('suostumuksen päättymispäivä ok')
         : console.warn('suostumuksen päättymispäivä ei täsmää'));
 
-    console.log(isEqual(sortBy(oos1.opiskeluoikeudet, 'oid'), sortBy(oos2.opiskeluoikeudet, 'oid'))
+    const ar1 = sortBy(oos1.opiskeluoikeudet, 'oid');
+    const ar2 = sortBy(oos2.opiskeluoikeudet, 'oid');
+
+    console.log(isEqual(ar1, ar2)
         ? console.info('opiskeluoikeudet ok')
         : console.warn('opiskeluoikeudet ei täsmää'));
+
+    const differences = findDifferences(ar1, ar2);
+    console.log('Only in Array 1:', JSON.stringify(differences.onlyInArray1));
+    console.log('Only in Array 2:', JSON.stringify(differences.onlyInArray2));
 }
 
 class Lambda {
