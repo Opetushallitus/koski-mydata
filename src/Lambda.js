@@ -101,7 +101,7 @@ class Lambda {
             const opintoOikeudet = await client.getOpintoOikeudet(hetu, clientMemberCode);
 
             try {
-                const opintoOikeudetFromNewApi = await client.getOpintoOikeudetFromNewApi(hetu, clientMemberCode);
+                const opintoOikeudetFromNewApi = await client.getOpintoOikeudetFromNewApi(xml);
                 log.info('Got data from new api', opintoOikeudetFromNewApi);
                 compareResults(opintoOikeudetFromNewApi, opintoOikeudet);
             } catch (e) {
