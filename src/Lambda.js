@@ -105,7 +105,8 @@ class Lambda {
                 log.info('Got data from new api', opintoOikeudetFromNewApi);
                 compareResults(opintoOikeudetFromNewApi, opintoOikeudet);
             } catch (e) {
-                log.info('Failed to compare results:', e);
+                log.info('Failed to compare results');
+                log.error(e);
             }
 
             const configKey = `member.${clientMemberCode}.name`;
