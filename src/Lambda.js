@@ -9,6 +9,49 @@ import SecretsManagerProvider from './SecretsManagerProvider';
 import Forbidden from './error/Forbidden';
 import NotFound from './error/NotFound';
 
+function deepEqual(obj1, obj2) {
+    if (typeof obj1 === 'object' && obj1 !== null && typeof obj2 === 'object' && obj2 !== null) {
+        if (Object.keys(obj1).length !== Object.keys(obj2).length) {
+            return false;
+        }
+
+        // eslint-disable-next-line consistent-return
+        Object.keys(obj1).forEach((key) => {
+            if (!Object.prototype.hasOwnProperty.call(obj2, key) || !deepEqual(obj1[key], obj2[key])) {
+                return false;
+            }
+        });
+        return true;
+    }
+
+    return obj1 === obj2;
+}
+
+function compareResults(array1, array2) {
+    if (array1.length !== array2.length) {
+        log.info(`Arrays have different lengths: ${array1.length} vs ${array2.length}`);
+        return;
+    }
+
+    // eslint-disable-next-line no-plusplus
+    for (let i = 0; i < array1.length; i++) {
+        const element1 = array1[i];
+        const matchingElementIndex = array2.findIndex((element2) => deepEqual(element1, element2));
+
+        if (matchingElementIndex === -1) {
+            log.info(`No matching element found for index ${i} in the second array:`, element1);
+        } else {
+            array2.splice(matchingElementIndex, 1);
+        }
+    }
+
+    if (array2.length > 0) {
+        log.info('Extra elements found in the second array:', array2);
+    } else {
+        log.info('Both arrays have exactly the same elements.');
+    }
+}
+
 class Lambda {
     constructor() {
         this.secretsManager = SecretsManagerProvider.getSecretsManager();
@@ -50,6 +93,13 @@ class Lambda {
 
             const client = await this.getClient(clientMemberCode);
             const opintoOikeudet = await client.getOpintoOikeudet(hetu, clientMemberCode);
+
+            try {
+                const opintoOikeudetFromNewApi = await client.getOpintoOikeudetFromNewApi(hetu, clientMemberCode);
+                compareResults(opintoOikeudetFromNewApi, opintoOikeudet);
+            } catch (e) {
+                log.info('Failed to compare results:', e);
+            }
 
             const configKey = `member.${clientMemberCode}.name`;
             const clientMemberName = config.has(configKey) ? config.get(configKey) : undefined;
