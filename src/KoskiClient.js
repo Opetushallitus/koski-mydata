@@ -96,7 +96,15 @@ class KoskiClient {
     }
 
     async _getDataFromNewApi(xml) {
-        return this.instance.post('palveluvayla/hsl', { xml });
+        return this.instance.post(
+            'palveluvayla/hsl',
+            xml,
+            {
+                headers: {
+                    'Content-Type': 'application/xml',
+                },
+            },
+        );
     }
 
     lisätiedotFilter(lisätiedot, memberCode) {

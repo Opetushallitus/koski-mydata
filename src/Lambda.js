@@ -39,14 +39,14 @@ function compareArrays(array1, array2) {
         const matchingElementIndex = array2.findIndex((element2) => deepEqual(element1, element2));
 
         if (matchingElementIndex === -1) {
-            log.info(`No matching element found for index ${i} in the second array:`, element1);
+            log.info(`No matching element found for index ${i} in the second array:`, element1.oid);
         } else {
             array2.splice(matchingElementIndex, 1);
         }
     }
 
     if (array2.length > 0) {
-        log.info('Extra elements found in the second array:', array2);
+        log.info('Extra elements found in the second array:', array2.oid);
     } else {
         log.info('Both arrays have exactly the same elements.');
     }
