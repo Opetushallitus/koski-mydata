@@ -1,5 +1,7 @@
 import log from 'lambda-log';
 import config from 'config';
+import isEqual from 'lodash.isequal';
+import sortBy from 'lodash.sortby';
 import SoapResponseMessageBuilder from './soap/SoapResponseMessageBuilder';
 import SoapPayloadParser from './soap/SoapRequestPayloadParser';
 import KoskiClient from './KoskiClient';
@@ -8,6 +10,20 @@ import SoapErrorBuilder from './soap/SoapFaultMessageBuilder';
 import SecretsManagerProvider from './SecretsManagerProvider';
 import Forbidden from './error/Forbidden';
 import NotFound from './error/NotFound';
+
+function compareResults(oos1, oos2) {
+    console.log(isEqual(oos1.henkilö, oos2.henkilö)
+        ? console.info('henkilö ok')
+        : console.warn('henkilö ei täsmää'));
+
+    console.log(isEqual(oos1.suostumuksenPaattymispaiva, oos2.suostumuksenPaattymispaiva)
+        ? console.info('suostumuksen päättymispäivä ok')
+        : console.warn('suostumuksen päättymispäivä ei täsmää'));
+
+    console.log(isEqual(sortBy(oos1.opiskeluoikeudet, 'oid'), sortBy(oos2.opiskeluoikeudet, 'oid'))
+        ? console.info('opiskeluoikeudet ok')
+        : console.warn('opiskeluoikeudet ei täsmää'));
+}
 
 class Lambda {
     constructor() {
@@ -50,6 +66,15 @@ class Lambda {
 
             const client = await this.getClient(clientMemberCode);
             const opintoOikeudet = await client.getOpintoOikeudet(hetu, clientMemberCode);
+
+            try {
+                const opintoOikeudetFromNewApi = await client.getOpintoOikeudetFromNewApi(xml);
+                log.info('Got data from new api');
+                compareResults(opintoOikeudetFromNewApi, opintoOikeudet);
+            } catch (e) {
+                log.info('Failed to compare results');
+                log.error(e);
+            }
 
             const configKey = `member.${clientMemberCode}.name`;
             const clientMemberName = config.has(configKey) ? config.get(configKey) : undefined;

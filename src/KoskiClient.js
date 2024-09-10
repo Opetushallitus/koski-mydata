@@ -6,6 +6,7 @@ import config from 'config';
 import ClientError from './error/ClientError';
 import NotFound from './error/NotFound';
 import Forbidden from './error/Forbidden';
+import SoapResponseParser from './soap/SoapResponseParser';
 
 const hetuRegexp = /^\d{6}[+-ABCDEFYXWVU]\d{3}[a-zA-Z0-9]$/;
 
@@ -94,6 +95,18 @@ class KoskiClient {
         return this.instance.post(config.get('backend.api.oppija'), { hetu }, { headers: { 'X-ROAD-MEMBER': clientMemberCode } });
     }
 
+    async _getDataFromNewApi(xml) {
+        return this.instance.post(
+            'palveluvayla/hsl',
+            xml,
+            {
+                headers: {
+                    'Content-Type': 'application/xml',
+                },
+            },
+        );
+    }
+
     lisätiedotFilter(lisätiedot, memberCode) {
         const { osaAikaisuusjaksot } = lisätiedot || false;
         const { virtaOpiskeluoikeudenTyyppi } = lisätiedot || false;
@@ -166,6 +179,45 @@ class KoskiClient {
                 lisätiedot: filteredLisätiedot,
             });
         });
+    }
+
+    async getOpintoOikeudetFromNewApi(xml) {
+        try {
+            log.info('Getting opinto-oikeudet from the new API');
+            const response = await this._getDataFromNewApi(xml);
+            log.debug(response.data);
+            const parsedResult = new SoapResponseParser().parseXmlResponse(response.data);
+            log.debug(parsedResult);
+            const jsonString = parsedResult.data.trim();
+            log.debug(jsonString);
+
+            let opintoOikeudet;
+            try {
+                opintoOikeudet = JSON.parse(jsonString);
+            } catch (error) {
+                throw new Error('Error parsing JSON from CDATA section: ' + error.message);
+            }
+
+            return opintoOikeudet;
+        } catch (err) {
+            if (err instanceof NotFound) {
+                throw err;
+            }
+            // error contains credentials, url contains hetu, lets not log them
+            if (err.response && err.response.status) {
+                if (err.response.status === 403) {
+                    throw new NotFound(`Opinto-oikeus search failed due to insufficient permissions:
+                    ${KoskiClient.generateErrorMessage(err)}`);
+                } else if (err.response.status === 404) {
+                    throw new NotFound('No opiskeluoikeudet found');
+                } else {
+                    log.error(`Koski response: [${err.response.status}]`);
+                    throw new Error(`Opinto-oikeus search failed with message: ${KoskiClient.generateErrorMessage(err)}`);
+                }
+            } else {
+                throw new Error(`Opinto-oikeus search failed with message: ${KoskiClient.generateErrorMessage(err)}`);
+            }
+        }
     }
 
     async getOpintoOikeudet(hetu, clientMemberCode) {
