@@ -22,25 +22,42 @@ function findDifferences(sortedArray1, sortedArray2) {
     };
 }
 
-function compareResults(oos1, oos2) {
-    console.log(isEqual(oos1.henkilö, oos2.henkilö)
-        ? console.info('henkilö ok')
-        : console.warn('henkilö ei täsmää'));
+function logMismatch(condition, message) {
+    if (!condition) {
+        console.warn(message);
+    }
+}
 
-    console.log(isEqual(oos1.suostumuksenPaattymispaiva, oos2.suostumuksenPaattymispaiva)
-        ? console.info('suostumuksen päättymispäivä ok')
-        : console.warn('suostumuksen päättymispäivä ei täsmää'));
+function logDifferences(differences) {
+    console.log('Something only in new data:', differences.onlyInArray1.map(({ oid }) => oid).join(', '));
+    console.log('Something only in old data:', differences.onlyInArray2.map(({ oid }) => oid).join(', '));
+}
 
-    const ar1 = sortBy(oos1.opiskeluoikeudet, 'oid');
-    const ar2 = sortBy(oos2.opiskeluoikeudet, 'oid');
+function compareResults(newData, oldData) {
+    const sortedNewOos = sortBy(newData.opiskeluoikeudet, 'oid');
+    const sortedOldOos = sortBy(oldData.opiskeluoikeudet, 'oid');
 
-    console.log(isEqual(ar1, ar2)
-        ? console.info('opiskeluoikeudet ok')
-        : console.warn('opiskeluoikeudet ei täsmää'));
+    const henkilöOk = isEqual(newData.henkilö, oldData.henkilö);
+    const suostumuksenPaattymispaivaOk = isEqual(newData.suostumuksenPaattymispaiva, oldData.suostumuksenPaattymispaiva);
+    const oosOk = isEqual(sortedNewOos, sortedOldOos);
 
-    const differences = findDifferences(ar1, ar2);
-    console.log('Only in Array 1:', JSON.stringify(differences.onlyInArray1));
-    console.log('Only in Array 2:', JSON.stringify(differences.onlyInArray2));
+    const allDataOk = henkilöOk && suostumuksenPaattymispaivaOk && oosOk;
+
+    if (allDataOk) {
+        console.log('Vanha ja uusi data täsmäävät');
+    } else {
+        console.warn('Vanha ja uusi data eivät täsmää');
+
+        logMismatch(henkilöOk, 'henkilö ei täsmää');
+        logMismatch(suostumuksenPaattymispaivaOk, 'suostumuksen päättymispäivä ei täsmää');
+
+        if (!oosOk) {
+            console.warn('opiskeluoikeudet eivät täsmää');
+
+            const differences = findDifferences(sortedNewOos, sortedOldOos);
+            logDifferences(differences);
+        }
+    }
 }
 
 class Lambda {
