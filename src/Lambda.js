@@ -58,19 +58,17 @@ function compareResults(newData, oldData) {
     const henkilöOk = isEqual(newData.henkilö, oldData.henkilö);
     const suostumuksenPaattymispaivaOk = isEqual(newData.suostumuksenPaattymispaiva, oldData.suostumuksenPaattymispaiva);
 
-    const sortedNewOos = sortBy(newData.opiskeluoikeudet, (o) => o.oid || o.tyyppi.koodiarvo);
-    const sortedOldOos = sortBy(oldData.opiskeluoikeudet, (o) => o.oid || o.tyyppi.koodiarvo);
-    const oosLengthOk = sortedNewOos.length === sortedOldOos.length;
-
-    const sortedNew = sortBy(newData.opiskeluoikeudet, 'oid').map((oo) => ({
+    const sortedNew = sortBy(newData.opiskeluoikeudet, (o) => o.oid || o.tyyppi.koodiarvo).map((oo) => ({
         ...oo,
         suoritukset: sortBy(oo.suoritukset, (s) => s.tyyppi.koodiarvo),
     }));
 
-    const sortedOld = sortBy(oldData.opiskeluoikeudet, 'oid').map((oo) => ({
+    const sortedOld = sortBy(oldData.opiskeluoikeudet, (o) => o.oid || o.tyyppi.koodiarvo).map((oo) => ({
         ...oo,
         suoritukset: sortBy(oo.suoritukset, (s) => s.tyyppi.koodiarvo),
     }));
+
+    const oosLengthOk = sortedNew.length === sortedOld.length;
 
     const oosOk = isEqual(sortedNew, sortedOld);
 
@@ -83,28 +81,22 @@ function compareResults(newData, oldData) {
 
         logMismatch(henkilöOk, 'henkilö ei täsmää');
         logMismatch(suostumuksenPaattymispaivaOk, 'suostumuksen päättymispäivä ei täsmää');
-        logMismatch(oosLengthOk, 'opiskeluoikeuksien lkm ei täsmää');
+        logMismatch(oosLengthOk, `opiskeluoikeuksien lkm ei täsmää: ${sortedNew.map((oo) => oo.oid)} vs. ${sortedOld.map((oo) => oo.oid)}`);
 
         if (!oosOk) {
             console.warn('opiskeluoikeudet eivät täsmää');
 
-            const differences = findDifferences(sortedNewOos, sortedOldOos);
+            const differences = findDifferences(sortedNew, sortedOld);
             logDifferences(differences);
 
             sortedNew.forEach((newOo, idx) => {
                 const oldOo = sortedOld[idx];
 
-                logMismatch(
-                    !isEqual(newOo.suoritukset.length, oldOo.suoritukset.length),
-                    `suorituksia eri määrä opiskeluoikeudella ${newOo.oid}`,
-                );
-
-                if (!isEqual(newOo.suoritukset, oldOo.suoritukset)) {
+                if (!isEqual(newOo.suoritukset.length, oldOo.suoritukset.length)) {
                     console.log(
-                        'Opiskeluoikeuden',
-                        newOo.oid,
-                        'suoritukset eivät täsmää',
+                        `suorituksia eri määrä opiskeluoikeudella ${newOo.oid}:`,
                         JSON.stringify(newOo.suoritukset.map((s) => s.tyyppi)),
+                        'vs.',
                         JSON.stringify(oldOo.suoritukset.map((s) => s.tyyppi)),
                     );
                 }
