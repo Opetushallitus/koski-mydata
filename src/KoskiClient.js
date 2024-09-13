@@ -202,20 +202,8 @@ class KoskiClient {
         } catch (err) {
             if (err instanceof NotFound) {
                 throw err;
-            }
-            // error contains credentials, url contains hetu, lets not log them
-            if (err.response && err.response.status) {
-                if (err.response.status === 403) {
-                    throw new NotFound(`Opinto-oikeus search failed due to insufficient permissions:
-                    ${KoskiClient.generateErrorMessage(err)}`);
-                } else if (err.response.status === 404) {
-                    throw new NotFound('No opiskeluoikeudet found');
-                } else {
-                    log.error(`Koski response: [${err.response.status}]`);
-                    throw new Error(`Opinto-oikeus search failed with message: ${KoskiClient.generateErrorMessage(err)}`);
-                }
             } else {
-                throw new Error(`Opinto-oikeus search failed with message: ${KoskiClient.generateErrorMessage(err)}`);
+                throw new Error('Failed to get opinto-oikeudet from the new API');
             }
         }
     }

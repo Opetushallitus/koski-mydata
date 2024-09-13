@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - master
-      - lisaa-test-workflow
+      - compare-results-with-new-api
 env:
   REGION: eu-west-1
   ARTIFACT: dist.zip
@@ -111,7 +111,7 @@ jobs:
     name: Upload zip artifact to S3
     runs-on: ubuntu-latest
 
-    if: github.ref == 'refs/heads/master'
+    # if: github.ref == 'refs/heads/master'
 
     needs: [hash]
 
@@ -142,7 +142,7 @@ jobs:
   deploy-dev:
     runs-on: ubuntu-latest
 
-    if: github.ref == 'refs/heads/master'
+    # if: github.ref == 'refs/heads/master'
 
     needs: [hash, upload]
 
@@ -170,7 +170,7 @@ jobs:
   deploy-qa:
     runs-on: ubuntu-latest
 
-    if: github.ref == 'refs/heads/master'
+    # if: github.ref == 'refs/heads/master'
 
     needs: [hash, deploy-dev]
 
@@ -198,7 +198,7 @@ jobs:
   deploy-prod:
     runs-on: ubuntu-latest
 
-    if: github.ref == 'refs/heads/master'
+    # if: github.ref == 'refs/heads/master'
 
     needs: [hash, deploy-dev, deploy-qa]
 

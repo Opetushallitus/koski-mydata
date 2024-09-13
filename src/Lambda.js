@@ -33,15 +33,48 @@ function logDifferences(differences) {
     console.log('Something only in old data:', differences.onlyInArray2.map(({ oid }) => oid).join(', '));
 }
 
-function compareResults(newData, oldData) {
-    const sortedNewOos = sortBy(newData.opiskeluoikeudet, 'oid');
-    const sortedOldOos = sortBy(oldData.opiskeluoikeudet, 'oid');
+// eslint-disable-next-line no-unused-vars
+function flattenObject(obj, parentKey = '', result = {}) {
+    Object.keys(obj).forEach((key) => {
+        if (Object.prototype.hasOwnProperty.call(obj, key)) {
+            const newKey = parentKey ? `${parentKey}.${key}` : key;
 
+            if (typeof obj[key] === 'object' && obj[key] !== null && !Array.isArray(obj[key])) {
+                flattenObject(obj[key], newKey, result);
+            } else if (Array.isArray(obj[key])) {
+                obj[key].forEach((item, index) => {
+                    flattenObject(item, `${newKey}[${index}]`, result);
+                });
+            } else {
+                // eslint-disable-next-line no-param-reassign
+                result[newKey] = obj[key];
+            }
+        }
+    });
+    return result;
+}
+
+function compareResults(newData, oldData) {
     const henkilöOk = isEqual(newData.henkilö, oldData.henkilö);
     const suostumuksenPaattymispaivaOk = isEqual(newData.suostumuksenPaattymispaiva, oldData.suostumuksenPaattymispaiva);
-    const oosOk = isEqual(sortedNewOos, sortedOldOos);
 
-    const allDataOk = henkilöOk && suostumuksenPaattymispaivaOk && oosOk;
+    const sortedNewOos = sortBy(newData.opiskeluoikeudet, 'oid');
+    const sortedOldOos = sortBy(oldData.opiskeluoikeudet, 'oid');
+    const oosLengthOk = sortedNewOos.length === sortedOldOos.length;
+
+    const sortedNew = sortBy(newData.opiskeluoikeudet, 'oid').map((oo) => ({
+        ...oo,
+        suoritukset: sortBy(oo.suoritukset, 'alkamispaiva'),
+    }));
+
+    const sortedOld = sortBy(oldData.opiskeluoikeudet, 'oid').map((oo) => ({
+        ...oo,
+        suoritukset: sortBy(oo.suoritukset, 'alkamispaiva'),
+    }));
+
+    const oosOk = isEqual(sortedNew, sortedOld);
+
+    const allDataOk = henkilöOk && suostumuksenPaattymispaivaOk && oosLengthOk && oosOk;
 
     if (allDataOk) {
         console.log('Vanha ja uusi data täsmäävät');
@@ -50,12 +83,30 @@ function compareResults(newData, oldData) {
 
         logMismatch(henkilöOk, 'henkilö ei täsmää');
         logMismatch(suostumuksenPaattymispaivaOk, 'suostumuksen päättymispäivä ei täsmää');
+        logMismatch(oosLengthOk, 'opiskeluoikeuksien lkm ei täsmää');
 
         if (!oosOk) {
             console.warn('opiskeluoikeudet eivät täsmää');
 
             const differences = findDifferences(sortedNewOos, sortedOldOos);
             logDifferences(differences);
+
+            sortedNew.forEach((newOo, idx) => {
+                const oldOo = sortedOld[idx];
+
+                logMismatch(
+                    !isEqual(newOo.suoritukset.length, oldOo.suoritukset.length),
+                    `suorituksia eri määrä opiskeluoikeudella ${newOo.oid}`,
+                );
+
+                if (!isEqual(newOo.suoritukset, oldOo.suoritukset)) {
+                    console.log(
+                        'Opiskeluoikeuden',
+                        newOo.oid,
+                        'suoritukset eivät täsmää',
+                    );
+                }
+            });
         }
     }
 }
@@ -104,7 +155,6 @@ class Lambda {
 
             try {
                 const opintoOikeudetFromNewApi = await client.getOpintoOikeudetFromNewApi(xml);
-                log.info('Got data from new api');
                 compareResults(opintoOikeudetFromNewApi, opintoOikeudet);
             } catch (e) {
                 log.info('Failed to compare results');
