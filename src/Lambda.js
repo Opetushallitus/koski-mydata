@@ -17,27 +17,6 @@ function logMismatch(condition, message) {
         console.warn(message);
     }
 }
-// eslint-disable-next-line no-unused-vars
-function flattenObject(obj, parentKey = '', result = {}) {
-    Object.keys(obj).forEach((key) => {
-        if (Object.prototype.hasOwnProperty.call(obj, key)) {
-            const newKey = parentKey ? `${parentKey}.${key}` : key;
-
-            if (typeof obj[key] === 'object' && obj[key] !== null && !Array.isArray(obj[key])) {
-                flattenObject(obj[key], newKey, result);
-            } else if (Array.isArray(obj[key])) {
-                obj[key].forEach((item, index) => {
-                    flattenObject(item, `${newKey}[${index}]`, result);
-                });
-            } else {
-                // eslint-disable-next-line no-param-reassign
-                result[newKey] = obj[key];
-            }
-        }
-    });
-    return result;
-}
-
 function compareResults(newData, oldData) {
     const henkilöOk = isEqual(newData.henkilö, oldData.henkilö);
     const suostumuksenPaattymispaivaOk = isEqual(newData.suostumuksenPaattymispaiva, oldData.suostumuksenPaattymispaiva);
