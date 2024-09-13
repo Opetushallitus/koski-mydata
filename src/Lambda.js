@@ -58,8 +58,8 @@ function compareResults(newData, oldData) {
     const henkilöOk = isEqual(newData.henkilö, oldData.henkilö);
     const suostumuksenPaattymispaivaOk = isEqual(newData.suostumuksenPaattymispaiva, oldData.suostumuksenPaattymispaiva);
 
-    const sortedNewOos = sortBy(newData.opiskeluoikeudet, 'oid');
-    const sortedOldOos = sortBy(oldData.opiskeluoikeudet, 'oid');
+    const sortedNewOos = sortBy(newData.opiskeluoikeudet, (o) => o.oid || o.tyyppi.koodiarvo);
+    const sortedOldOos = sortBy(oldData.opiskeluoikeudet, (o) => o.oid || o.tyyppi.koodiarvo);
     const oosLengthOk = sortedNewOos.length === sortedOldOos.length;
 
     const sortedNew = sortBy(newData.opiskeluoikeudet, 'oid').map((oo) => ({
