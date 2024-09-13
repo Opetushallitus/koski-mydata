@@ -2,7 +2,6 @@ import log from 'lambda-log';
 import config from 'config';
 import isEqual from 'lodash.isequal';
 import sortBy from 'lodash.sortby';
-import differenceWith from 'lodash.differencewith';
 import SoapResponseMessageBuilder from './soap/SoapResponseMessageBuilder';
 import SoapPayloadParser from './soap/SoapRequestPayloadParser';
 import KoskiClient from './KoskiClient';
@@ -11,16 +10,6 @@ import SoapErrorBuilder from './soap/SoapFaultMessageBuilder';
 import SecretsManagerProvider from './SecretsManagerProvider';
 import Forbidden from './error/Forbidden';
 import NotFound from './error/NotFound';
-
-function findDifferences(sortedArray1, sortedArray2) {
-    const onlyInArray1 = differenceWith(sortedArray1, sortedArray2, isEqual);
-    const onlyInArray2 = differenceWith(sortedArray2, sortedArray1, isEqual);
-
-    return {
-        onlyInArray1,
-        onlyInArray2,
-    };
-}
 
 function logMismatch(condition, message) {
     if (!condition) {
@@ -46,19 +35,6 @@ function flattenObject(obj, parentKey = '', result = {}) {
         }
     });
     return result;
-}
-
-function logDifferences(differences) {
-    console.log(
-        'Something only in new data:',
-        differences.onlyInArray1.map(({ oid }) => oid).join(', '),
-        JSON.stringify(differences.onlyInArray1.map(flattenObject).map(Object.keys)),
-    );
-    console.log(
-        'Something only in old data:',
-        differences.onlyInArray2.map(({ oid }) => oid).join(', '),
-        JSON.stringify(differences.onlyInArray2.map(flattenObject).map(Object.keys)),
-    );
 }
 
 function compareResults(newData, oldData) {
@@ -88,13 +64,24 @@ function compareResults(newData, oldData) {
 
         logMismatch(henkilöOk, 'henkilö ei täsmää');
         logMismatch(suostumuksenPaattymispaivaOk, 'suostumuksen päättymispäivä ei täsmää');
-        logMismatch(oosLengthOk, `opiskeluoikeuksien lkm ei täsmää: ${sortedNew.map((oo) => oo.oid)} vs. ${sortedOld.map((oo) => oo.oid)}`);
+        logMismatch(oosLengthOk, `opiskeluoikeuksien lkm ei täsmää ${newData.henkilö.oid}: 
+            ${sortedNew.map((oo) => oo.oid)} vs. ${sortedOld.map((oo) => oo.oid)}`);
 
         if (!oosOk) {
             console.warn('opiskeluoikeudet eivät täsmää');
 
-            const differences = findDifferences(sortedNew, sortedOld);
-            logDifferences(differences);
+            const sortedNewWithoutSuoritukset = sortedNew.map((oo) => ({ ...oo, suoritukset: [] }));
+            const sortedOldWithoutSuoritukset = sortedOld.map((oo) => ({ ...oo, suoritukset: [] }));
+
+            if (!isEqual(sortedNewWithoutSuoritukset, sortedOldWithoutSuoritukset)) {
+                console.warn(
+                    'opiskeluoikeudet ilman suorituksia eivät täsmää',
+                    JSON.stringify(sortedNewWithoutSuoritukset),
+                    JSON.stringify(sortedOldWithoutSuoritukset),
+                );
+            } else {
+                console.log('opiskeluoikeudet ilman suorituksia täsmäävät');
+            }
 
             sortedNew.forEach((newOo, idx) => {
                 const oldOo = sortedOld[idx];
