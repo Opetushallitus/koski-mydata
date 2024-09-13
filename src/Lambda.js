@@ -27,12 +27,6 @@ function logMismatch(condition, message) {
         console.warn(message);
     }
 }
-
-function logDifferences(differences) {
-    console.log('Something only in new data:', differences.onlyInArray1.map(({ oid }) => oid).join(', '));
-    console.log('Something only in old data:', differences.onlyInArray2.map(({ oid }) => oid).join(', '));
-}
-
 // eslint-disable-next-line no-unused-vars
 function flattenObject(obj, parentKey = '', result = {}) {
     Object.keys(obj).forEach((key) => {
@@ -52,6 +46,19 @@ function flattenObject(obj, parentKey = '', result = {}) {
         }
     });
     return result;
+}
+
+function logDifferences(differences) {
+    console.log(
+        'Something only in new data:',
+        differences.onlyInArray1.map(({ oid }) => oid).join(', '),
+        JSON.stringify(differences.onlyInArray1.map(flattenObject).map(Object.keys)),
+    );
+    console.log(
+        'Something only in old data:',
+        differences.onlyInArray2.map(({ oid }) => oid).join(', '),
+        JSON.stringify(differences.onlyInArray2.map(flattenObject).map(Object.keys)),
+    );
 }
 
 function compareResults(newData, oldData) {
