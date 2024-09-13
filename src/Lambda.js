@@ -104,8 +104,8 @@ function compareResults(newData, oldData) {
                         'Opiskeluoikeuden',
                         newOo.oid,
                         'suoritukset eivät täsmää',
-                        JSON.stringify(newOo.suoritukset.map((s) => s.koulutusmoduuli?.tunniste?.koodistoUri)),
-                        JSON.stringify(oldOo.suoritukset.map((s) => s.koulutusmoduuli?.tunniste?.koodistoUri)),
+                        JSON.stringify(newOo.suoritukset.map((s) => s.tyyppi)),
+                        JSON.stringify(oldOo.suoritukset.map((s) => s.tyyppi)),
                     );
                 }
             });
