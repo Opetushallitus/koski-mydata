@@ -64,12 +64,12 @@ function compareResults(newData, oldData) {
 
     const sortedNew = sortBy(newData.opiskeluoikeudet, 'oid').map((oo) => ({
         ...oo,
-        suoritukset: sortBy(oo.suoritukset, 'alkamispaiva'),
+        suoritukset: sortBy(oo.suoritukset, (s) => s.tyyppi.koodiarvo),
     }));
 
     const sortedOld = sortBy(oldData.opiskeluoikeudet, 'oid').map((oo) => ({
         ...oo,
-        suoritukset: sortBy(oo.suoritukset, 'alkamispaiva'),
+        suoritukset: sortBy(oo.suoritukset, (s) => s.tyyppi.koodiarvo),
     }));
 
     const oosOk = isEqual(sortedNew, sortedOld);
