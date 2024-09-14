@@ -22,12 +22,18 @@ function compareResults(newData, oldData) {
     const henkilöOk = isEqual(newData.henkilö, oldData.henkilö);
     const suostumuksenPaattymispaivaOk = isEqual(newData.suostumuksenPaattymispaiva, oldData.suostumuksenPaattymispaiva);
 
-    const sortedNew = sortBy(newData.opiskeluoikeudet, (o) => o.oid || o.alkamispäivä || o.tyyppi.koodiarvo).map((oo) => (cleanDeep({
+    const sortedNew = sortBy(
+        newData.opiskeluoikeudet.filter((oo) => !/korkeak/.test(oo.tyyppi.koodiarvo)),
+        (o) => o.oid || o.alkamispäivä || o.tyyppi.koodiarvo,
+    ).map((oo) => (cleanDeep({
         ...oo,
         suoritukset: sortBy(oo.suoritukset, (s) => s.tyyppi.koodiarvo),
     })));
 
-    const sortedOld = sortBy(oldData.opiskeluoikeudet, (o) => o.oid || o.alkamispäivä || o.tyyppi.koodiarvo).map((oo) => ({
+    const sortedOld = sortBy(
+        oldData.opiskeluoikeudet.filter((oo) => !/korkeak/.test(oo.tyyppi.koodiarvo)),
+        (o) => o.oid || o.alkamispäivä || o.tyyppi.koodiarvo,
+    ).map((oo) => ({
         ...oo,
         suoritukset: sortBy(oo.suoritukset, (s) => s.tyyppi.koodiarvo),
     }));
