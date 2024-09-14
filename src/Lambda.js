@@ -17,6 +17,7 @@ function logMismatch(condition, message) {
         console.warn(message);
     }
 }
+// eslint-disable-next-line no-unused-vars
 function compareResults(newData, oldData) {
     const henkilöOk = isEqual(newData.henkilö, oldData.henkilö);
     const suostumuksenPaattymispaivaOk = isEqual(newData.suostumuksenPaattymispaiva, oldData.suostumuksenPaattymispaiva);
@@ -128,8 +129,8 @@ class Lambda {
             const opintoOikeudet = await client.getOpintoOikeudet(hetu, clientMemberCode);
 
             try {
-                const opintoOikeudetFromNewApi = await client.getOpintoOikeudetFromNewApi(xml);
-                compareResults(opintoOikeudetFromNewApi, opintoOikeudet);
+                // const opintoOikeudetFromNewApi = await client.getOpintoOikeudetFromNewApi(xml);
+                // compareResults(opintoOikeudetFromNewApi, opintoOikeudet);
             } catch (e) {
                 log.info('Failed to compare results');
                 log.error(e);
