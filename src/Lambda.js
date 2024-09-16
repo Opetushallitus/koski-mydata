@@ -29,6 +29,12 @@ function compareResults(newData, oldData) {
         suoritukset: sortBy(oo.suoritukset, (s) => s.tyyppi.koodiarvo).map((s) => ({ ...s, koulutussopimukset: [] })),
     })));
 
+    const kkNew = (newData.opiskeluoikeudet.filter((oo) => /korkeak/.test(oo.tyyppi.koodiarvo)))
+        .map((oo) => (cleanDeep({
+            ...oo,
+            suoritukset: sortBy(oo.suoritukset, (s) => s.tyyppi.koodiarvo).map((s) => ({ ...s, koulutussopimukset: [] })),
+        })));
+
     const sortedOld = sortBy(
         oldData.opiskeluoikeudet.filter((oo) => !/korkeak/.test(oo.tyyppi.koodiarvo)),
         (o) => o.oid || o.alkamispäivä || o.tyyppi.koodiarvo,
@@ -37,11 +43,20 @@ function compareResults(newData, oldData) {
         suoritukset: sortBy(oo.suoritukset, (s) => s.tyyppi.koodiarvo),
     }));
 
+    const kkOld = (oldData.opiskeluoikeudet.filter((oo) => /korkeak/.test(oo.tyyppi.koodiarvo)))
+        .map((oo) => (cleanDeep({
+            ...oo,
+            suoritukset: sortBy(oo.suoritukset, (s) => s.tyyppi.koodiarvo).map((s) => ({ ...s, koulutussopimukset: [] })),
+        })));
+
+    const eachNewInOld = kkNew.all((kkn) => kkOld.some((kko) => isEqual(({ ...kkn, suoritukset: [] }), ({ ...kko, suoritukset: [] }))));
+    const eachOldInNew = kkOld.all((kko) => kkNew.some((kkn) => isEqual(({ ...kko, suoritukset: [] }), ({ ...kkn, suoritukset: [] }))));
+
     const oosLengthOk = sortedNew.length === sortedOld.length;
 
     const oosOk = isEqual(sortedNew, sortedOld);
 
-    const allDataOk = henkilöOk && suostumuksenPaattymispaivaOk && oosLengthOk && oosOk;
+    const allDataOk = henkilöOk && suostumuksenPaattymispaivaOk && oosLengthOk && oosOk && eachNewInOld && eachOldInNew;
 
     if (allDataOk) {
         console.log('Vanha ja uusi data täsmäävät');
@@ -73,18 +88,15 @@ function compareResults(newData, oldData) {
                 );
             }
 
-            sortedNew.forEach((newOo, idx) => {
-                const oldOo = sortedOld[idx];
-
-                if (!isEqual(newOo.suoritukset.length, oldOo.suoritukset.length)) {
-                    console.log(
-                        `suorituksia eri määrä opiskeluoikeudella ${newOo.oid}:`,
-                        JSON.stringify(newOo.suoritukset.map((s) => s.tyyppi)),
-                        'vs.',
-                        JSON.stringify(oldOo.suoritukset.map((s) => s.tyyppi)),
-                    );
-                }
-            });
+            if (eachNewInOld && eachOldInNew) {
+                console.log('Vanha ja uusi kk data täsmäävät');
+            } else {
+                console.warn(
+                    'Vanha ja uusi kk data eivät täsmää',
+                    JSON.stringify(kkNew),
+                    JSON.stringify(kkOld),
+                );
+            }
         }
     }
 }
