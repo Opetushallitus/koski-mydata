@@ -26,12 +26,14 @@ function compareResults(newData, oldData) {
         (o) => o.oid || o.alkamispäivä || o.tyyppi.koodiarvo,
     ).map((oo) => (cleanDeep({
         ...oo,
+        tila: sortBy(oo.tila, (t) => t.alku),
         suoritukset: sortBy(oo.suoritukset, (s) => s.tyyppi.koodiarvo).map((s) => ({ ...s, koulutussopimukset: [] })),
     })));
 
     const kkNew = (newData.opiskeluoikeudet.filter((oo) => /korkeak/.test(oo.tyyppi.koodiarvo)))
         .map((oo) => (cleanDeep({
             ...oo,
+            tila: sortBy(oo.tila, (t) => t.alku),
             suoritukset: sortBy(oo.suoritukset, (s) => s.tyyppi.koodiarvo).map((s) => ({ ...s, koulutussopimukset: [] })),
         })));
 
@@ -40,17 +42,19 @@ function compareResults(newData, oldData) {
         (o) => o.oid || o.alkamispäivä || o.tyyppi.koodiarvo,
     ).map((oo) => ({
         ...oo,
+        tila: sortBy(oo.tila, (t) => t.alku),
         suoritukset: sortBy(oo.suoritukset, (s) => s.tyyppi.koodiarvo),
     }));
 
     const kkOld = (oldData.opiskeluoikeudet.filter((oo) => /korkeak/.test(oo.tyyppi.koodiarvo)))
         .map((oo) => (cleanDeep({
             ...oo,
+            tila: sortBy(oo.tila, (t) => t.alku),
             suoritukset: sortBy(oo.suoritukset, (s) => s.tyyppi.koodiarvo).map((s) => ({ ...s, koulutussopimukset: [] })),
         })));
 
-    const eachNewInOld = kkNew.all((kkn) => kkOld.some((kko) => isEqual(({ ...kkn, suoritukset: [] }), ({ ...kko, suoritukset: [] }))));
-    const eachOldInNew = kkOld.all((kko) => kkNew.some((kkn) => isEqual(({ ...kko, suoritukset: [] }), ({ ...kkn, suoritukset: [] }))));
+    const eachNewInOld = kkNew.every((kkn) => kkOld.some((kko) => isEqual(({ ...kkn, suoritukset: [] }), ({ ...kko, suoritukset: [] }))));
+    const eachOldInNew = kkOld.every((kko) => kkNew.some((kkn) => isEqual(({ ...kko, suoritukset: [] }), ({ ...kkn, suoritukset: [] }))));
 
     const oosLengthOk = sortedNew.length === sortedOld.length;
 
