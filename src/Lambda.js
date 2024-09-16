@@ -2,7 +2,7 @@ import log from 'lambda-log';
 import config from 'config';
 import isEqual from 'lodash.isequal';
 import sortBy from 'lodash.sortby';
-import differenceWith from 'lodash.differencewith';
+import cleanDeep from 'clean-deep';
 import SoapResponseMessageBuilder from './soap/SoapResponseMessageBuilder';
 import SoapPayloadParser from './soap/SoapRequestPayloadParser';
 import KoskiClient from './KoskiClient';
@@ -12,36 +12,56 @@ import SecretsManagerProvider from './SecretsManagerProvider';
 import Forbidden from './error/Forbidden';
 import NotFound from './error/NotFound';
 
-function findDifferences(sortedArray1, sortedArray2) {
-    const onlyInArray1 = differenceWith(sortedArray1, sortedArray2, isEqual);
-    const onlyInArray2 = differenceWith(sortedArray2, sortedArray1, isEqual);
-
-    return {
-        onlyInArray1,
-        onlyInArray2,
-    };
-}
-
 function logMismatch(condition, message) {
     if (!condition) {
         console.warn(message);
     }
 }
-
-function logDifferences(differences) {
-    console.log('Something only in new data:', differences.onlyInArray1.map(({ oid }) => oid).join(', '));
-    console.log('Something only in old data:', differences.onlyInArray2.map(({ oid }) => oid).join(', '));
-}
-
+// eslint-disable-next-line no-unused-vars
 function compareResults(newData, oldData) {
-    const sortedNewOos = sortBy(newData.opiskeluoikeudet, 'oid');
-    const sortedOldOos = sortBy(oldData.opiskeluoikeudet, 'oid');
-
     const henkilöOk = isEqual(newData.henkilö, oldData.henkilö);
     const suostumuksenPaattymispaivaOk = isEqual(newData.suostumuksenPaattymispaiva, oldData.suostumuksenPaattymispaiva);
-    const oosOk = isEqual(sortedNewOos, sortedOldOos);
 
-    const allDataOk = henkilöOk && suostumuksenPaattymispaivaOk && oosOk;
+    const sortedNew = sortBy(
+        newData.opiskeluoikeudet.filter((oo) => !/korkeak/.test(oo.tyyppi.koodiarvo)),
+        (o) => o.oid || o.alkamispäivä || o.tyyppi.koodiarvo,
+    ).map((oo) => (cleanDeep({
+        ...oo,
+        tila: sortBy(oo.tila, (t) => t.alku),
+        suoritukset: sortBy(oo.suoritukset, (s) => s.tyyppi.koodiarvo).map((s) => ({ ...s, koulutussopimukset: [] })),
+    })));
+
+    const kkNew = (newData.opiskeluoikeudet.filter((oo) => /korkeak/.test(oo.tyyppi.koodiarvo)))
+        .map((oo) => (cleanDeep({
+            ...oo,
+            tila: sortBy(oo.tila, (t) => t.alku),
+            suoritukset: sortBy(oo.suoritukset, (s) => s.tyyppi.koodiarvo).map((s) => ({ ...s, koulutussopimukset: [] })),
+        })));
+
+    const sortedOld = sortBy(
+        oldData.opiskeluoikeudet.filter((oo) => !/korkeak/.test(oo.tyyppi.koodiarvo)),
+        (o) => o.oid || o.alkamispäivä || o.tyyppi.koodiarvo,
+    ).map((oo) => ({
+        ...oo,
+        tila: sortBy(oo.tila, (t) => t.alku),
+        suoritukset: sortBy(oo.suoritukset, (s) => s.tyyppi.koodiarvo),
+    }));
+
+    const kkOld = (oldData.opiskeluoikeudet.filter((oo) => /korkeak/.test(oo.tyyppi.koodiarvo)))
+        .map((oo) => (cleanDeep({
+            ...oo,
+            tila: sortBy(oo.tila, (t) => t.alku),
+            suoritukset: sortBy(oo.suoritukset, (s) => s.tyyppi.koodiarvo).map((s) => ({ ...s, koulutussopimukset: [] })),
+        })));
+
+    const eachNewInOld = kkNew.every((kkn) => kkOld.some((kko) => isEqual(({ ...kkn, suoritukset: [] }), ({ ...kko, suoritukset: [] }))));
+    const eachOldInNew = kkOld.every((kko) => kkNew.some((kkn) => isEqual(({ ...kko, suoritukset: [] }), ({ ...kkn, suoritukset: [] }))));
+
+    const oosLengthOk = sortedNew.length === sortedOld.length;
+
+    const oosOk = isEqual(sortedNew, sortedOld);
+
+    const allDataOk = henkilöOk && suostumuksenPaattymispaivaOk && oosLengthOk && oosOk && eachNewInOld && eachOldInNew;
 
     if (allDataOk) {
         console.log('Vanha ja uusi data täsmäävät');
@@ -50,12 +70,38 @@ function compareResults(newData, oldData) {
 
         logMismatch(henkilöOk, 'henkilö ei täsmää');
         logMismatch(suostumuksenPaattymispaivaOk, 'suostumuksen päättymispäivä ei täsmää');
+        logMismatch(oosLengthOk, `opiskeluoikeuksien lkm ei täsmää ${newData.henkilö.oid}: 
+            ${sortedNew.map((oo) => oo.oid)} vs. ${sortedOld.map((oo) => oo.oid)}`);
 
         if (!oosOk) {
             console.warn('opiskeluoikeudet eivät täsmää');
 
-            const differences = findDifferences(sortedNewOos, sortedOldOos);
-            logDifferences(differences);
+            const sortedNewWithoutSuoritukset = sortedNew.map((oo) => ({ ...oo, suoritukset: [] }));
+            const sortedOldWithoutSuoritukset = sortedOld.map((oo) => ({ ...oo, suoritukset: [] }));
+
+            if (!isEqual(sortedNewWithoutSuoritukset, sortedOldWithoutSuoritukset)) {
+                console.warn(
+                    'opiskeluoikeudet ilman suorituksia eivät täsmää',
+                    JSON.stringify(sortedNewWithoutSuoritukset),
+                    JSON.stringify(sortedOldWithoutSuoritukset),
+                );
+            } else {
+                console.log(
+                    'opiskeluoikeudet ilman suorituksia täsmäävät; suorituksissa eroa?',
+                    JSON.stringify(sortedNew),
+                    JSON.stringify(sortedOld),
+                );
+            }
+
+            if (eachNewInOld && eachOldInNew) {
+                console.log('Vanha ja uusi kk data täsmäävät');
+            } else {
+                console.warn(
+                    'Vanha ja uusi kk data eivät täsmää',
+                    JSON.stringify(kkNew),
+                    JSON.stringify(kkOld),
+                );
+            }
         }
     }
 }
@@ -103,9 +149,8 @@ class Lambda {
             const opintoOikeudet = await client.getOpintoOikeudet(hetu, clientMemberCode);
 
             try {
-                const opintoOikeudetFromNewApi = await client.getOpintoOikeudetFromNewApi(xml);
-                log.info('Got data from new api');
-                compareResults(opintoOikeudetFromNewApi, opintoOikeudet);
+                // const opintoOikeudetFromNewApi = await client.getOpintoOikeudetFromNewApi(xml);
+                // compareResults(opintoOikeudetFromNewApi, opintoOikeudet);
             } catch (e) {
                 log.info('Failed to compare results');
                 log.error(e);
