@@ -66,7 +66,11 @@ function compareResults(newData, oldData) {
                     JSON.stringify(sortedOldWithoutSuoritukset),
                 );
             } else {
-                console.log('opiskeluoikeudet ilman suorituksia täsmäävät');
+                console.log(
+                    'opiskeluoikeudet ilman suorituksia täsmäävät; suorituksissa eroa?',
+                    JSON.stringify(sortedNew),
+                    JSON.stringify(sortedOld),
+                );
             }
 
             sortedNew.forEach((newOo, idx) => {
