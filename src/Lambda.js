@@ -22,7 +22,7 @@ function compareResults(newData, oldData) {
     const suostumuksenPaattymispaivaOk = isEqual(newData.suostumuksenPaattymispaiva, oldData.suostumuksenPaattymispaiva);
 
     const sortedNew = sortBy(
-        newData.opiskeluoikeudet.filter((oo) => !/korkeak/.test(oo.tyyppi.koodiarvo)),
+        newData.opiskeluoikeudet,
         (o) => o.oid || o.alkamispäivä || o.tyyppi.koodiarvo,
     ).map((oo) => (cleanDeep({
         ...oo,
@@ -30,7 +30,7 @@ function compareResults(newData, oldData) {
     })));
 
     const sortedOld = sortBy(
-        oldData.opiskeluoikeudet.filter((oo) => !/korkeak/.test(oo.tyyppi.koodiarvo)),
+        oldData.opiskeluoikeudet,
         (o) => o.oid || o.alkamispäivä || o.tyyppi.koodiarvo,
     ).map((oo) => ({
         ...oo,
