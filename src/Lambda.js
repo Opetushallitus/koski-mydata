@@ -26,7 +26,7 @@ function compareResults(newData, oldData) {
         (o) => o.oid || o.alkamispäivä || o.tyyppi.koodiarvo,
     ).map((oo) => (cleanDeep({
         ...oo,
-        suoritukset: sortBy(oo.suoritukset, (s) => s.tyyppi.koodiarvo),
+        suoritukset: sortBy(oo.suoritukset, (s) => s.tyyppi.koodiarvo).map((s) => ({ ...s, koulutussopimukset: [] })),
     })));
 
     const sortedOld = sortBy(
